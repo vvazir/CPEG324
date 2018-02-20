@@ -2,7 +2,7 @@
 #include <string.h>
 
 char* fileName[100];
-char  lines[100][16];
+char  lines[100][100];
 char buf[100];
 int bugsize = 100;
 FILE * fp;
@@ -15,7 +15,17 @@ void main(int argc, char *argv[]) {
 		printf("Invalid number of arguments\n");
 	}
 	else {
-		printf("%s\n", get_filename_ext(argv[1]));
+
+		/*
+			FIX STRING COMPARISON	
+		*/
+
+
+		if (get_filename_ext(argv[1]) != "s"){
+			printf("%s\n", get_filename_ext(argv[1]));
+			printf("Invalid file extension\n");
+			return;
+		}
 		fp = fopen(argv[1], "r");
 		int len = fileLen(fp);
 		printf("Number of lines: %d\n", len);
@@ -30,7 +40,7 @@ void main(int argc, char *argv[]) {
 		fclose(fp);
 	}
 	
-	printf("Hello World\n");
+	printf("Compiled successfully\n");
 	
 }
 
