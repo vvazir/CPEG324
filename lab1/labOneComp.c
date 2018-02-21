@@ -2,11 +2,33 @@
 #include <stdio.h>
 #include <string.h>
 
-int main(int argsc, char *args[]){
-		/*
-		printf("Text entered: ");
-		printf("%s\n", args[1]);
-		*/
+void decode(char *args[]);
+void stripInstruction(char** arg,char* inputStr);
+
+int main(int argsc, char *arg[]){
+	if(arg[1] == NULL){
+		printf("Please enter a valid command\n");
+		return 0;
+	}//if
+	
+	char* strpIns;
+	char* strpArgs[4];
+	char* str = arg[1];
+	
+	stripInstruction(strpArgs,str);
+
+	/*
+	for(int i = 0; i < 4;i++){
+		printf("%s\n",strpArgs[i]);
+	}//for
+	*/
+	
+	decode(strpArgs);
+	
+	return 0;
+}//main 
+
+void decode(char *args[]){
 		
 		//Set up variables		
 		char cmdi[4];	//command in
@@ -30,10 +52,10 @@ int main(int argsc, char *args[]){
 		char instructionOut[9];		//binary instruction out
 		instructionOut[0] = '\0';	//start with null
 		
-		strncpy(cmdi, args[1], 3);
+		strcpy(cmdi, args[0]);
 		cmdi[3] = '\0';
 
-		strncpy(rg0i, args[2], 2);
+		strcpy(rg0i, args[1]);
 		rg0i[2] = '\0';
 
 		//Check the first register
@@ -79,7 +101,7 @@ int main(int argsc, char *args[]){
 		//reading and converting now base on instruction
 		
 		if ((strcmp(cmdi,"lod") == 0)){			//lod
-			strncpy(imm, args[3], 4);
+			strcpy(imm, args[2]);
 			imm[5] = '\0';
 		
 			strcat(instructionOut,cmdo);
@@ -89,10 +111,10 @@ int main(int argsc, char *args[]){
 		}//if load case
 		
 		else if ((strcmp(cmdi, "add") == 0) || (strcmp(cmdi, "sub") == 0)){ 	//add or sub
-			strncpy(rg1i, args[3], 2);
+			strcpy(rg1i, args[2]);
 			rg1i[2] = '\0';
 			
-			strncpy(rg2i, args[4], 2);
+			strcpy(rg2i, args[3]);
 			rg2i[2] = '\0';
 			
 			//read in 2nd register
@@ -139,7 +161,7 @@ int main(int argsc, char *args[]){
 		}//else if add or sub
 		
 		else if ((strcmp(cmdi, "cmp") == 0)){ 	//cmp
-			strncpy(rg1i, args[3], 2);
+			strcpy(rg1i, args[2]);
 			rg1i[2] = '\0';
 
 			//read in 2nd register
@@ -161,7 +183,7 @@ int main(int argsc, char *args[]){
 			}//if
 
 			
-			strncpy(jmpi, args[4],1);
+			strcpy(jmpi, args[3]);
 			jmpi[1] = '\0';
 			
 			//checking for number of lines to skip
@@ -199,5 +221,24 @@ int main(int argsc, char *args[]){
 		*/
 		printf("Final binary is: %s\n",instructionOut);
 		
-	return 0;
-}//main 
+}//decode()
+
+
+void stripInstruction(char** arg, char* inputStr){
+		  char * instr;
+		  int index = 0;
+		  
+		  instr = strtok (inputStr," ,.-");
+		  
+		  while (instr != NULL){
+			arg[index] = instr;
+			instr = strtok (NULL, " ,.-");
+			index++;
+		  }//while
+		  
+		  while (index < 4){
+				arg[index] = " ";
+				index++;
+		  }//while
+
+}//strip
