@@ -1,0 +1,9 @@
+l!d r0 2
+l!d r3 7
+l!d r1 3
+a!d r0 r
+d!p r0
+s!b r1 r
+d!p r1
+s!b r2 r
+d!p r2
