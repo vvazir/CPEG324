@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#define lod "00"
 
 // Input file handle
 FILE * in;
@@ -13,15 +12,29 @@ int debug = 0;
 int fileLen(char* filename);
 const char *getFilenameExt(const char *filename);
 void readFile(char* filename, char [][8], int len);
-void decode(char[][8], char[][16],int len);
+int decode(char[][8], char[][16],int len);
 int getReg(char[2]);
+
+void lod(char[2], char[4]);
+void add(char[2],char[2],char[2]);
+void sub(char[2],char[2],char[2]);
+void dsp(char[2]);
+int cmp(char[2],char[2]);
+
+
+int r0=0;
+int r1=0;
+int r2=0;
+int r3=0;
+int pc=0;
+
 
 void main(int argc, char *argv[]) {
 	if (argc != 2 && argc !=3 ) {
 		printf("Invalid number of arguments\n");
 		printf("Proper usage:\n");
-		printf("calcC <filename>\n [-v]");
-		printf("Will output a file with the same file name and extension jv\n");
+		printf("calc <filename>\n [-v]");
+		printf("Will read in a binary file and currently do nothing, use the verbose command for cool stuff jv\n");
 		printf("add the flag -v for verbose output \n");
 		return;
 	}
@@ -51,6 +64,10 @@ void main(int argc, char *argv[]) {
 		}
 		// Get number of instructions
 		int instructions = fileLen(filename);
+		if (instructions<0){
+			printf("Error please use the -v option for verbose logging\n");
+			return;
+		}
 		if (debug){
 			printf("There are %d instructions in the file %s\n",instructions,filename);
 		}
@@ -62,34 +79,39 @@ void main(int argc, char *argv[]) {
 		}
 		readFile(filename,bitList,instructions);
 		// Decode instructions
-		decode(bitList,insList,instructions);
+		if (decode(bitList,insList,instructions)){
+			printf("Error invalid instructions in file\n");
+			printf("Read error log for what caused the error\n");
+			printf("Run the calc program with the -v option for verbose logging\n");
+			printf("----------------------------------------------\n");
+		}
 		// If debugging, print out instructions read
 		if (debug){
-			printf("line#:\t:Binary:\tdecoded\n");
+			printf("line#:\t|\t:Binary:    |    decoded\n");
 			for (int i = 0;i<instructions;i++){
-				printf("ins %d:\t",i+1);
+				printf("ins %d:\t|\t",i+1);
 				for(int c=0;c<8;c++){
 					printf("%c",bitList[i][c]);
 				}
+				printf("    |    %s",insList[i]);
 				printf("\n");
 			}
 		}
 
 	}
 }
-void decode(char bitList[][8],char insList[][16],int len){
-	char opCode[2];
+int decode(char bitList[][8],char insList[][16],int len){
+	char opCode[3] = "  \0";
 	char op[4];
-	char reg1[2];
-	char reg2[2];
-	char reg3[2];
-	char imm[4];
-	char extra[2];
-	
+	char reg1[3]= "  \0";
+	char reg2[3]= "  \0";
+	char reg3[3]= "  \0";
+	char imm[5]= "    \0";
+	char extra[3]= "  \0";
+	char jmp[2]= " \0";
 	char out[16];
-
+	const char space[2] = " \0";
 	for (int ins=0;ins<len;ins++){
-
 		opCode[0] = bitList[ins][0];
 		opCode[1] = bitList[ins][1];
 
@@ -109,28 +131,77 @@ void decode(char bitList[][8],char insList[][16],int len){
 		
 		extra[0] = bitList[ins][6];
 		extra[1] = bitList[ins][7];
-		
-		
 
+		for (int i=0;i<16;i++){
+			out[i]='\0';
+		}
+		if (getReg(reg1)||getReg(reg2)||getReg(reg3)){
+				return 1;
+		}
 		if (!strcmp(opCode,"00")){
-			strncpy(op,"lod ",4);		
+			strncpy(op,"lod",3);
+			
+			strcat(out,op);
+			strcat(out,space);
+			strcat(out,reg1);
+			strcat(out,space);
+			strcat(out,imm);
 		}
 		else if (!strcmp(opCode,"01")){
-			strncpy(op,"add ",4);	
+			strncpy(op,"add",3);
+			
+			strcat(out,op);
+			strcat(out,space);
+			strcat(out,reg1);
+			strcat(out,space);
+			strcat(out,reg2);
+			strcat(out,space);
+			strcat(out,reg3);
+
 		}
 		else if (!strcmp(opCode,"10")){
-			strncpy(op,"sub ",4);	
+			strncpy(op,"sub",3);
+			
+			strcat(out,op);
+			strcat(out,space);
+			strcat(out,reg1);
+			strcat(out,space);
+			strcat(out,reg2);
+			strcat(out,space);
+			strcat(out,reg3);
 		}
 		else if (!strcmp(opCode,"11")){
-			
-			strncpy(op,"add ",4);	
+			if (!strcmp(extra,"00")){
+				strncpy(op,"dsp",3);
+				strcat(out,op);
+				strcat(out,space);
+				strcat(out,reg1);
+			}
+			else if (!strcmp(extra,"01")){
+				strncpy(op,"cmp",3);
+				strncpy(jmp,"1",1);
+				
+				strcat(out,op);
+				strcat(out,space);
+				strcat(out,reg1);
+				strcat(out,space);
+				strcat(out,jmp);
+				
+			}
+			else if (!strcmp(extra,"10")){
+				strncpy(op,"cmp",3);
+				strncpy(jmp,"2",1);
+				strcat(out,op);
+				strcat(out,space);
+				strcat(out,reg1);
+				strcat(out,space);
+				strcat(out,jmp);
+			}
 		}
-		if (getReg(reg1) ||getReg(reg2)||getReg(reg3)){
-			return;
-		}
-
+		strncpy(insList[ins],out,16);
+		
 	}
-
+	return 0;
 }
 int getReg(char reg[2]){
 		if (!strcmp(reg,"00")){
@@ -146,10 +217,10 @@ int getReg(char reg[2]){
 			strncpy(reg,"r3",2);
 		}
 		else{
-			printf("Invalid reg number %c%c",reg[0],reg[1]);
-			return 0;
+			printf("Invalid reg number %c%c\n",reg[0],reg[1]);
+			return 1;
 		}
-		return 1;
+		return 0;
 }
 void readFile(char* filename, char bitList[][8],int len){
 	FILE * fp = fopen(filename,"r");
@@ -194,6 +265,10 @@ int fileLen(char* filename) {
 			ins++;
 			c=0;
 		}
+	}
+	if (c!=1){
+		printf("Missing binary characters, should have 8 digits, instead you have %d\n",c);
+		return -1;
 	}
 	fclose(fp);
 	return ins;

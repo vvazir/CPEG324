@@ -1,4 +1,4 @@
-lod r0 0010		# r0 = 2
+lod r2 0010		# r0 = 2
 lod r3 0111
 lod r1 0011		# r1 = 3
 add r0 r1 r0	# r0 = r1 + r0 = 5
@@ -7,3 +7,5 @@ sub r1 r1 r0	# r1 = r1 - r0 = -2
 dsp r1
 sub r2 r1 r1	# r2 = r1 - r1 = 0
 dsp r2
+cmp r1 r2 1
+cmp r1 r2 2
