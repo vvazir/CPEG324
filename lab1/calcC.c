@@ -2,7 +2,7 @@
 #include <string.h>
 
 // Buffer to store filename
-char fileName[200];
+char filename[200];
 // Buffer to store output filename
 char outputFile[200];
 
