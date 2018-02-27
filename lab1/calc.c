@@ -1,6 +1,15 @@
 #include <stdio.h>
 #include <string.h>
 
+// Data type
+struct Ins {
+	char op[4];
+	char r1[3];
+	char r2[3];
+	char r3[3];
+	char imm[5];
+	char jmp[2];
+};
 
 // Input file handle
 FILE * in;
@@ -12,14 +21,17 @@ int debug = 0;
 int fileLen(char* filename);
 const char *getFilenameExt(const char *filename);
 void readFile(char* filename, char [][8], int len);
-int decode(char[][8], char[][16],int len);
+int decode(char[][8], struct Ins[],int len);
 int getReg(char[2]);
 
-void lod(char[2], char[4]);
-void add(char[2],char[2],char[2]);
-void sub(char[2],char[2],char[2]);
-void dsp(char[2]);
-int cmp(char[2],char[2]);
+void lod(struct Ins ins);
+void add(struct Ins ins);
+void sub(struct Ins ins);
+void dsp(struct Ins ins);
+int cmp(struct Ins ins);
+
+
+
 
 
 int r0=0;
@@ -72,7 +84,7 @@ void main(int argc, char *argv[]) {
 			printf("There are %d instructions in the file %s\n",instructions,filename);
 		}
 		char bitList[instructions][8];
-		char insList[instructions][16];
+		struct Ins insList[instructions];
 		// Get instructions
 		if (debug){
 			printf("Reading instructions from file\n");
@@ -87,31 +99,39 @@ void main(int argc, char *argv[]) {
 		}
 		// If debugging, print out instructions read
 		if (debug){
-			printf("line#:\t|\t:Binary:    |    decoded\n");
+			printf("line#:\t|\t:Binary:    |    op  r1 r2 r3 imm\n");
 			for (int i = 0;i<instructions;i++){
 				printf("ins %d:\t|\t",i+1);
 				for(int c=0;c<8;c++){
 					printf("%c",bitList[i][c]);
 				}
-				printf("    |    %s",insList[i]);
+				printf("    |    %s",insList[i].op);
+				printf(" %s", insList[i].r1);
+				printf(" %s", insList[i].r2);
+				printf(" %s", insList[i].r3);
+				printf(" %s", insList[i].imm);
+				printf(" %s", insList[i].jmp);
+
+
 				printf("\n");
 			}
 		}
 
 	}
 }
-int decode(char bitList[][8],char insList[][16],int len){
-	char opCode[3] = "  \0";
-	char op[4];
-	char reg1[3]= "  \0";
-	char reg2[3]= "  \0";
-	char reg3[3]= "  \0";
-	char imm[5]= "    \0";
-	char extra[3]= "  \0";
-	char jmp[2]= " \0";
-	char out[16];
+int decode(char bitList[][8],struct Ins insList[],int len){
+	
 	const char space[2] = " \0";
 	for (int ins=0;ins<len;ins++){
+		char opCode[3] = "  \0";
+		char op[4];
+		char reg1[3] = "  \0";
+		char reg2[3] = "  \0";
+		char reg3[3] = "  \0";
+		char imm[5] = "    \0";
+		char extra[3] = "  \0";
+		char jmp[2] = "0\0";
+		strncpy(jmp," ",1);
 		opCode[0] = bitList[ins][0];
 		opCode[1] = bitList[ins][1];
 
@@ -131,75 +151,40 @@ int decode(char bitList[][8],char insList[][16],int len){
 		
 		extra[0] = bitList[ins][6];
 		extra[1] = bitList[ins][7];
-
-		for (int i=0;i<16;i++){
-			out[i]='\0';
-		}
+		
 		if (getReg(reg1)||getReg(reg2)||getReg(reg3)){
 				return 1;
 		}
 		if (!strcmp(opCode,"00")){
 			strncpy(op,"lod",3);
 			
-			strcat(out,op);
-			strcat(out,space);
-			strcat(out,reg1);
-			strcat(out,space);
-			strcat(out,imm);
 		}
 		else if (!strcmp(opCode,"01")){
 			strncpy(op,"add",3);
-			
-			strcat(out,op);
-			strcat(out,space);
-			strcat(out,reg1);
-			strcat(out,space);
-			strcat(out,reg2);
-			strcat(out,space);
-			strcat(out,reg3);
-
 		}
 		else if (!strcmp(opCode,"10")){
 			strncpy(op,"sub",3);
-			
-			strcat(out,op);
-			strcat(out,space);
-			strcat(out,reg1);
-			strcat(out,space);
-			strcat(out,reg2);
-			strcat(out,space);
-			strcat(out,reg3);
 		}
 		else if (!strcmp(opCode,"11")){
 			if (!strcmp(extra,"00")){
 				strncpy(op,"dsp",3);
-				strcat(out,op);
-				strcat(out,space);
-				strcat(out,reg1);
 			}
 			else if (!strcmp(extra,"01")){
 				strncpy(op,"cmp",3);
-				strncpy(jmp,"1",1);
-				
-				strcat(out,op);
-				strcat(out,space);
-				strcat(out,reg1);
-				strcat(out,space);
-				strcat(out,jmp);
-				
+				strncpy(jmp,"1",1);		
 			}
 			else if (!strcmp(extra,"10")){
 				strncpy(op,"cmp",3);
 				strncpy(jmp,"2",1);
-				strcat(out,op);
-				strcat(out,space);
-				strcat(out,reg1);
-				strcat(out,space);
-				strcat(out,jmp);
 			}
 		}
-		strncpy(insList[ins],out,16);
-		
+		strncpy(insList[ins].op,op,4);
+		strncpy(insList[ins].r1, reg1, 3);
+		strncpy(insList[ins].r2, reg2, 3);
+		strncpy(insList[ins].r3, reg3, 3);
+		strncpy(insList[ins].imm, imm, 5);
+		strncpy(insList[ins].jmp,jmp, 2);
+		//strncpy(insList[ins],out,16);
 	}
 	return 0;
 }
