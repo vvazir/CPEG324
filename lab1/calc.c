@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-
 // Data type
 struct Ins {
 	char op[4];
