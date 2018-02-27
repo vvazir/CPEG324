@@ -99,13 +99,20 @@ void main(int argc, char *argv[]) {
 		}
 		// If debugging, print out instructions read
 		if (debug){
-			printf("line#:\t|\t:Binary:    |    decoded\n");
+			printf("line#:\t|\t:Binary:    |    op  r1 r2 r3 imm\n");
 			for (int i = 0;i<instructions;i++){
 				printf("ins %d:\t|\t",i+1);
 				for(int c=0;c<8;c++){
 					printf("%c",bitList[i][c]);
 				}
-				printf("    |    %s",insList[i]);
+				printf("    |    %s",insList[i].op);
+				printf(" %s", insList[i].r1);
+				printf(" %s", insList[i].r2);
+				printf(" %s", insList[i].r3);
+				printf(" %s", insList[i].imm);
+				printf(" %s", insList[i].jmp);
+
+
 				printf("\n");
 			}
 		}
@@ -113,16 +120,17 @@ void main(int argc, char *argv[]) {
 	}
 }
 int decode(char bitList[][8],struct Ins insList[],int len){
-	char opCode[3] = "  \0";
-	char op[4];
-	char reg1[3]= "  \0";
-	char reg2[3]= "  \0";
-	char reg3[3]= "  \0";
-	char imm[5]= "    \0";
-	char extra[3]= "  \0";
-	char jmp[2]= " \0";
+	
 	const char space[2] = " \0";
 	for (int ins=0;ins<len;ins++){
+		char opCode[3] = "  \0";
+		char op[4];
+		char reg1[3] = "  \0";
+		char reg2[3] = "  \0";
+		char reg3[3] = "  \0";
+		char imm[5] = "    \0";
+		char extra[3] = "  \0";
+		char jmp[2] = "0\0";
 		strncpy(jmp," ",1);
 		opCode[0] = bitList[ins][0];
 		opCode[1] = bitList[ins][1];
@@ -170,13 +178,12 @@ int decode(char bitList[][8],struct Ins insList[],int len){
 				strncpy(jmp,"2",1);
 			}
 		}
-		strncpy(insList[ins].op,op,3);
-		strncpy(insList[ins].r1, reg1,2);
-		strncpy(insList[ins].r2, reg2, 2);
-		strncpy(insList[ins].r3, reg3, 2);
-		insList[ins].imm = imm;
-		insList[ins].extra = extra;
-		insList[ins].jmp = jmp;
+		strncpy(insList[ins].op,op,4);
+		strncpy(insList[ins].r1, reg1, 3);
+		strncpy(insList[ins].r2, reg2, 3);
+		strncpy(insList[ins].r3, reg3, 3);
+		strncpy(insList[ins].imm, imm, 5);
+		strncpy(insList[ins].jmp,jmp, 2);
 		//strncpy(insList[ins],out,16);
 	}
 	return 0;
