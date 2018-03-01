@@ -7,7 +7,7 @@ char filename[200];
 char outputFile[200];
 
 // Buffer to store contents of input file
-char  lines[1000][100];
+//char  lines[1000][100];
 
 // Temp buffer to store binary conversion
 char bin[9];
@@ -62,10 +62,7 @@ void main(int argc, char *argv[]) {
 		// Close the file so we can reopen it later to read it properly
 		fclose(in);
 
-		if (len > 1000) {
-			printf("Input file is to big, max 1000 allowed\n");
-			return;
-		}
+		char lines[len][200];
 
 		printf("Compiling %d lines\n", len);
 		
@@ -75,31 +72,34 @@ void main(int argc, char *argv[]) {
 		for (int i = 0; i < len; i++) {
 			
 			// Read a line from the input file
-			fgets(lines[i], sizeof(lines[0]), in);
-			
+			fgets(lines[i], sizeof(lines[0]), in);	
 			// Strip the newline character
-			strtok(lines[i], "\n");
+			//strtok(lines[i], "\n");
 			
 			// If it is not an empty string
-			if (strlen(lines[i]) > 1) {
+			if (strlen(lines[i]) > 2) {
 
 				// Debugging info
 				if (debug) {
-					printf("Line %d:\n", i + 1);
+					printf("Line %3d : ", i + 1);
 				}
-
 				// Strip any comments from the code
 				for (int c = 0; c < sizeof(lines[i]); c++) {
-					if (lines[i][c] == '#') {
+					if (lines[i][c] == '#'|| lines[i][c]=='\r') {
 						lines[i][c] = '\0';
 					}
+					if (lines[i][c] == '\t') {
+						lines[i][c] = ' ';
+					}
 				}
-				// More debugging info
 				if (debug) {
-					printf("%s\n", lines[i]);
+					printf("%s\t\t", lines[i]);
+					if (lines[i][0]=='d'||lines[i][0]=='c')
+						printf("\t");
 				}
 				// Parse string and seperate instructions
 				stripInstruction(strpArgs,lines[i]);
+				// More debugging info
 				// Convert to binary format
 				encode(strpArgs,bin);
 				// Write to output file
@@ -108,7 +108,7 @@ void main(int argc, char *argv[]) {
 				//fprintf(out, "\n");
 				// Print out encoded line
 				if (debug) {
-					printf("\n");
+					//printf("\n");
 				}
 			}
 		}
