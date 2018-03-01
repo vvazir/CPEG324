@@ -192,10 +192,15 @@ void encode(char *args[], char out[9]){
 			strcpy(rg0o,"11");
 		}//if
 
+		
+		//From here on out we are decoding/encoding the instruction based on which one it is.
+		
 		//From here on out we are decoding/encoding the instruction based on which one it is.
 				
 		
+
 		//From here on out we are decoding/encoding the instruction based on which one it is.
+
 
 		//Starting with the load immediate.
 		if ((strcmp(cmdi,"lod") == 0)){			//copy the binary immediate from the input string to the immediate variable.
