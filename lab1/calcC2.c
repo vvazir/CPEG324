@@ -2,7 +2,7 @@
 #include <string.h>
 
 // Buffer to store filename
-char filename[200];
+char fileName[200];
 // Buffer to store output filename
 char outputFile[200];
 
@@ -207,16 +207,15 @@ void encode(char *args[], char out[9]){
 			instructionOut[8] = '\0';
 		}//if load case
 		
-		//Now we handle the add and sub instructions.
 		else if ((strcmp(cmdi, "add") == 0) || (strcmp(cmdi, "sub") == 0)){ 	//add or sub
-			
-			strcpy(rg1i, args[2]);		//pull source register info from input string to source register in.
+			strcpy(rg1i, args[2]);
 			rg1i[2] = '\0';
 			
-			strcpy(rg2i, args[3]);		//pull target register info from input string to source register in.
+			strcpy(rg2i, args[3]);
 			rg2i[2] = '\0';
 			
-			//Identify source register and store binary representation in source register out.
+			//read in 2nd register
+			
 			if((strcmp(rg1i,"r0") == 0)){
 				strcpy(rg1o,"00");
 			}//if
@@ -233,7 +232,7 @@ void encode(char *args[], char out[9]){
 				strcpy(rg1o,"11");
 			}//if
 
-			//Identify target register and store binary representation in target register out.
+			//read in 3rd register
 			
 			if((strcmp(rg2i,"r0") == 0)){
 				strcpy(rg2o,"00");
