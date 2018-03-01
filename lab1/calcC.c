@@ -48,10 +48,10 @@ void main(int argc, char *argv[]) {
 			}
 		}
 		// Check for proper file extension
-		if (strcmp("vj", getFilenameExt(argv[1]))){
+		if (strcmp("txt", getFilenameExt(argv[1]))){
 			printf("%s\n", argv[1]);
 			printf("Invalid file extension %s\n", getFilenameExt(argv[1]));
-			printf("All files must have file extension of .vj\n");
+			printf("All files must have file extension of .txt\n");
 			return;
 		}
 		// Get the filename for the output file
