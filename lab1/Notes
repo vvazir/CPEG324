@@ -1,0 +1,20 @@
+Need:
+=====
+4 - 8bit registers
+4 bit immediate
+compiler
+calculator
+
+================
+Instructions (5)
+================
+op   cmd		lsb
+-------------------------------
+00 - load		|xx
+01 - add		|xx
+10 - sub		|xx
+11 - disp		|00
+11 - comp (skip 1)	|01
+11 - comp (skip 2)	|10
+-------------------------------
+

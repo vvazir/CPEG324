@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 lab1 - Copy/strip
 lab1 - Copy/lod.vj
 lab1 - Copy/calc
@@ -37,3 +38,14 @@ lab1 - Copy/lod.jv
 lab1 - Copy/labOneComp.c
 lab0/compare.s
 lab0/vinay_vazir_lab1.tar.gz
+=======
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/lab0
+/lab0 - Copy
+/.vs
+/lab1/.vs
+/lab1 - Copy
+>>>>>>> 9f836f13ff3396b4e2c8d61567308dd33dc53382
