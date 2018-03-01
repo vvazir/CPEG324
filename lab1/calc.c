@@ -20,7 +20,7 @@ int debug = 0;
 //Function declerations
 int fileLen(char* filename);
 const char *getFilenameExt(const char *filename);
-void readFile(char* filename, char [][8], int len);
+int readFile(char* filename, char [][8], int len);
 int decode(char[][8], struct Ins[],int len);
 int getReg(char[2]);
 
@@ -111,7 +111,8 @@ void main(int argc, char *argv[]) {
 		if (debug){
 			printf("Reading instructions from file\n\n");
 		}
-		readFile(filename,bitList,instructions);
+		if (readFile(filename, bitList, instructions))
+			return;
 		// Decode instructions
 		if (decode(bitList,insList,instructions)){
 			printf("Error invalid instructions in file\n");
@@ -227,6 +228,7 @@ int decode(char bitList[][8],struct Ins insList[],int len){
 		else if (!strcmp(opCode,"11")){
 			if (!strcmp(extra,"00")){
 				strncpy(op,"dsp",3);
+				strncpy(jmp, "0", 1);
 			}
 			else if (!strcmp(extra,"01")){
 				strncpy(op,"cmp",3);
@@ -237,7 +239,7 @@ int decode(char bitList[][8],struct Ins insList[],int len){
 				strncpy(jmp,"2",1);
 			}
 			else {
-				printf("%sInvalid Command found %s%s\n", KRED, opCode, KWHT);
+				printf("%sInvalid Command found %s with extra flag %s%s\n", KRED, opCode,extra, KWHT);
 				return -1;
 			}
 		}
@@ -270,7 +272,7 @@ int getReg(char reg[2]){
 		}
 		return 0;
 }
-void readFile(char* filename, char bitList[][8],int len){
+int readFile(char* filename, char bitList[][8],int len){
 	FILE * fp = fopen(filename,"r");
 	char bit;
 	for (int ins = 0;ins<len;ins++){
@@ -280,10 +282,14 @@ void readFile(char* filename, char bitList[][8],int len){
 			{
 				bitList[ins][pos]=bit;
 			}
+			if (!(bit == '0' || bit == '1') && bit != '\0') {
+				printf("%sInvalid character found in binary file: %c%s", KRED, bit, KNRM);
+				return -1;
+			}
 		}
 	}
 	fclose(fp);
-	return;
+	return 0 ;
 }
 
 int fileLen(char* filename) {
@@ -312,6 +318,10 @@ int fileLen(char* filename) {
 		if (c==8){
 			ins++;
 			c=0;
+		}
+		if ((ch == '0' || ch == '1') && feof(fp)) {
+			printf("%sInvalid character found in binary file: %c%s\n", KRED, ch, KNRM);
+			return -2;
 		}
 	}
 	if (c!=1){
