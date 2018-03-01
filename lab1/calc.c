@@ -233,6 +233,10 @@ int decode(char bitList[][8],struct Ins insList[],int len){
 				strncpy(op,"cmp",3);
 				strncpy(jmp,"2",1);
 			}
+			else {
+				printf("%sInvalid Command found %s%s\n", KRED, opCode, KWHT);
+				return -1;
+			}
 		}
 		strncpy(insList[ins].op,op,4);
 		strncpy(insList[ins].r1, reg1, 3);
@@ -308,7 +312,7 @@ int fileLen(char* filename) {
 		}
 	}
 	if (c!=1){
-		printf("Missing binary characters, should have 8 digits, instead you have %d\n",c);
+		printf("%sMissing binary characters, should have 8 digits, instead you have %d on line:%d%s\n",KRED,c-1,ins+1,KWHT);
 		return -1;
 	}
 	fclose(fp);
