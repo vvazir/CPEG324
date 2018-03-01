@@ -121,14 +121,14 @@ void main(int argc, char *argv[]) {
 		}
 		// If debugging, print out instructions read
 		if (debug){
-			printf("line#:\t|\t:Binary:    |    op  r1 r2 r3 imm  extra\n");
-			printf("--------+-------------------+---------------------------\n");
+			printf("line#:\t\t|\t:Binary:\t|\top  r1 r2 r3 imm  extra\n");
+			printf("----------------+-----------------------+---------------------------\n");
 			for (int i = 0;i<instructions;i++){
-				printf("ins %s%d%s:\t|\t",KGRN,i,KWHT);
+				printf("ins %s%3d%s:\t|\t",KGRN,i,KWHT);
 				for(int c=0;c<8;c++){
 					printf("%s%c%s",KGRN,bitList[i][c],KWHT);
 				}
-				printf("    |    %s%s%s",KMAG,insList[i].op,KWHT);
+				printf("\t|\t%s%s%s",KMAG,insList[i].op,KWHT);
 				printf(" %s%s", KYEL,insList[i].r1);
 				printf(" %s", insList[i].r2);
 				printf(" %s%s", insList[i].r3,KWHT);
@@ -138,7 +138,7 @@ void main(int argc, char *argv[]) {
 
 				printf("\n");
 			}
-			printf("Now running instructions%s\n\n",KNRM);
+			printf("\n==============Now running instructions==============%s\n\n",KNRM);
 		}
 		int nextPC = 1;
 		while (pc < instructions) {
@@ -165,7 +165,10 @@ void main(int argc, char *argv[]) {
 				dsp(insList[pc]);
 			}
 			else if (!strcmp(insList[pc].op, "cmp\0")) {
-				nextPC += cmp(insList[pc]);
+				int jump = cmp(insList[pc]);
+				if (debug)
+					printf("PC += %d\n", jump+1);
+				nextPC += jump;
 			}
 			else {
 				printf("%sUnrecognized command %s on line %d ,terminating program\n",KRED,insList[pc].op,pc);
@@ -614,10 +617,10 @@ int cmp(struct Ins ins) {
 	int reg2;
 	int jump;
 
-	if (strcmp(ins.jmp, "1")) {
+	if (!strcmp(ins.jmp, "1")) {
 		jump = 1;
 	}
-	else if (strcmp(ins.jmp, "2")) {
+	else if (!strcmp(ins.jmp, "2")) {
 		jump = 2;
 	}//else if 
 
