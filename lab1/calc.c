@@ -283,7 +283,7 @@ int readFile(char* filename, char bitList[][8],int len){
 				bitList[ins][pos]=bit;
 			}
 			if (!(bit == '0' || bit == '1') && bit != '\0') {
-				printf("%sInvalid character found in binary file: %c%s", KRED, bit, KNRM);
+				printf("%sInvalid character found in binary file: %c%s\n", KRED, bit, KNRM);
 				return -1;
 			}
 		}
@@ -319,7 +319,7 @@ int fileLen(char* filename) {
 			ins++;
 			c=0;
 		}
-		if ((ch == '0' || ch == '1') && feof(fp)) {
+		if (!(ch == '0' || ch == '1') && !feof(fp)) {
 			printf("%sInvalid character found in binary file: %c%s\n", KRED, ch, KNRM);
 			return -2;
 		}
