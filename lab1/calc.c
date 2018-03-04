@@ -86,24 +86,24 @@ void main(int argc, char *argv[]) {
 		}
 		in = fopen(filename,"r");
 		if (in==NULL){
-			printf("%sInvalid file name %s\n",KRED,filename);
+			printf("%sInvalid file name %s%s\n",KRED,filename,KNRM);
 			return;
 		}
 		fclose(in);
 		// Check for valid extension
 		const char * ext = getFilenameExt(filename);
 		if (strcmp(ext,"jv")){
-			printf("%sInvalid file extension %s\n",KRED,ext);
+			printf("%sInvalid file extension %s%s\n",KRED,ext,KNRM);
 			return;
 		}
 		// Get number of instructions
 		int instructions = fileLen(filename);
 		if (instructions<0){
-			printf("%sError please use the -v option for verbose logging\n",KRED);
+			printf("%sError please use the -v option for verbose logging%s\n",KRED,KNRM);
 			return;
 		}
 		if (debug){
-			printf("There are %s%d%s instructions in the file %s%s%s\n",KGRN,instructions,KWHT,KCYN,filename,KWHT);
+			printf("There are %s%d%s instructions in the file %s%s%s\n",KGRN,instructions,KWHT,KCYN,filename, KNRM);
 		}
 		char bitList[instructions][8];
 		struct Ins insList[instructions];
@@ -125,16 +125,16 @@ void main(int argc, char *argv[]) {
 			printf("line#:\t\t|\t:Binary:\t|\top  r1 r2 r3 imm  extra\n");
 			printf("----------------+-----------------------+---------------------------\n");
 			for (int i = 0;i<instructions;i++){
-				printf("ins %s%3d%s:\t|\t",KGRN,i,KWHT);
+				printf("ins %s%3d%s:\t|\t",KGRN,i, KNRM);
 				for(int c=0;c<8;c++){
-					printf("%s%c%s",KGRN,bitList[i][c],KWHT);
+					printf("%s%c%s",KGRN,bitList[i][c], KNRM);
 				}
-				printf("\t|\t%s%s%s",KMAG,insList[i].op,KWHT);
+				printf("\t|\t%s%s%s",KMAG,insList[i].op, KNRM);
 				printf(" %s%s", KYEL,insList[i].r1);
 				printf(" %s", insList[i].r2);
-				printf(" %s%s", insList[i].r3,KWHT);
+				printf(" %s%s", insList[i].r3, KNRM);
 				printf(" %s%s", KBLU,insList[i].imm);
-				printf(" %s%s", KWHT,insList[i].jmp);
+				printf(" %s%s", KNRM,insList[i].jmp);
 
 
 				printf("\n");
@@ -145,11 +145,11 @@ void main(int argc, char *argv[]) {
 		while (pc < instructions) {
 			nextPC = 1;
 			if (debug) {
-				printf("PC:%s%3d%s ins: %s%s%s ", KGRN,pc,KWHT,KMAG,insList[pc].op,KWHT);
+				printf("PC:%s%3d%s ins: %s%s%s ", KGRN,pc, KNRM,KMAG,insList[pc].op, KNRM);
 				printf(" %s%s",KYEL, insList[pc].r1);
 				printf(" %s", insList[pc].r2);
 				printf(" %s%s", insList[pc].r3,KBLU);
-				printf(" %s%s", insList[pc].imm,KWHT);
+				printf(" %s%s", insList[pc].imm, KNRM);
 				printf(" %s", insList[pc].jmp);
 				printf(" | REG: %sr0%s=%s%3d%s | %sr1%s=%s%3d%s | %sr2%s=%s%3d%s | %sr3%s=%s%3d%s\n",KYEL,KWHT,KGRN,r0,KWHT, KYEL, KWHT, KGRN, r1, KWHT, KYEL, KWHT, KGRN, r2, KWHT, KYEL, KWHT, KGRN, r3, KNRM);
 			}
@@ -172,7 +172,7 @@ void main(int argc, char *argv[]) {
 				nextPC += jump;
 			}
 			else {
-				printf("%sUnrecognized command %s on line %d ,terminating program\n",KRED,insList[pc].op,pc);
+				printf("%sUnrecognized command %s on line %d ,terminating program%s\n",KRED,insList[pc].op,pc, KNRM);
 				return;
 			}
 			pc+=nextPC;
