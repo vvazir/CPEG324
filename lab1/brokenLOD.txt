@@ -1,0 +1,27 @@
+lod r0
+lod r0 r0 
+lod r0 r0 r0
+
+lod r1
+lod r1 r1 
+lod r1 r1 r1
+
+lod r2
+lod r2 r2 
+lod r2 r2 r2
+
+lod r3
+lod r3 r3 
+lod r3 r3 r3
+
+lod r4
+lod r4 r4 
+lod r4 r4 r4
+
+lod 0000
+lod 1111
+lod 0000 r0
+lod 1111 r0
+
+lod 1 r0
+lod 7 r0
