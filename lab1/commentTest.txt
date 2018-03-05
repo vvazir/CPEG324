@@ -1,0 +1,4 @@
+lod r0 0111#load 7 into r0
+lod r1 0101#load 5 into r1
+sub r2 r0 r1#r2=r0-r1 = -2
+dsp r2#Print out r2 to make sure it worked
