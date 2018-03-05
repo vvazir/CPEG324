@@ -1,0 +1,12 @@
+lod r2 0010		# r2 = 2
+lod r3 0111		# r3 = 7
+lod r1 0011 	# r1 = 3
+add r0 r1 r2	# r0 = r1 + r2 = 5	adding two different registers
+dsp r0
+lod r1 0011		# r1 = 3
+add r0 r1 r1	# r0 = r1 + r1 = 6	adding the same two registers together
+dsp r0
+sub r1 r1 r0	# r1 = r1 - r0 = -3
+dsp r1
+sub r2 r1 r1	# r2 = r1 - r1 = 0
+dsp r2
