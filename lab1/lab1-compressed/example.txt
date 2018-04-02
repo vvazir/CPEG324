@@ -1,0 +1,7 @@
+# Use this as an example of how to write the assembly file
+lod r0 0111		# Load 7 into r0
+lod r1 0110		# Load 6 into r1
+add r2 r0 r1	# Add r1 to r0 and store the result in r2
+cmp r2 r1 1		# If r2 equals r1, skip the next instruction
+dsp r0			# Display r0
+dsp r1		# Display r1
