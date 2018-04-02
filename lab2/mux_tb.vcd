@@ -1,0 +1,53 @@
+$date
+  Mon Mar 26 14:18:05 2018
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$var reg 4 ! i1[3:0] $end
+$var reg 4 " i2[3:0] $end
+$var reg 4 # i3[3:0] $end
+$var reg 4 $ i4[3:0] $end
+$var reg 4 % o[3:0] $end
+$var reg 2 & sel[1:0] $end
+$scope module m1 $end
+$var reg 4 ' in1[3:0] $end
+$var reg 4 ( in2[3:0] $end
+$var reg 4 ) in3[3:0] $end
+$var reg 4 * in4[3:0] $end
+$var reg 4 + out1[3:0] $end
+$var reg 2 , sel[1:0] $end
+$upscope $end
+$enddefinitions $end
+#0
+b0001 !
+b0010 "
+b0011 #
+b0100 $
+b0001 %
+b00 &
+b0001 '
+b0010 (
+b0011 )
+b0100 *
+b0001 +
+b00 ,
+#1000000
+b0010 %
+b01 &
+b0010 +
+b01 ,
+#2000000
+b0011 %
+b10 &
+b0011 +
+b10 ,
+#3000000
+b0100 %
+b11 &
+b0100 +
+b11 ,
+#4000000
