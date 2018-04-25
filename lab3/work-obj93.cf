@@ -1,40 +1,19 @@
 v 4
-file . "zeroCheck_tb.vhdl" "fc1f66e82bc26b0222f871d0582f68c6f4de5ed9" "20180425234504.324":
-  entity zerocheck_tb at 1( 0) + 0 on 145;
-  architecture behavioral of zerocheck_tb at 7( 86) + 0 on 146;
-file . "zeroCheck.vhdl" "787ca932ef490c8382f266424b3403a6f38a5239" "20180425234500.154":
-  entity zerocheck at 1( 0) + 0 on 143;
-  architecture behavioral of zerocheck at 12( 169) + 0 on 144;
-file . "eightBitAdder_tb.vhdl" "70d756009d03c1ba287fc1bb85eada45e6ff3e89" "20180425130329.506":
-  entity eightbitadder_tb at 1( 0) + 0 on 131;
-  architecture behavior of eightbitadder_tb at 7( 94) + 0 on 132;
-file . "sign_extend_tb.vhdl" "c8673baf2a6f9faee85fb953c6572bc12331b16e" "20180422012446.687":
-  entity sign_extend_tb at 1( 0) + 0 on 91;
-  architecture behavior of sign_extend_tb at 7( 90) + 0 on 92;
-file . "shift_reg_tb.vhdl" "a0568d8b17000325c3d9932fbc52ad42eaa3f7b8" "20180421195016.210":
-  entity shift_reg_tb at 1( 0) + 0 on 77;
-  architecture behav of shift_reg_tb at 8( 123) + 0 on 78;
-file . "mux.vhdl" "87f28bf7f3ddfe3ac08523277309ad499152939f" "20180419163454.542":
-  entity mux at 1( 0) + 0 on 33;
-  architecture behavioral of mux at 16( 292) + 0 on 34;
-file . "flip.vhdl" "9f633e2a891d299acb4aee4fc265c0618a011bed" "20180419164240.408":
-  entity flip at 1( 0) + 0 on 55;
-  architecture behavioral of flip at 14( 223) + 0 on 56;
-file . "flip_tb.vhdl" "939c4208d21bed9936c32b112242c6b947c455f7" "20180419164240.532":
-  entity flip_tb at 1( 0) + 0 on 57;
-  architecture behav of flip_tb at 8( 113) + 0 on 58;
-file . "shift_reg.vhdl" "bb263af404a0f8a126f7cce5f06fb5fd9faeba35" "20180421195016.143":
-  entity shift_reg at 1( 0) + 0 on 75;
-  architecture behav of shift_reg at 13( 259) + 0 on 76;
-file . "sign_extend.vhdl" "75b1dc077fda6d66af41af042cca4023f5f738eb" "20180422012443.367":
-  entity sign_extend at 1( 0) + 0 on 89;
-  architecture behavioral of sign_extend at 11( 218) + 0 on 90;
-file . "eightBitAdder.vhdl" "f0cd9e10fcf8fd91150c049f9d50eafb0d058864" "20180424222935.885":
-  entity cla_slice at 1( 0) + 0 on 111;
-  architecture behavioral of cla_slice at 13( 243) + 0 on 112;
-  entity cla_block at 21( 370) + 0 on 113;
-  architecture behavioral of cla_block at 31( 587) + 0 on 114;
-  entity underflowcheck at 49( 1023) + 0 on 115;
-  architecture behavioral of underflowcheck at 59( 1260) + 0 on 116;
-  entity eightbitadder at 78( 1638) + 0 on 117;
-  architecture behavioral of eightbitadder at 91( 2011) + 0 on 118;
+file . "shift_reg_tb.vhdl" "a8508579bbe85ee12f9875158e0159bd7adf3715" "20180326182759.031":
+  entity shift_reg_tb at 1( 0) + 0 on 95;
+  architecture behav of shift_reg_tb at 8( 116) + 0 on 96;
+file . "shift_reg_8.vhdl" "6046be2db1e3f2e05ec282140c4ea0e2630ca0c6" "20180401205924.075":
+  entity shift_reg_8 at 1( 0) + 0 on 105;
+  architecture structural of shift_reg_8 at 14( 455) + 0 on 106;
+file . "shift_reg.vhdl" "d6135eb9da447948c68a69a5e77e36828ae68427" "20180326182753.264":
+  entity shift_reg at 1( 0) + 0 on 93;
+  architecture behav of shift_reg at 14( 451) + 0 on 94;
+file . "mux.vhdl" "42f13b8fcde18ea729ca18ebf8bcc39874f0dc59" "20180326181754.081":
+  entity mux at 1( 0) + 0 on 89;
+  architecture behavioral of mux at 18( 407) + 0 on 90;
+file . "mux_tb.vhdl" "86bb925b573ac0f4adabb3dff7741ac708f7080e" "20180326181759.751":
+  entity mux_tb at 1( 0) + 0 on 91;
+  architecture behav of mux_tb at 8( 111) + 0 on 92;
+file . "shift_reg_8_tb.vhdl" "a0d46cb4753670937b66d4a19ebcd98a0d67ca0b" "20180401205929.997":
+  entity shift_reg_8_tb at 1( 0) + 0 on 107;
+  architecture behav of shift_reg_8_tb at 8( 120) + 0 on 108;

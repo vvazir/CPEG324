@@ -49,13 +49,26 @@ constant patterns : pattern_array :=
 ('1','0','1','0'),	--3
 ('0','0','0','0'),	--4
 -- Skip 1
-('0','1','1','1'),	--5
-('0','1','0','1'),	--6
--- Actually skip now 
+('0','1','1','0'),	--5
+('0','1','0','0'),	--6
+-- Next cycle, we are now skipping 
 ('0','0','1','1'),	--7
 ('0','0','0','1'),	--8
 -- Done skipping
-('0','0','1','0')	--9
+('0','0','1','0'),	--9
+('0','0','0','0'),	--10
+-- Skip 2
+('1','1','1','0'),	--11
+('0','1','0','0'),	--12
+-- Next cycle, we are now skipping 
+('0','0','1','1'),	--13
+('0','0','0','1'),	--14
+-- Next cycle, still skipping 
+('0','0','1','1'),	--15
+('0','0','0','1'),	--16
+-- Done skipping
+('0','0','1','0')	--17
+
 
 );
 begin
@@ -69,7 +82,7 @@ clock<= patterns(n).clock;
 wait for 1 ns;
 --  Check the outputs.
 assert o = patterns(n).o
-report "bad output value on step n = " & integer'image(n)  severity error;
+report "bad output value"  severity error;
 end loop;
 assert false report "end of test" severity note;
 --  Wait forever; this will finish the simulation.

@@ -18,7 +18,7 @@ begin
 		if (rising_edge(clock)) then
 			case sel is
 				when '1' => -- Load 
-					storage(0)<='1';
+					storage(0)<='0';
 					storage(1)<='1';
 					storage(2)<=I_SHIFT_IN;					
 				when '0' => -- Shift Right
