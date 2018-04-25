@@ -78,7 +78,7 @@ end behavioral;
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-entity ADDSUB is
+entity eightbitadder is
     Port ( 
         A :         in  STD_LOGIC_VECTOR (7 downto 0);
         B :         in  STD_LOGIC_VECTOR (7 downto 0);
@@ -86,9 +86,9 @@ entity ADDSUB is
         Sum :       out  STD_LOGIC_VECTOR (7 downto 0);
         CarryOut :  out  STD_LOGIC;
         UnderFlow:  out  STD_LOGIC);
-end ADDSUB;
+end eightbitadder;
 
-architecture Behavioral of ADDSUB is
+architecture Behavioral of eightbitadder is
 
 component CLA_Slice
     Port(

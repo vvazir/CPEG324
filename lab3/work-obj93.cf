@@ -1,31 +1,37 @@
 v 4
-file . "eightBitAdder.vhdl" "29352142c95051d8d17d6be38ca37da0476c64fa" "20180423165529.520":
-  entity cla_slice at 1( 0) + 0 on 93;
-  architecture behavioral of cla_slice at 13( 243) + 0 on 94;
-  entity cla_block at 21( 370) + 0 on 95;
-  architecture behavioral of cla_block at 31( 587) + 0 on 96;
-  entity underflowcheck at 49( 1023) + 0 on 97;
-  architecture behavioral of underflowcheck at 59( 1260) + 0 on 98;
-  entity addsub at 78( 1638) + 0 on 99;
-  architecture behavioral of addsub at 91( 1997) + 0 on 100;
-file . "sign_extend.vhdl" "75b1dc077fda6d66af41af042cca4023f5f738eb" "20180422012443.367":
-  entity sign_extend at 1( 0) + 0 on 89;
-  architecture behavioral of sign_extend at 11( 218) + 0 on 90;
-file . "shift_reg.vhdl" "bb263af404a0f8a126f7cce5f06fb5fd9faeba35" "20180421195016.143":
-  entity shift_reg at 1( 0) + 0 on 75;
-  architecture behav of shift_reg at 13( 259) + 0 on 76;
-file . "flip_tb.vhdl" "939c4208d21bed9936c32b112242c6b947c455f7" "20180419164240.532":
-  entity flip_tb at 1( 0) + 0 on 57;
-  architecture behav of flip_tb at 8( 113) + 0 on 58;
-file . "flip.vhdl" "9f633e2a891d299acb4aee4fc265c0618a011bed" "20180419164240.408":
-  entity flip at 1( 0) + 0 on 55;
-  architecture behavioral of flip at 14( 223) + 0 on 56;
-file . "mux.vhdl" "87f28bf7f3ddfe3ac08523277309ad499152939f" "20180419163454.542":
-  entity mux at 1( 0) + 0 on 33;
-  architecture behavioral of mux at 16( 292) + 0 on 34;
-file . "shift_reg_tb.vhdl" "a0568d8b17000325c3d9932fbc52ad42eaa3f7b8" "20180421195016.210":
-  entity shift_reg_tb at 1( 0) + 0 on 77;
-  architecture behav of shift_reg_tb at 8( 123) + 0 on 78;
+file . "zeroCheck.vhdl" "1078a8c8a2acf2b138960616746a2113d93f0bf4" "20180425000853.225":
+  entity zerocheck at 1( 0) + 0 on 121;
+  architecture behavioral of zerocheck at 12( 188) + 0 on 122;
+file . "eightBitAdder_tb.vhdl" "96921d977d17563b4932bad9d7d89ae7ebd06c08" "20180424222939.499":
+  entity eightbitadder_tb at 1( 0) + 0 on 119;
+  architecture behavior of eightbitadder_tb at 7( 94) + 0 on 120;
 file . "sign_extend_tb.vhdl" "c8673baf2a6f9faee85fb953c6572bc12331b16e" "20180422012446.687":
   entity sign_extend_tb at 1( 0) + 0 on 91;
   architecture behavior of sign_extend_tb at 7( 90) + 0 on 92;
+file . "shift_reg_tb.vhdl" "a0568d8b17000325c3d9932fbc52ad42eaa3f7b8" "20180421195016.210":
+  entity shift_reg_tb at 1( 0) + 0 on 77;
+  architecture behav of shift_reg_tb at 8( 123) + 0 on 78;
+file . "mux.vhdl" "87f28bf7f3ddfe3ac08523277309ad499152939f" "20180419163454.542":
+  entity mux at 1( 0) + 0 on 33;
+  architecture behavioral of mux at 16( 292) + 0 on 34;
+file . "flip.vhdl" "9f633e2a891d299acb4aee4fc265c0618a011bed" "20180419164240.408":
+  entity flip at 1( 0) + 0 on 55;
+  architecture behavioral of flip at 14( 223) + 0 on 56;
+file . "flip_tb.vhdl" "939c4208d21bed9936c32b112242c6b947c455f7" "20180419164240.532":
+  entity flip_tb at 1( 0) + 0 on 57;
+  architecture behav of flip_tb at 8( 113) + 0 on 58;
+file . "shift_reg.vhdl" "bb263af404a0f8a126f7cce5f06fb5fd9faeba35" "20180421195016.143":
+  entity shift_reg at 1( 0) + 0 on 75;
+  architecture behav of shift_reg at 13( 259) + 0 on 76;
+file . "sign_extend.vhdl" "75b1dc077fda6d66af41af042cca4023f5f738eb" "20180422012443.367":
+  entity sign_extend at 1( 0) + 0 on 89;
+  architecture behavioral of sign_extend at 11( 218) + 0 on 90;
+file . "eightBitAdder.vhdl" "f0cd9e10fcf8fd91150c049f9d50eafb0d058864" "20180424222935.885":
+  entity cla_slice at 1( 0) + 0 on 111;
+  architecture behavioral of cla_slice at 13( 243) + 0 on 112;
+  entity cla_block at 21( 370) + 0 on 113;
+  architecture behavioral of cla_block at 31( 587) + 0 on 114;
+  entity underflowcheck at 49( 1023) + 0 on 115;
+  architecture behavioral of underflowcheck at 59( 1260) + 0 on 116;
+  entity eightbitadder at 78( 1638) + 0 on 117;
+  architecture behavioral of eightbitadder at 91( 2011) + 0 on 118;
