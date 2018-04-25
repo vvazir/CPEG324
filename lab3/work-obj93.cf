@@ -1,12 +1,13 @@
 v 4
-file . "zeroCheck_tb.vhdl" "23d71b25e1783848742b0b124938a4c759668771" "20180425014358.290":
-  entity zerocheck_tb at 1( 0) + 0 on 127;
-file . "zeroCheck.vhdl" "1078a8c8a2acf2b138960616746a2113d93f0bf4" "20180425014426.005":
-  entity zerocheck at 1( 0) + 0 on 129;
-  architecture behavioral of zerocheck at 12( 188) + 0 on 130;
-file . "eightBitAdder_tb.vhdl" "96921d977d17563b4932bad9d7d89ae7ebd06c08" "20180424222939.499":
-  entity eightbitadder_tb at 1( 0) + 0 on 119;
-  architecture behavior of eightbitadder_tb at 7( 94) + 0 on 120;
+file . "zeroCheck_tb.vhdl" "fc1f66e82bc26b0222f871d0582f68c6f4de5ed9" "20180425234504.324":
+  entity zerocheck_tb at 1( 0) + 0 on 145;
+  architecture behavioral of zerocheck_tb at 7( 86) + 0 on 146;
+file . "zeroCheck.vhdl" "787ca932ef490c8382f266424b3403a6f38a5239" "20180425234500.154":
+  entity zerocheck at 1( 0) + 0 on 143;
+  architecture behavioral of zerocheck at 12( 169) + 0 on 144;
+file . "eightBitAdder_tb.vhdl" "70d756009d03c1ba287fc1bb85eada45e6ff3e89" "20180425130329.506":
+  entity eightbitadder_tb at 1( 0) + 0 on 131;
+  architecture behavior of eightbitadder_tb at 7( 94) + 0 on 132;
 file . "sign_extend_tb.vhdl" "c8673baf2a6f9faee85fb953c6572bc12331b16e" "20180422012446.687":
   entity sign_extend_tb at 1( 0) + 0 on 91;
   architecture behavior of sign_extend_tb at 7( 90) + 0 on 92;

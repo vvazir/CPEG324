@@ -19,7 +19,7 @@ end component;
 --inputs
 signal A:         std_logic_vector(7 downto 0);
 signal B:         std_logic_vector(7 downto 0);
-signal Cin:     std_logic;
+signal Cin:     std_logic:='0';
 
 --outputs
 signal Sum: std_logic_vector(7 downto 0);
@@ -36,14 +36,11 @@ process
 type pattern_type is record
 
 --inputs
-signal A:          std_logic_vector(7 downto 0);
-signal B:          std_logic_vector(7 downto 0);
-signal Cin:        std_logic;
+A:          std_logic_vector(7 downto 0);
+B:          std_logic_vector(7 downto 0);
 
 --outputs
-signal Sum: std_logic_vector(7 downto 0); 
-signal CarryOut:   std_logic;
-signal UnderFlow:  std_logic;
+Sum: std_logic_vector(7 downto 0); 
     
 end record;
     
@@ -65088,7 +65085,7 @@ constant patterns : pattern_array :=
     
     report "bad output value" severity error;
     end loop;
-    assert false report "end of test" severity note
+    assert false report "end of test" severity note;
     
     wait;
     
