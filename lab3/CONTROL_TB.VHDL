@@ -45,6 +45,7 @@ UUT: CONTROL port map(OP_0=>OPSIG0,OP_1=>OPSIG1,OP_6=>OPSIG6,OP_7=>OPSIG7,SKIP=>
 process
 
 type pattern_type is record
+
 --  The inputs: control unit
 OPSIG0: std_logic;
 OPSIG1: std_logic;

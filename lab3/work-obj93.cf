@@ -1,7 +1,9 @@
 v 4
-file . "zeroCheck.vhdl" "1078a8c8a2acf2b138960616746a2113d93f0bf4" "20180425000853.225":
-  entity zerocheck at 1( 0) + 0 on 121;
-  architecture behavioral of zerocheck at 12( 188) + 0 on 122;
+file . "zeroCheck_tb.vhdl" "23d71b25e1783848742b0b124938a4c759668771" "20180425014358.290":
+  entity zerocheck_tb at 1( 0) + 0 on 127;
+file . "zeroCheck.vhdl" "1078a8c8a2acf2b138960616746a2113d93f0bf4" "20180425014426.005":
+  entity zerocheck at 1( 0) + 0 on 129;
+  architecture behavioral of zerocheck at 12( 188) + 0 on 130;
 file . "eightBitAdder_tb.vhdl" "96921d977d17563b4932bad9d7d89ae7ebd06c08" "20180424222939.499":
   entity eightbitadder_tb at 1( 0) + 0 on 119;
   architecture behavior of eightbitadder_tb at 7( 94) + 0 on 120;
