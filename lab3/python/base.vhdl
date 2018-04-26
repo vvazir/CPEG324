@@ -11,7 +11,7 @@ component calculator
 port (	OpCode:     in      std_logic_vector(7 downto 0);
 		DataOut:    out     std_logic_vector(7 downto 0);
 		DispEn:     out     std_logic;
-		clock:		in		std_logic
+		clk:		in		std_logic
 );
 end component;
 --  Specifies which entity is bound with the component.
@@ -25,7 +25,7 @@ C1 : calculator
 		OpCode=>op,
 		DataOut=>data,
 		DispEn=>en,
-		clock=>clock
+		clk=>clock
 	);
 --  This process does the real job.
 process
