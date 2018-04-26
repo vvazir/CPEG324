@@ -65593,7 +65593,7 @@ constant patterns : pattern_array :=
     wait for 1 ns;
     
     assert Sum = patterns(n).Sum report "Invalid sum" severity error;
-    assert not ((n mod 1000) = 0) report "At "& integer'image(n) & " ns";
+    assert not ((n mod 1000) = 0) report "At "& integer'image(n) & " ns" severity note;
 	end loop;
     assert false report "end of test" severity note;
     

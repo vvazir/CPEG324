@@ -1,0 +1,82 @@
+$date
+  Thu Apr 26 12:24:18 2018
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$var reg 2 ! reg1[1:0] $end
+$var reg 2 " reg2[1:0] $end
+$var reg 2 # dstreg[1:0] $end
+$var reg 1 $ writeen $end
+$var reg 1 % clock $end
+$var reg 8 & writedata[7:0] $end
+$var reg 8 ' reg1data[7:0] $end
+$var reg 8 ( reg2data[7:0] $end
+$scope module r1 $end
+$var reg 2 ) reg1[1:0] $end
+$var reg 2 * reg2[1:0] $end
+$var reg 2 + dstreg[1:0] $end
+$var reg 1 , writeen $end
+$var reg 8 - writedata[7:0] $end
+$var reg 1 . clock $end
+$var reg 8 / reg1data[7:0] $end
+$var reg 8 0 reg2data[7:0] $end
+$var reg 8 1 r0[7:0] $end
+$var reg 8 2 r1[7:0] $end
+$var reg 8 3 r2[7:0] $end
+$var reg 8 4 r3[7:0] $end
+$upscope $end
+$enddefinitions $end
+#0
+b00 !
+b01 "
+b10 #
+0$
+0%
+b00000000 &
+b00000000 '
+b00000000 (
+b00 )
+b01 *
+b10 +
+0,
+b00000000 -
+0.
+b00000000 /
+b00000000 0
+b00000000 1
+b00000000 2
+b00000000 3
+b00000000 4
+#1000000
+1%
+1.
+#2000000
+0%
+0.
+#3000000
+1%
+b00001000 &
+b00001000 -
+1.
+#4000000
+1$
+0%
+1,
+0.
+b00001000 3
+#5000000
+b10 !
+0$
+1%
+b00000000 &
+b00001000 '
+b10 )
+0,
+b00000000 -
+1.
+b00001000 /
+#6000000
