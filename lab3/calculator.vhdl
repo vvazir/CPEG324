@@ -7,8 +7,8 @@ entity calculator is
 port(
     OpCode:     in      std_logic_vector(7 downto 0);
     DataOut:    out     std_logic_vector(7 downto 0);
-    DispEn:     out     std_logic
-);
+    DispEn:     out     std_logic;
+    clk:        in      std_logic);
 end calculator;
 
 architecture structural of calculator is
@@ -33,6 +33,23 @@ component control is
         LOD:        out std_logic);
 
 end component;
+
+--regmem
+component regMem is
+port(
+		reg1: 		in std_logic_vector(1 downto 0);
+		reg2:       in std_logic_vector(1 downto 0);
+		dstReg:		in std_logic_vector(1 downto 0);
+		
+		writeEn:	in std_logic;
+		writeData:	in std_logic_vector(7 downto 0);
+		clock:		in std_logic;
+		
+		reg1Data:	out std_logic_vector(7 downto 0):= (others =>'0');
+		reg2Data:	out std_logic_vector(7 downto 0):= (others =>'0')		
+);
+end component;
+
 
 --mux
 component mux is
@@ -108,16 +125,55 @@ port(
 end component;
 
 
--SIGNAL
+--SIGNALS
+--clock
+signal clksig:          std_logic;
 
--control signals
+--control signals
 
-signal  writeEnSig          :
-signal  twosComplimentSig   :
-signal  immEnSig            :
-signal  compSig             :
-signal  dispSig             :
-signal  skipPassSig         :
-signal  lodEnSig            :
+signal  controlSig:     std_logic_vector(6 downto 0);
+signal  regDataSigOne:  std_logic_vector(7 downto 0);
+signal  regDataSigTwo:  std_logic_vector(7 downto 0);
+signal  twosCompSig:    std_logic_vector(7 downto 0);
 
-signal 
+--mux signals
+
+signal  skipMux:        std_logic;
+signal  compMux:        std_logic;
+signal  immMux:         std_logic_vector(7 downto 0);
+signal  lodMux:         std_logic_vector(7 downto 0);
+signal  twosMux:        std_logic_vector(7 downto 0);
+
+--ALU signals
+
+signal  aluSig:         std_logic_vector(7 downto 0);
+
+--skip signal
+
+signal  skipShiftToControlSig   std_logic;
+
+--signExtend
+
+signal  signExtendSig           std_logic_vector(7 downto 0);
+
+--parsing input
+signal  op0:            std_logic := OpCode(0);
+signal  op1:            std_logic := OpCode(1);
+signal  op6:            std_logic := OpCode(6);
+signal  op7:            std_logic := OpCode(7);
+signal  r1:             std_logic_vector(1 downto 0) := OpCode(1 downto 0);
+signal  r2:             std_logic_vector(1 downto 0) := OpCode(3 downto 2);
+signal  rd:             std_logic_vector(1 downto 0) := OpCode(5 downto 4);
+signal imm:             std_logic_vector(1 downto 0) := OpCode(3 downto 0);
+
+begin
+
+--instantiation
+
+controlMain:   control port map();
+skipMux:       mux     port map();
+compMux:       mux     port map();
+immMux:        mux     port map();
+lodMux:        mux     port map();
+twosMux:       mux     port map();
+
