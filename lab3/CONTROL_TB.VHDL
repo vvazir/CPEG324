@@ -8,11 +8,14 @@ architecture behavior of CONTROL_TB is
 
 component Control is 
     port(
+		-- OP Field
         OP_0:       in  std_logic;
         OP_1:       in  std_logic;
-        SKIP:       in  std_logic;
         OP_6:       in  std_logic;
         OP_7:       in  std_logic;
+		-- Output of skip logic
+		SKIP:       in  std_logic;
+		-- Control signals
         WRITE_EN:   out std_logic;
         TWO_EN:     out std_logic;
         IMM_EN:     out std_logic;
@@ -117,14 +120,13 @@ constant patterns : pattern_array :=
 wait for 1 ns;
 
 --check the outputs
-assert WSIG = patterns(n).WSIG;
-assert TWOSIG = patterns(n).TWOSIG;
-assert IMMSIG = patterns(n).IMMSIG;
-assert CMPSIG = patterns(n).CMPSIG;
-assert DISPSIG = patterns(n).DISPSIG;
-assert SKIPSIGO = patterns(n).SKIPSIGO;
-assert LODSIG = patterns(n).LODSIG;
-report "bad output value" severity error;
+assert WSIG = patterns(n).WSIG report "WSIG" severity error;
+assert TWOSIG = patterns(n).TWOSIG report "TWOSIG" severity error;
+assert IMMSIG = patterns(n).IMMSIG report "IMMSIG" severity error;
+assert CMPSIG = patterns(n).CMPSIG report "CMPSIG" severity error;
+assert DISPSIG = patterns(n).DISPSIG report "DISPSIG" severity error;
+assert SKIPSIGO = patterns(n).SKIPSIGO report "SKIPSIGO" severity error;
+assert LODSIG = patterns(n).LODSIG report "LODSIG" severity error;
 end loop;
 assert false report "end of test" severity note;
 
