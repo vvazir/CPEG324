@@ -47,6 +47,7 @@ end record;
 type pattern_array is array (natural range <>) of pattern_type;
 constant patterns : pattern_array :=
 (
+("11111110","11111110","11111100"),
 ("11111110","11111110","11111100")
 );
 
@@ -57,9 +58,7 @@ constant patterns : pattern_array :=
     B<=patterns(n).B;
     wait for 1 ns;
     
-    assert Sum = patterns(n).Sum;
-    
-    report "bad output value" severity error;
+    assert Sum = patterns(n).Sum report "Invalid sum" severity error;
     end loop;
     assert false report "end of test" severity note;
     

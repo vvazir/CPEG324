@@ -1,0 +1,179 @@
+$date
+  Thu Apr 26 11:14:34 2018
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$var reg 8 ! a[7:0] $end
+$var reg 8 " b[7:0] $end
+$var reg 1 # cin $end
+$var reg 8 $ sum[7:0] $end
+$var reg 1 % carryout $end
+$var reg 1 & underflow $end
+$scope module uut $end
+$var reg 8 ' a[7:0] $end
+$var reg 8 ( b[7:0] $end
+$var reg 1 ) cin $end
+$var reg 8 * sum[7:0] $end
+$var reg 1 + carryout $end
+$var reg 1 , underflow $end
+$var reg 8 - prop[7:0] $end
+$var reg 8 . gen[7:0] $end
+$var reg 8 / c_int[7:0] $end
+$var reg 1 0 slicesevensumout $end
+$scope module inst_cla_slice0 $end
+$var reg 1 1 a $end
+$var reg 1 2 b $end
+$var reg 1 3 cin $end
+$var reg 1 4 p $end
+$var reg 1 5 g $end
+$var reg 1 6 sum_out $end
+$upscope $end
+$scope module inst_cla_slice1 $end
+$var reg 1 7 a $end
+$var reg 1 8 b $end
+$var reg 1 9 cin $end
+$var reg 1 : p $end
+$var reg 1 ; g $end
+$var reg 1 < sum_out $end
+$upscope $end
+$scope module inst_cla_slice2 $end
+$var reg 1 = a $end
+$var reg 1 > b $end
+$var reg 1 ? cin $end
+$var reg 1 @ p $end
+$var reg 1 A g $end
+$var reg 1 B sum_out $end
+$upscope $end
+$scope module inst_cla_slice3 $end
+$var reg 1 C a $end
+$var reg 1 D b $end
+$var reg 1 E cin $end
+$var reg 1 F p $end
+$var reg 1 G g $end
+$var reg 1 H sum_out $end
+$upscope $end
+$scope module inst_cla_slice4 $end
+$var reg 1 I a $end
+$var reg 1 J b $end
+$var reg 1 K cin $end
+$var reg 1 L p $end
+$var reg 1 M g $end
+$var reg 1 N sum_out $end
+$upscope $end
+$scope module inst_cla_slice5 $end
+$var reg 1 O a $end
+$var reg 1 P b $end
+$var reg 1 Q cin $end
+$var reg 1 R p $end
+$var reg 1 S g $end
+$var reg 1 T sum_out $end
+$upscope $end
+$scope module inst_cla_slice6 $end
+$var reg 1 U a $end
+$var reg 1 V b $end
+$var reg 1 W cin $end
+$var reg 1 X p $end
+$var reg 1 Y g $end
+$var reg 1 Z sum_out $end
+$upscope $end
+$scope module inst_cla_slice7 $end
+$var reg 1 [ a $end
+$var reg 1 \ b $end
+$var reg 1 ] cin $end
+$var reg 1 ^ p $end
+$var reg 1 _ g $end
+$var reg 1 ` sum_out $end
+$upscope $end
+$scope module inst_cla_block $end
+$var reg 8 a p[7:0] $end
+$var reg 8 b g[7:0] $end
+$var reg 8 c cout[7:0] $end
+$var reg 8 d cint[7:0] $end
+$upscope $end
+$scope module inst_uf $end
+$var reg 1 e signa $end
+$var reg 1 f signb $end
+$var reg 1 g signr $end
+$var reg 1 h uf $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+b11111110 !
+b11111110 "
+0#
+b11111100 $
+1%
+0&
+b11111110 '
+b11111110 (
+0)
+b11111100 *
+1+
+0,
+b00000000 -
+b11111110 .
+b11111110 /
+10
+01
+02
+03
+04
+05
+06
+17
+18
+09
+0:
+1;
+0<
+1=
+1>
+1?
+0@
+1A
+1B
+1C
+1D
+1E
+0F
+1G
+1H
+1I
+1J
+1K
+0L
+1M
+1N
+1O
+1P
+1Q
+0R
+1S
+1T
+1U
+1V
+1W
+0X
+1Y
+1Z
+1[
+1\
+1]
+0^
+1_
+1`
+b00000000 a
+b11111110 b
+b11111110 c
+b11111110 d
+1e
+1f
+1g
+0h
+#1000000
+#2000000
