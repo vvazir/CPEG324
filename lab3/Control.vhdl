@@ -26,6 +26,6 @@ begin
     CMP_EN <= (OP_6 and OP_7) and (OP_0 xor OP_1);
     DISP_EN <= ((OP_6 and OP_7) and (not(OP_0 xor OP_1))) and not(SKIP);
     SKP_PASS <= SKIP;
-    LOD <= OP_6 or OP_7;
+    LOD <= not(OP_6 or OP_7);
 
 end behavioral;

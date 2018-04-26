@@ -4,18 +4,18 @@ USE ieee.std_logic_1164.all;
 entity zeroCheck_tb is
 end zeroCheck_tb;
 
-architecture behavioral of zeroCheck is
+architecture behavioral of zeroCheck_tb is
 
 component zeroCheck
 
 port(
     input:      in std_logic_vector(7 downto 0);
-    output:     out std_logic--_vector(7 downto 0)
+    output:     out std_logic
 );
 end component;
 
 signal inpt: std_logic_vector(7 downto 0);
-signal otpt: std_logic;--_vector(7 downto 0);
+signal otpt: std_logic;
 
 begin
 
@@ -27,7 +27,7 @@ type pattern_type is record
 
 inpt: std_logic_vector (7 downto 0);
 
-otpt: std_logic;--_vector (7 downto 0);
+otpt: std_logic;
 
 end record;
 
