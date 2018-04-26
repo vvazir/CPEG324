@@ -10,10 +10,10 @@ if len(sys.argv)>2:
 ext = ".vhdl"
 tb = vhdl+"_tb"
 vcd = ".vcd"
-subprocess.run(['ghdl','-a',vhdl+ext],shell=True)
-subprocess.run(['ghdl','-e',vhdl],shell=True)
-subprocess.run(['ghdl','-a',tb+ext],shell=True)
-subprocess.run(['ghdl','-e',tb],shell=True)
-subprocess.run(['ghdl','-r',tb,'--vcd='+tb+vcd],shell=True)
+subprocess.run(['ghdl','-a','--ieee=standard',vhdl+ext],shell=True)
+subprocess.run(['ghdl','-e','--ieee=standard',vhdl],shell=True)
+subprocess.run(['ghdl','-a','--ieee=standard',tb+ext],shell=True)
+subprocess.run(['ghdl','-e','--ieee=standard',tb],shell=True)
+subprocess.run(['ghdl','-r','--ieee=standard',tb,'--vcd='+tb+vcd],shell=True)
 if (show):
 	subprocess.run(['gtkwave',tb+vcd],shell=True)

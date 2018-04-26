@@ -23,4 +23,34 @@ if not binFile.endswith('.jv'):
     
 file = open(binFile,"r")
 binCode = list(chunks(file.read(),8))
-print(binCode)
+file.close()
+
+base = open("base.vhdl","r")
+header = binFile[:-3]
+fileName = "calculator_$testName$_tb.vhdl".replace("$testName$",header)
+newFile = []
+patternStart = -1
+for num,line in enumerate(base):
+    newFile.append(line.replace("$testName$",header))
+    if "$patterns$" in line:
+        patternStart = num
+base.close()
+
+if (patternStart==-1):
+    print("Error with the base file")
+    sys.exit(1)
+
+for i,line in enumerate(binCode):
+    binCode[i] = "(\"" + binCode[i] + "\""
+    zeroLine = binCode[i]
+    binCode[i] = zeroLine + ", '0'),\n"
+    binCode[i] = binCode[i] + zeroLine+", '1')"
+    if i!=len(binCode)-1:
+        binCode[i]= binCode[i] + ","
+    else:
+        binCode[i] = zeroLine + ", '0')\n"
+    binCode[i] += "-- At {} ns\n".format(i)
+file = open(fileName,"w")
+for line in newFile[:patternStart]+binCode+newFile[patternStart+1:]:
+    file.write(line)
+file.close()
