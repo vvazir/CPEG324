@@ -55,7 +55,7 @@ process
 			--assert en = patterns(n).en report "Display not enabled" severity error;
 			if en='1' then
 				--assert data = patterns(n).data report "Incorrect print data" severity error;
-				report "" & integer'image(to_integer(signed(data)));
+				report "" & integer'image(to_integer(signed(data(7 downto 6)))) & "" &integer'image(to_integer(signed(data(5 downto 4))));
 			end if;
 		end loop;
 		
