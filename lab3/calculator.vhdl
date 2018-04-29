@@ -88,7 +88,7 @@ end component;
 component zeroCheck is
 port(
     input:      in std_logic_vector(7 downto 0);
-    output:     out std_logic
+    output:     out std_logic_vector(0 downto 0)
 );
 end component;
 
@@ -103,25 +103,12 @@ end component;
 --shift reg
 component shift_reg is
 port(
-		I_SHIFT_IN: in std_logic;
-		sel:        in std_logic; -- 0:Shift right; 1: load
+		I_SHIFT_IN: in std_logic; -- "opone"
+		sel:        in std_logic; -- 0:Shift right; 1: "load"
 		clock:		in std_logic; -- positive level triggering in problem 3
-		O:			out std_logic
+		O:			out std_logic --"skip"
 );
 end component;
-
---reg
-component reg is
-generic (
-	width : integer := 8
-);
-port(
-	din : in std_logic_vector(width-1 downto 0);
-	dout : out std_logic_vector(width-1 downto 0):= (others =>'0');
-	clock : in std_logic
-);
-end component;
-
 
 --SIGNALS
 --clock
@@ -136,8 +123,8 @@ signal  twosCompSig:    std_logic_vector(7 downto 0);
 
 --mux signals
 
-signal  skipMuxSig:        std_logic;
-signal  compMuxSig:        std_logic;
+signal  skipMuxSig:        std_logic_vector(0 downto 0);
+signal  compMuxSig:        std_logic_vector(0 downto 0);
 signal  immMuxSig:         std_logic_vector(7 downto 0);
 signal  lodMuxSig:         std_logic_vector(7 downto 0);
 signal  twosMuxSig:        std_logic_vector(7 downto 0);
@@ -152,7 +139,7 @@ signal  skipShiftToControlSig:   std_logic;
 
 --zerocheck out signal
 
-signal  zeroSig:            std_logic;
+signal  zeroSig:            std_logic_vector(0 downto 0);
 
 --signExtend
 
@@ -166,31 +153,31 @@ signal  op7:            std_logic := OpCode(7);
 signal  r1:             std_logic_vector(1 downto 0) := OpCode(1 downto 0);
 signal  r2:             std_logic_vector(1 downto 0) := OpCode(3 downto 2);
 signal  rd:             std_logic_vector(1 downto 0) := OpCode(5 downto 4);
-signal imm:             std_logic_vector(1 downto 0) := OpCode(3 downto 0);
+signal imm:             std_logic_vector(3 downto 0) := OpCode(3 downto 0);
 
 --output signals
-signal  dispEn:         std_logic;
-signal  dataOut:        std_logic_vector(7 downto 0);
+
 
 begin
 
 --instantiation
 
-controlMain:    control         port map();
-skipMux:        mux             generic map('1');
-                                port map(compMuxSig,'0',skipMuxSig);
-compMux:        mux             generic map('1');
-                                port map('0',zeroSig,compMuxSig);
-immMux:         mux             generic map();
-                                port map();
-lodMux:         mux             generic map();
-                                port map();
-twosMux:        mux             generic map();
-                                port map();
-twosComp:       compliment      port map();
+controlMain:    control         port map(op0,op1,skipShiftToControlSig,op6,op7,controlSig(0),controlSig(1),controlSig(2),controlSig(3),controlSig(4),controlSig(5),controlSig(6));
+skipMux:        mux             generic map(width => 1)
+                                port map(compMuxSig,"0",skipMuxSig);
+compMux:        mux             generic map(width => 1)
+                                port map("0",zeroSig,compMuxSig);
+immMux:         mux             generic map(width => 8)
+                                port map(twosMuxSig,signExtendSig,immMuxSig);
+lodMux:         mux             generic map(width => 8)
+                                port map(regDataSigOne,"0",lodMuxSig);
+twosMux:        mux             generic map(width => 8)
+                                port map(regDataSigTwo,twosCompSig,twosMuxSig);
+twosComp:       compliment      port map(regDataSigTwo);
 regMem0:        regMem          port map(r1,r2,rd,controlSig(0),aluSig,clkSig,regDataSigOne,regDataSigTwo);
 ALU:            eightbitadder   port map(lodMuxSig,immMuxSig,'0',aluSig);
 zeroCheck0:     zeroCheck       port map(aluSig,zeroSig);
-reg0:           reg             port map();
-sreg0           shift_reg       port map();
-signExt:        sign_extend     port map();
+sreg0:          shift_reg       port map(op1,skipMuxSig,clkSig,controlSig(6));
+signExt:        sign_extend     port map(imm,signExtendSig);
+
+end structural;

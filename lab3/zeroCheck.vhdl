@@ -5,7 +5,7 @@ entity zeroCheck is
 
 port(
     input:      in std_logic_vector(7 downto 0);
-    output:     out std_logic
+    output:     out std_logic_vector(0 downto 0)
 );
 end zeroCheck;
 
