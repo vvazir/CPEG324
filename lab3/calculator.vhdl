@@ -13,7 +13,7 @@ end calculator;
 
 architecture structural of calculator is
 
---components: control, mux, register, shift register, adder, sign extend, 2s compliment, flip.
+--components: control, mux, register, shift register, adder, sign extend, 2s compliment
 
 --control
 component control is
@@ -64,16 +64,14 @@ port(
 );
 end component;
 
---flip
-component flip is
-generic (
-	width	: integer := 8
-);
-port(	
-		in1 : in std_logic_vector(width-1 downto 0);
-		out1 : out std_logic_vector(width-1 downto 0)
+--compliment
+component compliment is
+port(
+    input:      in  std_logic_vector(7 downto 0);
+    output:    out  std_logic_vector(7 downto 0)
 );
 end component;
+
 
 --adder
 component eightbitadder is
