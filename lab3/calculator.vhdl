@@ -125,7 +125,7 @@ end component;
 
 --SIGNALS
 --clock
-signal clksig:          std_logic;
+signal clkSig:          std_logic;
 
 --control signals
 
@@ -136,11 +136,11 @@ signal  twosCompSig:    std_logic_vector(7 downto 0);
 
 --mux signals
 
-signal  skipMux:        std_logic;
-signal  compMux:        std_logic;
-signal  immMux:         std_logic_vector(7 downto 0);
-signal  lodMux:         std_logic_vector(7 downto 0);
-signal  twosMux:        std_logic_vector(7 downto 0);
+signal  skipMuxSig:        std_logic;
+signal  compMuxSig:        std_logic;
+signal  immMuxSig:         std_logic_vector(7 downto 0);
+signal  lodMuxSig:         std_logic_vector(7 downto 0);
+signal  twosMuxSig:        std_logic_vector(7 downto 0);
 
 --ALU signals
 
@@ -148,11 +148,15 @@ signal  aluSig:         std_logic_vector(7 downto 0);
 
 --skip signal
 
-signal  skipShiftToControlSig   std_logic;
+signal  skipShiftToControlSig:   std_logic;
+
+--zerocheck out signal
+
+signal  zeroSig:            std_logic;
 
 --signExtend
 
-signal  signExtendSig           std_logic_vector(7 downto 0);
+signal  signExtendSig:      std_logic_vector(7 downto 0);
 
 --parsing input
 signal  op0:            std_logic := OpCode(0);
@@ -164,14 +168,29 @@ signal  r2:             std_logic_vector(1 downto 0) := OpCode(3 downto 2);
 signal  rd:             std_logic_vector(1 downto 0) := OpCode(5 downto 4);
 signal imm:             std_logic_vector(1 downto 0) := OpCode(3 downto 0);
 
+--output signals
+signal  dispEn:         std_logic;
+signal  dataOut:        std_logic_vector(7 downto 0);
+
 begin
 
 --instantiation
 
-controlMain:   control port map();
-skipMux:       mux     port map();
-compMux:       mux     port map();
-immMux:        mux     port map();
-lodMux:        mux     port map();
-twosMux:       mux     port map();
-
+controlMain:    control         port map();
+skipMux:        mux             generic map('1');
+                                port map(compMuxSig,'0',skipMuxSig);
+compMux:        mux             generic map('1');
+                                port map('0',zeroSig,compMuxSig);
+immMux:         mux             generic map();
+                                port map();
+lodMux:         mux             generic map();
+                                port map();
+twosMux:        mux             generic map();
+                                port map();
+twosComp:       compliment      port map();
+regMem0:        regMem          port map(r1,r2,rd,controlSig(0),aluSig,clkSig,regDataSigOne,regDataSigTwo);
+ALU:            eightbitadder   port map(lodMuxSig,immMuxSig,'0',aluSig);
+zeroCheck0:     zeroCheck       port map(aluSig,zeroSig);
+reg0:           reg             port map();
+sreg0           shift_reg       port map();
+signExt:        sign_extend     port map();
