@@ -12,7 +12,8 @@ port(
 		clock:		in std_logic;
 		
 		reg1Data:	out std_logic_vector(7 downto 0):= (others =>'0');
-		reg2Data:	out std_logic_vector(7 downto 0):= (others =>'0')		
+		reg2Data:	out std_logic_vector(7 downto 0):= (others =>'0');
+        rdData:	    out std_logic_vector(7 downto 0):= (others =>'0')
 );
 end regMem;
 
@@ -49,6 +50,18 @@ architecture behav of regMem is
 					reg2Data <= r3;
 				when others =>
 					reg2Data <= r0;
+			end case;
+            case dstReg is
+				when "00" => 
+					rdData <= r0;
+				when "01" =>
+					rdData <= r1;
+				when "10" => 
+					rdData <= r2;
+				when "11" =>
+					rdData <= r3;
+				when others =>
+					rdData <= r0;
 			end case;
 		end if;
 		if (falling_edge(clock)) then
