@@ -197,15 +197,22 @@ signal dOutSig:         std_logic_vector(7 downto 0);
 
 
 begin
-op0 <= OpCode(0);
-op1 <= OpCode(1);
-op6 <= OpCode(6);
-op7 <= OpCode(7);
-r1 	<= OpCode(1 downto 0);
-r2 	<= OpCode(3 downto 2);
-rd 	<= OpCode(5 downto 4);
-imm <= OpCode(3 downto 0);
 
+process(clk)
+    begin
+    if (rising_edge(clk)) then
+
+        op0 <= OpCode(0);
+        op1 <= OpCode(1);
+        op6 <= OpCode(6);
+        op7 <= OpCode(7);
+        r2 	<= OpCode(1 downto 0);
+        r1 	<= OpCode(3 downto 2);
+        rd 	<= OpCode(5 downto 4);
+        imm <= OpCode(3 downto 0);
+        
+    end if;
+end process;
 
 
 --instantiation

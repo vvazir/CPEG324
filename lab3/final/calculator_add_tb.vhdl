@@ -84,7 +84,9 @@ process
 ("11000000", '1'),-- At 40 ns
 ("01000100", '0'),
 ("01000100", '1'),-- At 42 ns
-("11000000", '0')
+("11000000", '0'),
+("11000000", '1')
+
 -- At 44 ns
 		);
 	begin
@@ -98,8 +100,10 @@ process
 			--  Check the outputs.
 			--assert en = patterns(n).en report "Display not enabled" severity error;
 				--assert data = patterns(n).data report "Incorrect print data" severity error;
-			assert en /= '1' report "" & integer'image(to_integer(unsigned(data)));
-			--report ""& integer'image(to_integer(unsigned(control)));
+			if clock='1' then
+                assert ((en /= '1')) report "" & integer'image(to_integer(signed(data)));
+			end if;
+            --report ""& integer'image(to_integer(unsigned(control)));
 		end loop;
 		
 		assert false report "end of test" severity note;
