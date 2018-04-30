@@ -17,7 +17,9 @@ end component;
 --  Specifies which entity is bound with the component.
 -- for shift_reg_0: shift_reg use entity work.shift_reg(rtl);
 signal op, data : std_logic_vector(7 downto 0);
-signal en,clock:	std_logic;
+signal en:	std_logic :='0';
+signal control: std_logic_vector(6 downto 0);
+signal clock:	std_logic;
 begin
 --  Component instantiation.
 C1 : calculator
@@ -96,7 +98,8 @@ process
 			--  Check the outputs.
 			--assert en = patterns(n).en report "Display not enabled" severity error;
 				--assert data = patterns(n).data report "Incorrect print data" severity error;
-			report "" & integer'image(to_integer(unsigned(data)));
+			assert en /= '1' report "" & integer'image(to_integer(unsigned(data)));
+			--report ""& integer'image(to_integer(unsigned(control)));
 		end loop;
 		
 		assert false report "end of test" severity note;

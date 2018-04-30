@@ -11,7 +11,7 @@ port(
     clk:        in      std_logic);
 end calculator;
 
-architecture structural of calculator is
+architecture beh of calculator is
 
 --components: control, mux, register, shift register, adder, sign extend, 2s compliment
 
@@ -118,6 +118,14 @@ signal clkSig:          std_logic;
 --control signals
 
 signal  controlSig:     std_logic_vector(6 downto 0);
+signal 	cregmem:		std_logic;
+signal 	ctwosum:		std_logic;
+signal 	cimmmux:		std_logic;
+signal 	ccompmux:		std_logic;
+signal 	cDispEn:		std_logic;
+signal 	cskipmux:		std_logic;
+signal 	clodmux:		std_logic;
+
 --0 controller,regmem
 --1 controller, twosmux
 --2 controller, immmux
@@ -187,29 +195,47 @@ signal imm:             std_logic_vector(3 downto 0) := OpCode(3 downto 0);
 
 
 begin
+op0 <= OpCode(0);
+op1 <= OpCode(1);
+op6 <= OpCode(6);
+op7 <= OpCode(7);
+r1 	<= OpCode(1 downto 0);
+r2 	<= OpCode(3 downto 2);
+rd 	<= OpCode(5 downto 4);
+imm <= OpCode(3 downto 0);
+
+
 
 --instantiation
 
-controlMain:    control         port map(op0,op1,skipShiftToControlSig,op6,op7,controlSig(0),controlSig(1),controlSig(2),controlSig(3),controlSig(4),controlSig(5),controlSig(6));
+--0 controller,regmem
+--1 controller, twosmux
+--2 controller, immmux
+--3 controller, compmux
+--4 controller, DispEn
+--5 controller, skipMux
+--6 controller, lodmux
+controlMain:    control         port map(op0,op1,skipShiftToControlSig,op6,op7,
+cregmem,ctwosum,cimmmux,ccompmux,cdispen,cskipmux,clodmux);
 skipMux:        mux             generic map(width => 1)
-                                port map(compMuxSig,"0",skipMuxSig,controlSig(5));
+                                port map(compMuxSig,"0",skipMuxSig,cskipmux);
 compMux:        mux             generic map(width => 1)
-                                port map("0",zeroSig,compMuxSig,controlSig(3));
+                                port map("0",zeroSig,compMuxSig,ccompmux);
 immMux:         mux             generic map(width => 8)
-                                port map(twosMuxSig,signExtendSig,immMuxSig,controlSig(2));
+                                port map(twosMuxSig,signExtendSig,immMuxSig,cimmmux);
 lodMux:         mux             generic map(width => 8)
-                                port map(regDataSigOne,"00000000",lodMuxSig,controlSig(6));
+                                port map(regDataSigOne,"00000000",lodMuxSig,clodmux);
 twosMux:        mux             generic map(width => 8)
-                                port map(regDataSigTwo,twosCompSig,twosMuxSig,controlSig(1));
+                                port map(regDataSigTwo,twosCompSig,twosMuxSig,ctwosum);
 twosComp:       compliment      port map(regDataSigTwo,twosCompSig);
-regMem0:        regMem          port map(r1,r2,rd,controlSig(0),aluSig,clkSig,regDataSigOne,regDataSigTwo);
+regMem0:        regMem          port map(r1,r2,rd,cregmem,aluSig,clkSig,regDataSigOne,regDataSigTwo);
 ALU:            eightbitadder   port map(lodMuxSig,immMuxSig,'0',aluSig);
 zeroCheck0:     zeroCheck       port map(aluSig,zeroSig);
 sreg0:          shift_reg       port map(op1,skipMuxSig,clkSig,skipShiftToControlSig);
 signExt:        sign_extend     port map(imm,signExtendSig);
 
-DispEn <= controlSig(4);
+DispEn <= cdispen;
 clkSig <= clk;
 DataOut <= regDataSigOne;
 
-end structural;
+end beh;
