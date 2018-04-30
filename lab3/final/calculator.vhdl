@@ -46,7 +46,8 @@ port(
 		clock:		in std_logic;
 		
 		reg1Data:	out std_logic_vector(7 downto 0):= (others =>'0');
-		reg2Data:	out std_logic_vector(7 downto 0):= (others =>'0')		
+		reg2Data:	out std_logic_vector(7 downto 0):= (others =>'0');
+        rdData:	    out std_logic_vector(7 downto 0):= (others =>'0')
 );
 end component;
 
@@ -192,6 +193,7 @@ signal  rd:             std_logic_vector(1 downto 0) := OpCode(5 downto 4);
 signal imm:             std_logic_vector(3 downto 0) := OpCode(3 downto 0);
 
 --output signals
+signal dOutSig:         std_logic_vector(7 downto 0);
 
 
 begin
@@ -228,7 +230,7 @@ lodMux:         mux             generic map(width => 8)
 twosMux:        mux             generic map(width => 8)
                                 port map(twosCompSig,regDataSigTwo,twosMuxSig,ctwosum);
 twosComp:       compliment      port map(regDataSigTwo,twosCompSig);
-regMem0:        regMem          port map(r1,r2,rd,cregmem,aluSig,clkSig,regDataSigOne,regDataSigTwo);
+regMem0:        regMem          port map(r1,r2,rd,cregmem,aluSig,clkSig,regDataSigOne,regDataSigTwo,dOutSig);
 ALU:            eightbitadder   port map(lodMuxSig,immMuxSig,'0',aluSig);
 zeroCheck0:     zeroCheck       port map(aluSig,zeroSig);
 sreg0:          shift_reg       port map(op1,skipMuxSig,clkSig,skipShiftToControlSig);
@@ -236,6 +238,6 @@ signExt:        sign_extend     port map(imm,signExtendSig);
 
 DispEn <= cdispen;
 clkSig <= clk;
-DataOut <= regDataSigOne;
+DataOut <= dOutSig;
 
 end beh;
