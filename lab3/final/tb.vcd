@@ -1,0 +1,802 @@
+$date
+  Sun Apr 29 23:50:55 2018
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$var reg 8 ! op[7:0] $end
+$var reg 8 " data[7:0] $end
+$var reg 1 # en $end
+$var reg 1 $ clock $end
+$scope module c1 $end
+$var reg 8 % opcode[7:0] $end
+$var reg 8 & dataout[7:0] $end
+$var reg 1 ' dispen $end
+$var reg 1 ( clk $end
+$var reg 1 ) clksig $end
+$var reg 7 * controlsig[6:0] $end
+$var reg 8 + regdatasigone[7:0] $end
+$var reg 8 , regdatasigtwo[7:0] $end
+$var reg 8 - twoscompsig[7:0] $end
+$var reg 1 . skipmuxsig[0:0] $end
+$var reg 1 / compmuxsig[0:0] $end
+$var reg 8 0 immmuxsig[7:0] $end
+$var reg 8 1 lodmuxsig[7:0] $end
+$var reg 8 2 twosmuxsig[7:0] $end
+$var reg 8 3 alusig[7:0] $end
+$var reg 1 4 skipshifttocontrolsig $end
+$var reg 1 5 zerosig[0:0] $end
+$var reg 8 6 signextendsig[7:0] $end
+$var reg 1 7 op0 $end
+$var reg 1 8 op1 $end
+$var reg 1 9 op6 $end
+$var reg 1 : op7 $end
+$var reg 2 ; r1[1:0] $end
+$var reg 2 < r2[1:0] $end
+$var reg 2 = rd[1:0] $end
+$var reg 4 > imm[3:0] $end
+$scope module controlmain $end
+$var reg 1 ? op_0 $end
+$var reg 1 @ op_1 $end
+$var reg 1 A skip $end
+$var reg 1 B op_6 $end
+$var reg 1 C op_7 $end
+$var reg 1 D write_en $end
+$var reg 1 E two_en $end
+$var reg 1 F imm_en $end
+$var reg 1 G cmp_en $end
+$var reg 1 H disp_en $end
+$var reg 1 I skp_pass $end
+$var reg 1 J lod $end
+$upscope $end
+$scope module skipmux $end
+$var reg 1 K in1[0:0] $end
+$var reg 1 L in2[0:0] $end
+$var reg 1 M out1[0:0] $end
+$var reg 1 N sel $end
+$upscope $end
+$scope module compmux $end
+$var reg 1 O in1[0:0] $end
+$var reg 1 P in2[0:0] $end
+$var reg 1 Q out1[0:0] $end
+$var reg 1 R sel $end
+$upscope $end
+$scope module immmux $end
+$var reg 8 S in1[7:0] $end
+$var reg 8 T in2[7:0] $end
+$var reg 8 U out1[7:0] $end
+$var reg 1 V sel $end
+$upscope $end
+$scope module lodmux $end
+$var reg 8 W in1[7:0] $end
+$var reg 8 X in2[7:0] $end
+$var reg 8 Y out1[7:0] $end
+$var reg 1 Z sel $end
+$upscope $end
+$scope module twosmux $end
+$var reg 8 [ in1[7:0] $end
+$var reg 8 \ in2[7:0] $end
+$var reg 8 ] out1[7:0] $end
+$var reg 1 ^ sel $end
+$upscope $end
+$scope module twoscomp $end
+$var reg 8 _ input[7:0] $end
+$var reg 8 ` output[7:0] $end
+$var reg 8 a fliptoadd[7:0] $end
+$var reg 8 b one[7:0] $end
+$scope module inst_flip $end
+$var reg 8 c in1[7:0] $end
+$var reg 8 d out1[7:0] $end
+$upscope $end
+$scope module inst_adder $end
+$var reg 8 e a[7:0] $end
+$var reg 8 f b[7:0] $end
+$var reg 1 g cin $end
+$var reg 8 h sum[7:0] $end
+$var reg 1 i carryout $end
+$var reg 1 j underflow $end
+$var reg 8 k prop[7:0] $end
+$var reg 8 l gen[7:0] $end
+$var reg 8 m c_int[7:0] $end
+$var reg 1 n slicesevensumout $end
+$scope module inst_cla_slice0 $end
+$var reg 1 o a $end
+$var reg 1 p b $end
+$var reg 1 q cin $end
+$var reg 1 r p $end
+$var reg 1 s g $end
+$var reg 1 t sum_out $end
+$upscope $end
+$scope module inst_cla_slice1 $end
+$var reg 1 u a $end
+$var reg 1 v b $end
+$var reg 1 w cin $end
+$var reg 1 x p $end
+$var reg 1 y g $end
+$var reg 1 z sum_out $end
+$upscope $end
+$scope module inst_cla_slice2 $end
+$var reg 1 { a $end
+$var reg 1 | b $end
+$var reg 1 } cin $end
+$var reg 1 !" p $end
+$var reg 1 "" g $end
+$var reg 1 #" sum_out $end
+$upscope $end
+$scope module inst_cla_slice3 $end
+$var reg 1 $" a $end
+$var reg 1 %" b $end
+$var reg 1 &" cin $end
+$var reg 1 '" p $end
+$var reg 1 (" g $end
+$var reg 1 )" sum_out $end
+$upscope $end
+$scope module inst_cla_slice4 $end
+$var reg 1 *" a $end
+$var reg 1 +" b $end
+$var reg 1 ," cin $end
+$var reg 1 -" p $end
+$var reg 1 ." g $end
+$var reg 1 /" sum_out $end
+$upscope $end
+$scope module inst_cla_slice5 $end
+$var reg 1 0" a $end
+$var reg 1 1" b $end
+$var reg 1 2" cin $end
+$var reg 1 3" p $end
+$var reg 1 4" g $end
+$var reg 1 5" sum_out $end
+$upscope $end
+$scope module inst_cla_slice6 $end
+$var reg 1 6" a $end
+$var reg 1 7" b $end
+$var reg 1 8" cin $end
+$var reg 1 9" p $end
+$var reg 1 :" g $end
+$var reg 1 ;" sum_out $end
+$upscope $end
+$scope module inst_cla_slice7 $end
+$var reg 1 <" a $end
+$var reg 1 =" b $end
+$var reg 1 >" cin $end
+$var reg 1 ?" p $end
+$var reg 1 @" g $end
+$var reg 1 A" sum_out $end
+$upscope $end
+$scope module inst_cla_block $end
+$var reg 8 B" p[7:0] $end
+$var reg 8 C" g[7:0] $end
+$var reg 8 D" cout[7:0] $end
+$var reg 8 E" cint[7:0] $end
+$upscope $end
+$scope module inst_uf $end
+$var reg 1 F" signa $end
+$var reg 1 G" signb $end
+$var reg 1 H" signr $end
+$var reg 1 I" uf $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module regmem0 $end
+$var reg 2 J" reg1[1:0] $end
+$var reg 2 K" reg2[1:0] $end
+$var reg 2 L" dstreg[1:0] $end
+$var reg 1 M" writeen $end
+$var reg 8 N" writedata[7:0] $end
+$var reg 1 O" clock $end
+$var reg 8 P" reg1data[7:0] $end
+$var reg 8 Q" reg2data[7:0] $end
+$var reg 8 R" r0[7:0] $end
+$var reg 8 S" r1[7:0] $end
+$var reg 8 T" r2[7:0] $end
+$var reg 8 U" r3[7:0] $end
+$upscope $end
+$scope module alu $end
+$var reg 8 V" a[7:0] $end
+$var reg 8 W" b[7:0] $end
+$var reg 1 X" cin $end
+$var reg 8 Y" sum[7:0] $end
+$var reg 1 Z" carryout $end
+$var reg 1 [" underflow $end
+$var reg 8 \" prop[7:0] $end
+$var reg 8 ]" gen[7:0] $end
+$var reg 8 ^" c_int[7:0] $end
+$var reg 1 _" slicesevensumout $end
+$scope module inst_cla_slice0 $end
+$var reg 1 `" a $end
+$var reg 1 a" b $end
+$var reg 1 b" cin $end
+$var reg 1 c" p $end
+$var reg 1 d" g $end
+$var reg 1 e" sum_out $end
+$upscope $end
+$scope module inst_cla_slice1 $end
+$var reg 1 f" a $end
+$var reg 1 g" b $end
+$var reg 1 h" cin $end
+$var reg 1 i" p $end
+$var reg 1 j" g $end
+$var reg 1 k" sum_out $end
+$upscope $end
+$scope module inst_cla_slice2 $end
+$var reg 1 l" a $end
+$var reg 1 m" b $end
+$var reg 1 n" cin $end
+$var reg 1 o" p $end
+$var reg 1 p" g $end
+$var reg 1 q" sum_out $end
+$upscope $end
+$scope module inst_cla_slice3 $end
+$var reg 1 r" a $end
+$var reg 1 s" b $end
+$var reg 1 t" cin $end
+$var reg 1 u" p $end
+$var reg 1 v" g $end
+$var reg 1 w" sum_out $end
+$upscope $end
+$scope module inst_cla_slice4 $end
+$var reg 1 x" a $end
+$var reg 1 y" b $end
+$var reg 1 z" cin $end
+$var reg 1 {" p $end
+$var reg 1 |" g $end
+$var reg 1 }" sum_out $end
+$upscope $end
+$scope module inst_cla_slice5 $end
+$var reg 1 !# a $end
+$var reg 1 "# b $end
+$var reg 1 ## cin $end
+$var reg 1 $# p $end
+$var reg 1 %# g $end
+$var reg 1 &# sum_out $end
+$upscope $end
+$scope module inst_cla_slice6 $end
+$var reg 1 '# a $end
+$var reg 1 (# b $end
+$var reg 1 )# cin $end
+$var reg 1 *# p $end
+$var reg 1 +# g $end
+$var reg 1 ,# sum_out $end
+$upscope $end
+$scope module inst_cla_slice7 $end
+$var reg 1 -# a $end
+$var reg 1 .# b $end
+$var reg 1 /# cin $end
+$var reg 1 0# p $end
+$var reg 1 1# g $end
+$var reg 1 2# sum_out $end
+$upscope $end
+$scope module inst_cla_block $end
+$var reg 8 3# p[7:0] $end
+$var reg 8 4# g[7:0] $end
+$var reg 8 5# cout[7:0] $end
+$var reg 8 6# cint[7:0] $end
+$upscope $end
+$scope module inst_uf $end
+$var reg 1 7# signa $end
+$var reg 1 8# signb $end
+$var reg 1 9# signr $end
+$var reg 1 :# uf $end
+$upscope $end
+$upscope $end
+$scope module zerocheck0 $end
+$var reg 8 ;# input[7:0] $end
+$var reg 1 <# output[0:0] $end
+$upscope $end
+$scope module sreg0 $end
+$var reg 1 =# i_shift_in $end
+$var reg 1 ># sel[0:0] $end
+$var reg 1 ?# clock $end
+$var reg 1 @# o $end
+$var reg 3 A# storage[2:0] $end
+$upscope $end
+$scope module signext $end
+$var reg 4 B# input[3:0] $end
+$var reg 8 C# output[7:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+b00010111 !
+b00000000 "
+U#
+0$
+b00010111 %
+b00000000 &
+U'
+0(
+0)
+bU0UUUUU *
+b00000000 +
+b00000000 ,
+b00000000 -
+bU .
+bU /
+bUUUUUUUU 0
+b00000000 1
+b00000000 2
+bUUUUUUUU 3
+04
+bU 5
+bUUUUUUUU 6
+U7
+U8
+U9
+U:
+bUU ;
+bUU <
+bUU =
+bUUUU >
+U?
+U@
+0A
+UB
+UC
+UD
+UE
+UF
+UG
+UH
+0I
+UJ
+bU K
+b0 L
+bU M
+0N
+b0 O
+bU P
+bU Q
+UR
+b00000000 S
+bUUUUUUUU T
+bUUUUUUUU U
+UV
+b00000000 W
+b00000000 X
+b00000000 Y
+UZ
+b00000000 [
+b00000000 \
+b00000000 ]
+U^
+b00000000 _
+b00000000 `
+b11111111 a
+b00000001 b
+b00000000 c
+b11111111 d
+b11111111 e
+b00000001 f
+0g
+b00000000 h
+1i
+0j
+b11111110 k
+b00000001 l
+b11111111 m
+0n
+1o
+1p
+0q
+0r
+1s
+0t
+1u
+0v
+1w
+1x
+0y
+0z
+1{
+0|
+1}
+1!"
+0""
+0#"
+1$"
+0%"
+1&"
+1'"
+0("
+0)"
+1*"
+0+"
+1,"
+1-"
+0."
+0/"
+10"
+01"
+12"
+13"
+04"
+05"
+16"
+07"
+18"
+19"
+0:"
+0;"
+1<"
+0="
+1>"
+1?"
+0@"
+0A"
+b11111110 B"
+b00000001 C"
+b11111111 D"
+b11111111 E"
+1F"
+0G"
+0H"
+0I"
+bUU J"
+bUU K"
+bUU L"
+UM"
+bUUUUUUUU N"
+0O"
+b00000000 P"
+b00000000 Q"
+b00000000 R"
+b00000000 S"
+b00000000 T"
+b00000000 U"
+b00000000 V"
+bUUUUUUUU W"
+0X"
+bUUUUUUUU Y"
+0Z"
+0["
+bUUUUUUUU \"
+b00000000 ]"
+b00000000 ^"
+U_"
+0`"
+Ua"
+0b"
+Uc"
+0d"
+Ue"
+0f"
+Ug"
+0h"
+Ui"
+0j"
+Uk"
+0l"
+Um"
+0n"
+Uo"
+0p"
+Uq"
+0r"
+Us"
+0t"
+Uu"
+0v"
+Uw"
+0x"
+Uy"
+0z"
+U{"
+0|"
+U}"
+0!#
+U"#
+0##
+U$#
+0%#
+U&#
+0'#
+U(#
+0)#
+U*#
+0+#
+U,#
+0-#
+U.#
+0/#
+U0#
+01#
+U2#
+bUUUUUUUU 3#
+b00000000 4#
+b00000000 5#
+b00000000 6#
+07#
+U8#
+U9#
+0:#
+bUUUUUUUU ;#
+bU <#
+U=#
+bU >#
+0?#
+0@#
+b000 A#
+bUUUU B#
+bUUUUUUUU C#
+#1000000
+1$
+1(
+1)
+1O"
+1?#
+#2000000
+b00101111 !
+0$
+b00101111 %
+0(
+0)
+0O"
+0?#
+#3000000
+1$
+1(
+1)
+1O"
+1?#
+#4000000
+b11100000 !
+0$
+b11100000 %
+0(
+0)
+0O"
+0?#
+#5000000
+1$
+1(
+1)
+1O"
+1?#
+#6000000
+b01000110 !
+0$
+b01000110 %
+0(
+0)
+0O"
+0?#
+#7000000
+1$
+1(
+1)
+1O"
+1?#
+#8000000
+b01000100 !
+0$
+b01000100 %
+0(
+0)
+0O"
+0?#
+#9000000
+1$
+1(
+1)
+1O"
+1?#
+#10000000
+0$
+0(
+0)
+0O"
+0?#
+#11000000
+1$
+1(
+1)
+1O"
+1?#
+#12000000
+0$
+0(
+0)
+0O"
+0?#
+#13000000
+1$
+1(
+1)
+1O"
+1?#
+#14000000
+0$
+0(
+0)
+0O"
+0?#
+#15000000
+1$
+1(
+1)
+1O"
+1?#
+#16000000
+0$
+0(
+0)
+0O"
+0?#
+#17000000
+1$
+1(
+1)
+1O"
+1?#
+#18000000
+0$
+0(
+0)
+0O"
+0?#
+#19000000
+1$
+1(
+1)
+1O"
+1?#
+#20000000
+0$
+0(
+0)
+0O"
+0?#
+#21000000
+1$
+1(
+1)
+1O"
+1?#
+#22000000
+0$
+0(
+0)
+0O"
+0?#
+#23000000
+1$
+1(
+1)
+1O"
+1?#
+#24000000
+0$
+0(
+0)
+0O"
+0?#
+#25000000
+1$
+1(
+1)
+1O"
+1?#
+#26000000
+0$
+0(
+0)
+0O"
+0?#
+#27000000
+1$
+1(
+1)
+1O"
+1?#
+#28000000
+0$
+0(
+0)
+0O"
+0?#
+#29000000
+1$
+1(
+1)
+1O"
+1?#
+#30000000
+0$
+0(
+0)
+0O"
+0?#
+#31000000
+1$
+1(
+1)
+1O"
+1?#
+#32000000
+0$
+0(
+0)
+0O"
+0?#
+#33000000
+1$
+1(
+1)
+1O"
+1?#
+#34000000
+0$
+0(
+0)
+0O"
+0?#
+#35000000
+1$
+1(
+1)
+1O"
+1?#
+#36000000
+0$
+0(
+0)
+0O"
+0?#
+#37000000
+1$
+1(
+1)
+1O"
+1?#
+#38000000
+0$
+0(
+0)
+0O"
+0?#
+#39000000
+1$
+1(
+1)
+1O"
+1?#
+#40000000
+b11000000 !
+0$
+b11000000 %
+0(
+0)
+0O"
+0?#
+#41000000
+1$
+1(
+1)
+1O"
+1?#
+#42000000
+b01000100 !
+0$
+b01000100 %
+0(
+0)
+0O"
+0?#
+#43000000
+1$
+1(
+1)
+1O"
+1?#
+#44000000
+b11000000 !
+0$
+b11000000 %
+0(
+0)
+0O"
+0?#
+#45000000
