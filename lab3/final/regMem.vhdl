@@ -51,21 +51,12 @@ architecture behav of regMem is
 				when others =>
 					reg2Data <= r0;
 			end case;
-            case dstReg is
-				when "00" => 
-					rdData <= r0;
-				when "01" =>
-					rdData <= r1;
-				when "10" => 
-					rdData <= r2;
-				when "11" =>
-					rdData <= r3;
-				when others =>
-					rdData <= r0;
-			end case;
+            
 		end if;
 		if (falling_edge(clock)) then
-			if writeEn = '1' then
+			
+            
+            if writeEn = '1' then
 				case dstReg is
 					when "00" => 
 						r0 <= writeData;
@@ -79,6 +70,15 @@ architecture behav of regMem is
 						r0 <= writeData;
 				end case;
 			end if;
+            
+            
 		end if;
 	end process;
+
+    rdData <=   r0 when dstReg = "00" else
+                r1 when dstReg = "01" else
+                r2 when dstReg = "10" else
+                r3;
+    
+    
 end behav;
