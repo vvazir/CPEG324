@@ -11,22 +11,20 @@ port(
 end shift_reg;
 
 architecture behav of shift_reg is
-	signal storage : std_logic_vector (2 downto 0) := (others =>'0');
+	signal storage : std_logic_vector (1 downto 0) := (others =>'0');
 begin
 	process(clock)
 	begin
-		if (rising_edge(clock)) then
-			case sel(0) is
-				when '1' => -- Load 
-					storage(0)<='0';
-					storage(1)<='1';
-					storage(2)<=I_SHIFT_IN;					
-				when '0' => -- Shift Right
+		if (falling_edge(clock)) then
+			case sel is
+				when "1" => -- Load 
+					storage(0)<='1';
+					storage(1)<=I_SHIFT_IN;					
+				when "0" => -- Shift Right
 					storage(0)<= storage(1);
-					storage(1)<= storage(2);
-					storage(2) <= '0';
+					storage(1) <= '0';
 				when others =>
-					storage <= "000";
+					storage <= "00";
 			end case;
 		end if;
 	end process;

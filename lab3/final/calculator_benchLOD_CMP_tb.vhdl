@@ -361,8 +361,8 @@ process
 			wait for 1 ns;
 			--  Check the outputs.
 			--assert en = patterns(n).en report "Display not enabled" severity error;
-			if clock='1' then
-                assert ((en /= '1')) report "" & integer'image(to_integer(signed(data)));
+			if (clock='1' and en = '1') then
+                report "" & integer'image(to_integer(signed(data)));
 			end if;
 		end loop;
 		

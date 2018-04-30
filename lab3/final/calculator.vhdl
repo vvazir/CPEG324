@@ -144,7 +144,8 @@ signal  twosCompSig:    std_logic_vector(7 downto 0);
 
 
 --mux signals
-
+signal  regSelMuxSig:        std_logic_vector(7 downto 0);
+--
 signal  skipMuxSig:        std_logic_vector(0 downto 0);
 --skipmux,shiftreg
 signal  compMuxSig:        std_logic_vector(0 downto 0);
@@ -227,14 +228,16 @@ end process;
 -- 0/1
 controlMain:    control         port map(op0,op1,skipShiftToControlSig,op6,op7,
 cregmem,ctwosum,cimmmux,ccompmux,cdispen,cskipmux,clodmux);
+regSelMux:      mux             generic map(width => 8)
+                                port map(regDataSigOne,dOutSig,regSelMuxSig,ccompmux);
 skipMux:        mux             generic map(width => 1)
-                                port map("0",compMuxSig,skipMuxSig,cskipmux);
+                                port map(compMuxSig,"0",skipMuxSig,cskipmux);
 compMux:        mux             generic map(width => 1)
                                 port map(zeroSig,"0",compMuxSig,ccompmux);
 immMux:         mux             generic map(width => 8)
                                 port map(signExtendSig,twosMuxSig,immMuxSig,cimmmux);
 lodMux:         mux             generic map(width => 8)
-                                port map("00000000",regDataSigOne,lodMuxSig,clodmux);
+                                port map("00000000",regSelMuxSig,lodMuxSig,clodmux);
 twosMux:        mux             generic map(width => 8)
                                 port map(twosCompSig,regDataSigTwo,twosMuxSig,ctwosum);
 twosComp:       compliment      port map(regDataSigTwo,twosCompSig);
@@ -246,6 +249,6 @@ signExt:        sign_extend     port map(imm,signExtendSig);
 
 DispEn <= cdispen;
 clkSig <= clk;
-DataOut <= dOutSig;
+DataOut <= regSelMuxSig;
 
 end beh;
