@@ -1,0 +1,3 @@
+lod r0 0000
+lod r1 0001
+cmp r0 r1 1			# compare r0 to r1 this should be equal and jump 1
