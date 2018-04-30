@@ -218,15 +218,15 @@ imm <= OpCode(3 downto 0);
 controlMain:    control         port map(op0,op1,skipShiftToControlSig,op6,op7,
 cregmem,ctwosum,cimmmux,ccompmux,cdispen,cskipmux,clodmux);
 skipMux:        mux             generic map(width => 1)
-                                port map(compMuxSig,"0",skipMuxSig,cskipmux);
+                                port map("0",compMuxSig,skipMuxSig,cskipmux);
 compMux:        mux             generic map(width => 1)
-                                port map("0",zeroSig,compMuxSig,ccompmux);
+                                port map(zeroSig,"0",compMuxSig,ccompmux);
 immMux:         mux             generic map(width => 8)
-                                port map(twosMuxSig,signExtendSig,immMuxSig,cimmmux);
+                                port map(signExtendSig,twosMuxSig,immMuxSig,cimmmux);
 lodMux:         mux             generic map(width => 8)
-                                port map(regDataSigOne,"00000000",lodMuxSig,clodmux);
+                                port map("00000000",regDataSigOne,lodMuxSig,clodmux);
 twosMux:        mux             generic map(width => 8)
-                                port map(regDataSigTwo,twosCompSig,twosMuxSig,ctwosum);
+                                port map(twosCompSig,regDataSigTwo,twosMuxSig,ctwosum);
 twosComp:       compliment      port map(regDataSigTwo,twosCompSig);
 regMem0:        regMem          port map(r1,r2,rd,cregmem,aluSig,clkSig,regDataSigOne,regDataSigTwo);
 ALU:            eightbitadder   port map(lodMuxSig,immMuxSig,'0',aluSig);
