@@ -48,7 +48,9 @@ for i,line in enumerate(binCode):
     if i!=len(binCode)-1:
         binCode[i]= binCode[i] + ","
     else:
-        binCode[i] = zeroLine + ", '0')\n"
+        binCode[i] = zeroLine + ", '0'),\n"
+        binCode[i] += zeroLine + ", '1')\n"
+		
     binCode[i] += "-- At {} ns\n".format(i*2)
 file = open(fileName,"w")
 for line in newFile[:patternStart]+binCode+newFile[patternStart+1:]:

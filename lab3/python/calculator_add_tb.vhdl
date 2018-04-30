@@ -2,10 +2,10 @@ library ieee;
 use ieee.std_logic_1164.all;
 use IEEE.NUMERIC_STD.ALL;
 --  A testbench has no ports.
-entity calculator_$testName$_tb is
-end calculator_$testName$_tb;
+entity calculator_add_tb is
+end calculator_add_tb;
 
-architecture behav of calculator_$testName$_tb is
+architecture behav of calculator_add_tb is
 --  Declaration of the component that will be instantiated.
 component calculator
 port (	OpCode:     in      std_logic_vector(7 downto 0);
@@ -39,7 +39,52 @@ process
 	type pattern_array is array (natural range <>) of pattern_type;
 	constant patterns : pattern_array :=
 		(
-			$patterns$
+("00010111", '0'),
+("00010111", '1'),-- At 0 ns
+("00101111", '0'),
+("00101111", '1'),-- At 2 ns
+("11100000", '0'),
+("11100000", '1'),-- At 4 ns
+("01000110", '0'),
+("01000110", '1'),-- At 6 ns
+("01000100", '0'),
+("01000100", '1'),-- At 8 ns
+("01000100", '0'),
+("01000100", '1'),-- At 10 ns
+("01000100", '0'),
+("01000100", '1'),-- At 12 ns
+("01000100", '0'),
+("01000100", '1'),-- At 14 ns
+("01000100", '0'),
+("01000100", '1'),-- At 16 ns
+("01000100", '0'),
+("01000100", '1'),-- At 18 ns
+("01000100", '0'),
+("01000100", '1'),-- At 20 ns
+("01000100", '0'),
+("01000100", '1'),-- At 22 ns
+("01000100", '0'),
+("01000100", '1'),-- At 24 ns
+("01000100", '0'),
+("01000100", '1'),-- At 26 ns
+("01000100", '0'),
+("01000100", '1'),-- At 28 ns
+("01000100", '0'),
+("01000100", '1'),-- At 30 ns
+("01000100", '0'),
+("01000100", '1'),-- At 32 ns
+("01000100", '0'),
+("01000100", '1'),-- At 34 ns
+("01000100", '0'),
+("01000100", '1'),-- At 36 ns
+("01000100", '0'),
+("01000100", '1'),-- At 38 ns
+("11000000", '0'),
+("11000000", '1'),-- At 40 ns
+("01000100", '0'),
+("01000100", '1'),-- At 42 ns
+("11000000", '1')
+-- At 44 ns
 		);
 	begin
 		--  Check each pattern.
