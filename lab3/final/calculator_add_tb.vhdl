@@ -98,7 +98,9 @@ process
 			--  Check the outputs.
 			--assert en = patterns(n).en report "Display not enabled" severity error;
 				--assert data = patterns(n).data report "Incorrect print data" severity error;
-			assert en /= '1' report "" & integer'image(to_integer(unsigned(data)));
+			--assert en /= '1' report "" & integer'image(to_integer(unsigned(data)));
+			assert n mod 2 = 0 report "" & integer'image(to_integer(unsigned(data)));
+			
 			--report ""& integer'image(to_integer(unsigned(control)));
 		end loop;
 		

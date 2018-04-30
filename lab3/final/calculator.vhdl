@@ -215,6 +215,7 @@ imm <= OpCode(3 downto 0);
 --4 controller, DispEn
 --5 controller, skipMux
 --6 controller, lodmux
+-- 0/1
 controlMain:    control         port map(op0,op1,skipShiftToControlSig,op6,op7,
 cregmem,ctwosum,cimmmux,ccompmux,cdispen,cskipmux,clodmux);
 skipMux:        mux             generic map(width => 1)
