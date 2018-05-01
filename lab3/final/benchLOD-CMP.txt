@@ -11,14 +11,14 @@ lod r3 1111			# load -1 into r3
 cmp r0 r1 1			# compare r0 to r1 this should be equal and jump 1
 dsp r3				# testing case: values equal 1 line jump
 dsp r2
-cmp r0 r1 1			# compare r0 to r1 this should be equal and jump 2
+cmp r0 r1 2			# compare r0 to r1 this should be equal and jump 2
 dsp r3				# testing case: values equal 2 line jump
-#dsp r3
+dsp r3
 dsp r2
-cmp r0 r2 1			# compare r0 to r2 this should be unequal and not jump
-cmp r3 r3 1			# testing case: values unequal 2 step jump
+cmp r0 r2 2			# compare r0 to r2 this should be unequal and not jump
+cmp r3 r3 2			# testing case: values unequal 2 step jump
 dsp r2
-#dsp r3
+dsp r3
 dsp r2
 cmp r0 r3 1			# compare r0 to r3 this should be unequal and not jump
 cmp r0 r1 1			# testing case vales unequal 1 step jump
@@ -27,13 +27,9 @@ dsp r2
 cmp r0 r0 1			# compare r0 to r0 this should be equal and jump
 dsp r3				# testing case values equal 1 step jump
 dsp r2				# using same register
-cmp r0 r0 1			# compare r0 to r0 this should be equal and jump
+cmp r0 r0 2			# compare r0 to r0 this should be equal and jump
 dsp r3				# testing case values equal 2 step jump
 cmp r0 r1 1			# using same register
 dsp r2
 dsp r0
 dsp r0
-cmp r0 r0 2
-dsp r3
-dsp r3
-dsp r2
