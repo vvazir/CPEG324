@@ -16,19 +16,19 @@ begin
 	process(clock)
 	begin
 		if (rising_edge(clock)) then
-			case sel is
-				when "1" => -- Load 
-					storage(0)<='1';
-					storage(1)<=I_SHIFT_IN;
-					storage(2)<=I_SHIFT_IN;					
-				when "0" => -- Shift Right
-					storage(0)<= storage(1);
-					storage(1)<= storage(2);
-					storage(2)<= '0';		
-				when others =>
-					storage <= "000";
-			end case;
+			storage(0)<= storage(1);
+			storage(1)<= storage(2);
+			storage(2)<= '0';		
 		end if;
+	end process;
+	process(sel)
+	begin
+		if sel="1" then
+			storage(0)<='1';
+			storage(1)<=I_SHIFT_IN;
+			storage(2)<=I_SHIFT_IN;
+		end if;
+		
 	end process;
 	O<=storage(0);
 end behav;
