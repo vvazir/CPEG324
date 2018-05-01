@@ -38,5 +38,5 @@ lod r3 0101
 lod r2 1111
 cmp r0 r3 1
 dsp r2
-#dsp r2
+dsp r2
 dsp r1
