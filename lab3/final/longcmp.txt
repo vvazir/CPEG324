@@ -33,7 +33,7 @@ cmp r0 r1 1			# using same register
 dsp r2
 dsp r0
 dsp r0
-cmp r0 r1 1
+cmp r0 r1 2
 dsp r3
 dsp r3
 dsp r2
