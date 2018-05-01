@@ -16,7 +16,7 @@ dsp r3				# testing case: values equal 2 line jump
 #dsp r3
 dsp r2
 cmp r0 r2 1			# compare r0 to r2 this should be unequal and not jump
-cmp r3 r3 1			# testing case: values unequal 2 step jump
+#cmp r3 r3 1			# testing case: values unequal 2 step jump
 dsp r2
 #dsp r3
 dsp r2
@@ -36,7 +36,7 @@ dsp r0
 lod r1 0001
 lod r3 0101
 lod r2 1111
-cmp r0 r3 2
+cmp r0 r3 1
 dsp r2
-dsp r2
+#dsp r2
 dsp r1

@@ -25,12 +25,6 @@ begin
 			end if;
 		end if;
 	end process;
-	process(sel)
-	begin
-		if (rising_edge(sel(0))) then
-			
-		end if;
-	end process;
 	O<=storage(0);
 end behav;
 
