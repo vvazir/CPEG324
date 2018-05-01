@@ -52,7 +52,7 @@ process
 			--  Check the outputs.
 			--assert en = patterns(n).en report "Display not enabled" severity error;
 			if clock='1' then
-                assert ((en /= '1')) report "" & integer'image(to_integer(signed(data)));
+                assert ((en /= '1')) report "" & integer'image(to_integer(signed(data)))& " " & integer'image(42+n);
 			end if;
 		end loop;
 		

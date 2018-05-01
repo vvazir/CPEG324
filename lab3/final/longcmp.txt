@@ -31,12 +31,12 @@ cmp r0 r0 1			# compare r0 to r0 this should be equal and jump
 dsp r3				# testing case values equal 2 step jump
 cmp r0 r1 1			# using same register
 dsp r2
-dsp r0
-dsp r0
+lod r3 0111
+dsp r3
 lod r1 0001
 lod r3 0101
 lod r2 1111
-cmp r0 r3 1
+cmp r0 r3 2
 dsp r2
-dsp r2
+dsp r3
 dsp r1
