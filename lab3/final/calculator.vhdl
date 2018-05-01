@@ -229,7 +229,7 @@ end process;
 controlMain:    control         port map(op0,op1,skipShiftToControlSig,op6,op7,
 cregmem,ctwosum,cimmmux,ccompmux,cdispen,cskipmux,clodmux);
 regSelMux:      mux             generic map(width => 8)
-                                port map(regDataSigTwo,dOutSig,regSelMuxSig,ccompmux);
+                                port map(dOutSig,regDataSigTwo,regSelMuxSig,ccompmux);
 skipMux:        mux             generic map(width => 1)
                                 port map(compMuxSig,"0",skipMuxSig,cskipmux);
 compMux:        mux             generic map(width => 1)

@@ -33,7 +33,9 @@ cmp r0 r1 1			# using same register
 dsp r2
 dsp r0
 dsp r0
-cmp r0 r1 2
+lod r1 0001
+lod r2 0101
+cmp r0 r2 2
 dsp r3
 dsp r3
-dsp r2
+dsp r1
