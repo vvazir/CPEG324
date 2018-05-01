@@ -229,7 +229,7 @@ end process;
 controlMain:    control         port map(op0,op1,skipShiftToControlSig,op6,op7,
 cregmem,ctwosum,cimmmux,ccompmux,cdispen,cskipmux,clodmux);
 regSelMux:      mux             generic map(width => 8)
-                                port map(regDataSigOne,dOutSig,regSelMuxSig,ccompmux);
+                                port map(regDataSigTwo,dOutSig,regSelMuxSig,ccompmux);
 skipMux:        mux             generic map(width => 1)
                                 port map(compMuxSig,"0",skipMuxSig,cskipmux);
 compMux:        mux             generic map(width => 1)
@@ -237,10 +237,10 @@ compMux:        mux             generic map(width => 1)
 immMux:         mux             generic map(width => 8)
                                 port map(signExtendSig,twosMuxSig,immMuxSig,cimmmux);
 lodMux:         mux             generic map(width => 8)
-                                port map("00000000",regSelMuxSig,lodMuxSig,clodmux);
+                                port map("00000000",regDataSigOne,lodMuxSig,clodmux);
 twosMux:        mux             generic map(width => 8)
                                 port map(twosCompSig,regDataSigTwo,twosMuxSig,ctwosum);
-twosComp:       compliment      port map(regDataSigTwo,twosCompSig);
+twosComp:       compliment      port map(regSelMuxSig,twosCompSig);
 regMem0:        regMem          port map(r1,r2,rd,cregmem,aluSig,clkSig,regDataSigOne,regDataSigTwo,dOutSig);
 ALU:            eightbitadder   port map(lodMuxSig,immMuxSig,'0',aluSig);
 zeroCheck0:     zeroCheck       port map(aluSig,zeroSig);
@@ -249,6 +249,6 @@ signExt:        sign_extend     port map(imm,signExtendSig);
 
 DispEn <= cdispen;
 clkSig <= clk;
-DataOut <= regSelMuxSig;
+DataOut <= dOutSig;
 
 end beh;

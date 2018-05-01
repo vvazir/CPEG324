@@ -22,7 +22,7 @@ architecture behavioral of CONTROL is
 
 	begin	
 		WRITE_EN <= (not SKIP) and (not(OP_6 and OP_7));
-		TWO_EN <= not(OP_7 and (not(OP_6)));
+		TWO_EN <= not(OP_7 and (not(OP_6))) and (not ((OP_6 and OP_7) and (OP_0 xor OP_1)));
 		IMM_EN <= ((OP_6 or OP_7));
 		CMP_EN <= not ((OP_6 and OP_7) and (OP_0 xor OP_1));
 		DISP_EN <= ((OP_6 and OP_7) and (not(OP_0 xor OP_1))) and not(SKIP);
