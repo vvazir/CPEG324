@@ -34,8 +34,9 @@ dsp r2
 dsp r0
 dsp r0
 lod r1 0001
-lod r2 0101
-cmp r0 r2 1
-dsp r3
-dsp r3
+lod r3 0101
+lod r2 1111
+cmp r0 r3 2
+dsp r2
+dsp r2
 dsp r1
