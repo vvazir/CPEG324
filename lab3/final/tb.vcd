@@ -1,5 +1,5 @@
 $date
-  Tue May 01 14:02:27 2018
+  Tue May 01 14:04:37 2018
 $end
 $version
   GHDL v0
@@ -307,7 +307,7 @@ $var reg 1 K# i_shift_in $end
 $var reg 1 L# sel[0:0] $end
 $var reg 1 M# clock $end
 $var reg 1 N# o $end
-$var reg 3 O# storage[2:0] $end
+$var reg 2 O# storage[1:0] $end
 $upscope $end
 $scope module signext $end
 $var reg 4 P# input[3:0] $end
@@ -548,7 +548,7 @@ UK#
 b0 L#
 0M#
 0N#
-b000 O#
+b00 O#
 bUUUU P#
 bUUUUUUUU Q#
 #1000000
@@ -1624,7 +1624,7 @@ b1 J#
 b0 L#
 1M#
 XN#
-b00X O#
+b0X O#
 b0101 P#
 b00000101 Q#
 #22000000
