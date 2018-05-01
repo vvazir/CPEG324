@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use IEEE.NUMERIC_STD.ALL;
+
 --  A testbench has no ports.
 entity calculator_bench_tb is
 end calculator_bench_tb;
@@ -8,17 +9,20 @@ end calculator_bench_tb;
 architecture behav of calculator_bench_tb is
 --  Declaration of the component that will be instantiated.
 component calculator
+
 port (	OpCode:     in      std_logic_vector(7 downto 0);
 		DataOut:    out     std_logic_vector(7 downto 0);
 		DispEn:     out     std_logic;
 		clk:		in		std_logic
 );
 end component;
+
 --  Specifies which entity is bound with the component.
 -- for shift_reg_0: shift_reg use entity work.shift_reg(rtl);
 signal op, data : std_logic_vector(7 downto 0);
 signal en:	std_logic :='0';
 signal clock:	std_logic;
+
 begin
 --  Component instantiation.
 C1 : calculator
@@ -28,12 +32,8 @@ C1 : calculator
 --  This process does the real job.
 process
 	type pattern_type is record
-	--  The inputs of the shift_reg.
 	op: 	std_logic_vector (7 downto 0);
 	clk:	std_logic;
-	--  The expected outputs of the shift_reg.
---	data: std_logic_vector (7 downto 0);
---	en:std_logic;
 	end record;
 	--  The patterns to apply.
 	type pattern_array is array (natural range <>) of pattern_type;
@@ -425,10 +425,13 @@ process
 			clock <= patterns(n).clk;
 			--  Wait for the results.
 			wait for 1 ns;
-			--  Check the outputs.
-			--assert en = patterns(n).en report "Display not enabled" severity error;
+			--  If disp_en = '1', print out the data in a formated manner.
 			if clock='1' then
-                assert ((en /= '1')) report "" & integer'image(to_integer(signed(data)));
+				if ((to_integer(signed(data)))<0) then
+					assert ((en /= '1')) report "-" & integer'image(((-1*to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((-1*to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((-1*to_integer(signed(data))) mod 100)/10)&"" & integer'image((-1*to_integer(signed(data))) mod 10) severity note;
+				else
+					assert ((en /= '1')) report "" & integer'image(((to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((to_integer(signed(data))) mod 100)/10)&"" & integer'image((to_integer(signed(data))) mod 10)severity note;
+				end if;
 			end if;
 		end loop;
 		
