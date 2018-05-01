@@ -15,7 +15,7 @@ architecture behav of shift_reg is
 begin
 	process(clock)
 	begin
-		if (rising_edge(clock)) then
+		if (falling_edge(clock)) then
 			if sel="1" then
 				storage(0)<='1';
 				storage(1)<=I_SHIFT_IN;
