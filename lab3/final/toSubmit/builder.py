@@ -25,10 +25,10 @@ components=[
 	"zeroCheck"
 ]
 for comp in components:
-	subprocess.run(['ghdl -a--ieee=standard {}'.format(comp+ext)],shell=True)
-subprocess.run(['python compiler.py {}'.format(testBench)],shell = True)
-subprocess.run(['ghdl -a --ieee=standard {}'.format(vhdlTB+ext)],shell=True)
-subprocess.run(['ghdl -e --ieee=standard {}'.format(vhdlTB)],shell=True)
-subprocess.run(['ghdl -r --ieee=standard {} --vcd={}'.format(vhdlTB,vcd)],shell=True)
+	subprocess.run('ghdl -a --ieee=standard {}'.format(comp+ext),shell=True)
+subprocess.run('python compiler.py {}'.format(testBench),shell = True)
+subprocess.run('ghdl -a --ieee=standard {}'.format(vhdlTB+ext),shell=True)
+subprocess.run('ghdl -e --ieee=standard {}'.format(vhdlTB),shell=True)
+subprocess.run('ghdl -r --ieee=standard {} --vcd={}'.format(vhdlTB,vcd),shell=True)
 if (show):
-	subprocess.run(['gtkwave {}'.format(vcd)],shell=True)
+	subprocess.run('gtkwave {}'.format(vcd),shell=True)
