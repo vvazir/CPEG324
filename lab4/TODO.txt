@@ -1,0 +1,11 @@
+opcodes 
+lod 00xxxxxx
+add 01xxxxxx
+sub 10xxxxxx
+dsp 11xxxx00
+cmp 11xxxx01
+cmp 11xxxx10
+nop 11xxxx11
+
+TODO:
+add register component
