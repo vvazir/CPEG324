@@ -15,6 +15,10 @@ TODO:
     - inputs:
         -ALU out
         -normal disp out
+        -cmp out
+        -nop out
+            - will need to update the disp component so it outputs a flag indicating a nop
+                - is this necessary if we do data forwarding? it seems like nops are used for bubble insertions
         
 - insert interstage registers (3)
 - update control box
