@@ -8,4 +8,15 @@ cmp 11xxxx10
 nop 11xxxx11
 
 TODO:
-add register component
+- add register component
+    - already exists, just add in
+    
+- add mux (display select)
+    - inputs:
+        -ALU out
+        -normal disp out
+        
+- insert interstage registers (3)
+- update control box
+
+
