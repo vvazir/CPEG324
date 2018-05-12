@@ -8,9 +8,6 @@ cmp 11xxxx10
 nop 11xxxx11
 
 TODO:
-- add register component
-    - already exists, just add in
-    
 - add mux (display select) -> (3 muxes, [alu and norm],[cmp and nop], these two into a third.)
     - inputs:
         - ALU out
@@ -23,10 +20,11 @@ TODO:
     - rg1out || aluout
     - rg2out || aluout
     - rDout || aluout
-        
-- insert interstage registers (3)
 - update control box
 
+- Do we need interstage for skipReg????
+    - How will we handle it
+    - Just increase size of shift register, not much logic change
 
 
 
