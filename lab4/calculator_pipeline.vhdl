@@ -111,6 +111,21 @@ port(
 );
 end component;
 
+
+--reg
+component reg is
+generic (
+	width : integer := 8
+	
+);
+port(
+	din : in std_logic_vector(width-1 downto 0);
+	dout : out std_logic_vector(width-1 downto 0):= (others =>'0');
+	clock : in std_logic
+);
+end component;
+
+
 --SIGNALS
 --clock
 signal clkSig:          std_logic;
@@ -246,6 +261,11 @@ ALU:            eightbitadder   port map(lodMuxSig,immMuxSig,'0',aluSig);
 zeroCheck0:     zeroCheck       port map(aluSig,zeroSig);
 sreg0:          shift_reg       port map(op1,skipMuxSig,clkSig,skipShiftToControlSig);
 signExt:        sign_extend     port map(imm,signExtendSig);
+istageEXEWB:    reg             generic map(width => 24)
+                                port map();
+istageIDEXE:    reg             generic map(width => 24)
+                                port map();
+
 
 DispEn <= cdispen;
 clkSig <= clk;

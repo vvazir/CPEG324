@@ -11,16 +11,23 @@ TODO:
 - add register component
     - already exists, just add in
     
-- add mux (display select)
+- add mux (display select) -> (3 muxes, [alu and norm],[cmp and nop], these two into a third.)
     - inputs:
-        -ALU out
-        -normal disp out
-        -cmp out
-        -nop out
+        - ALU out
+        - normal disp out
+        - cmp out
+        - nop out
             - will need to update the disp component so it outputs a flag indicating a nop
                 - is this necessary if we do data forwarding? it seems like nops are used for bubble insertions
+- 3 muxes
+    - rg1out || aluout
+    - rg2out || aluout
+    - rDout || aluout
         
 - insert interstage registers (3)
 - update control box
 
 
+
+
+idexe: doutsig.,regdatsigone,regdatsig 2
