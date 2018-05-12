@@ -262,7 +262,7 @@ end process;
 controlMain:    control         port map(op0,op1,skipShiftToControlSig,op6,op7,
 cregmem,ctwosum,cimmmux,ccompmux,cdispen,cskipmux,clodmux);
 regSelMux:      mux             generic map(width => 8)
-                                port map(dOutSig,regDataSigTwo,regSelMuxSig,ccompmux);
+                                port map(ISRegIDEXESigDOut,ISRegIDEXESigTwo,regSelMuxSig,ccompmux);
 skipMux:        mux             generic map(width => 1)
                                 port map(compMuxSig,"0",skipMuxSig,cskipmux);
 compMux:        mux             generic map(width => 1)
@@ -270,12 +270,12 @@ compMux:        mux             generic map(width => 1)
 immMux:         mux             generic map(width => 8)
                                 port map(signExtendSig,twosMuxSig,immMuxSig,cimmmux);
 lodMux:         mux             generic map(width => 8)
-                                port map("00000000",regDataSigOne,lodMuxSig,clodmux);
+                                port map("00000000",ISRegIDEXESigOne,lodMuxSig,clodmux);
 twosMux:        mux             generic map(width => 8)
-                                port map(twosCompSig,regDataSigTwo,twosMuxSig,ctwosum);
+                                port map(twosCompSig,ISRegIDEXESigTwo,twosMuxSig,ctwosum);
 twosComp:       compliment      port map(regSelMuxSig,twosCompSig);
 
-regMem0:        regMem          port map(r1,r2,rd,cregmem,aluSig,clkSig,regDataSigOne,regDataSigTwo,dOutSig);
+regMem0:        regMem          port map(r1,r2,rd,cregmem,ISRegEXEWBSigALU,clkSig,regDataSigOne,regDataSigTwo,dOutSig);
 
 ALU:            eightbitadder   port map(lodMuxSig,immMuxSig,'0',aluSig);
 
@@ -293,6 +293,6 @@ istageEXEWB:    reg             generic map(width => 9)
 
 DispEn <= cdispen;
 clkSig <= clk;
-DataOut <= dOutSig;
+DataOut <= ISRegEXEWBSigALU;
 
 end beh;
