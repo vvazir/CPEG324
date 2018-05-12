@@ -8,7 +8,6 @@ port(
     OpCode:     in      std_logic_vector(7 downto 0);
     DataOut:    out     std_logic_vector(7 downto 0);
     DispEn:     out     std_logic;
-    NOP:        out     std_logic;
     clk:        in      std_logic);
 end calculator;
 
@@ -211,7 +210,7 @@ signal imm:             std_logic_vector(3 downto 0) := OpCode(3 downto 0);
 
 --output signals
 signal dOutSig:         std_logic_vector(7 downto 0);
-signal nop:             std_logic :='0';
+
 
 begin
 
@@ -257,19 +256,26 @@ lodMux:         mux             generic map(width => 8)
 twosMux:        mux             generic map(width => 8)
                                 port map(twosCompSig,regDataSigTwo,twosMuxSig,ctwosum);
 twosComp:       compliment      port map(regSelMuxSig,twosCompSig);
+
 regMem0:        regMem          port map(r1,r2,rd,cregmem,aluSig,clkSig,regDataSigOne,regDataSigTwo,dOutSig);
+
 ALU:            eightbitadder   port map(lodMuxSig,immMuxSig,'0',aluSig);
+
 zeroCheck0:     zeroCheck       port map(aluSig,zeroSig);
+
 sreg0:          shift_reg       port map(op1,skipMuxSig,clkSig,skipShiftToControlSig);
+
 signExt:        sign_extend     port map(imm,signExtendSig);
-istageEXEWB:    reg             generic map(width => 24)
-                                port map();
+
 istageIDEXE:    reg             generic map(width => 24)
-                                port map();
+                                port map(regDataSigOne&regDataSigTwo&dOutSig);
+istageEXEWB:    reg             generic map(width => 9)
+                                port map(aluSig&zeroSig);
+
 
 
 DispEn <= cdispen;
 clkSig <= clk;
 DataOut <= dOutSig;
-NOP <= nop;
+
 end beh;
