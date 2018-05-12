@@ -20,9 +20,13 @@ component control is
  port(
         OP_0:       in  std_logic;
         OP_1:       in  std_logic;
-        SKIP:       in  std_logic;
+        OP_2:       in  std_logic;
+        OP_3:       in  std_logic;
+        OP_4:       in  std_logic;
+        OP_5:       in  std_logic;
         OP_6:       in  std_logic;
         OP_7:       in  std_logic;
+        SKIP:       in  std_logic;      
 		
         WRITE_EN:   out std_logic;
         TWO_EN:     out std_logic;
@@ -197,6 +201,19 @@ signal  zeroSig:            std_logic_vector(0 downto 0);
 signal  signExtendSig:      std_logic_vector(7 downto 0);
 --signext,immmux
 
+--interstage register outs
+--idexe
+signal  ISRegIDEXESigDOut:   std_logic_vector(7 downto 0);
+signal  ISRegIDEXESigOne:    std_logic_vector(7 downto 0);
+signal  ISRegIDEXESigTwo:    std_logic_vector(7 downto 0);
+
+--exeWb
+signal  ISRegEXEWBSigALU:     std_logic_vector(7 downto 0);
+signal  ISRegIDEXESigDZero:   std_logic_vector(0 downto 0);
+
+--not clk
+signal  notclk:         std_logic;
+
 
 --parsing input
 signal  op0:            std_logic := OpCode(0);
@@ -268,9 +285,9 @@ sreg0:          shift_reg       port map(op1,skipMuxSig,clkSig,skipShiftToContro
 signExt:        sign_extend     port map(imm,signExtendSig);
 
 istageIDEXE:    reg             generic map(width => 24)
-                                port map(regDataSigOne&regDataSigTwo&dOutSig);
+                                port map(regDataSigOne&regDataSigTwo&dOutSig,ISRegIDEXESigOne&ISRegIDEXESigTwo&ISRegIDEXESigDOut,notclk);
 istageEXEWB:    reg             generic map(width => 9)
-                                port map(aluSig&zeroSig);
+                                port map(aluSig&zeroSig,ISRegEXEWBSigALU&ISRegIDEXESigDZero,notclk);
 
 
 

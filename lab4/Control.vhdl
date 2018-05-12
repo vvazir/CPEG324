@@ -5,9 +5,13 @@ entity control is
     port(
         OP_0:       in  std_logic;
         OP_1:       in  std_logic;
-        SKIP:       in  std_logic;
+        OP_2:       in  std_logic;
+        OP_3:       in  std_logic;
+        OP_4:       in  std_logic;
+        OP_5:       in  std_logic;
         OP_6:       in  std_logic;
         OP_7:       in  std_logic;
+        SKIP:       in  std_logic;
 		
         WRITE_EN:   out std_logic;
         TWO_EN:     out std_logic;
