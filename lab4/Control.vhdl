@@ -12,7 +12,14 @@ entity control is
         OP_6:       in  std_logic;
         OP_7:       in  std_logic;
         SKIP:       in  std_logic;
-		
+        
+        clk:        in  std_logic;
+
+        --Data forwarding
+        INP_1:      out std_logic;
+        INP_2:      out std_logic;        
+
+        --ControlOut  out std_logic_vector(26 downto 0)
         WRITE_EN:   out std_logic;
         TWO_EN:     out std_logic;
         IMM_EN:     out std_logic;
@@ -23,14 +30,49 @@ entity control is
 end control;
 
 architecture behavioral of CONTROL is
+    --reg
+    component reg is
+    generic (
+        width : integer := 8    
+    );
+    port(
+        din : in std_logic_vector(width-1 downto 0);
+        dout : out std_logic_vector(width-1 downto 0):= (others =>'0');
+        clock : in std_logic
+    );
+    end component;
+    
+    signal IDEXEOP:      std_logic_vector(7 downto 0);
+    signal IDEXESK:      std_logic;
 
-	begin	
-		WRITE_EN <= (not SKIP) and (not(OP_6 and OP_7));
-		TWO_EN <= not(OP_7 and (not(OP_6))) and (not ((OP_6 and OP_7) and (OP_0 xor OP_1)));
-		IMM_EN <= ((OP_6 or OP_7));
-		CMP_EN <= not ((OP_6 and OP_7) and (OP_0 xor OP_1));
-		DISP_EN <= ((OP_6 and OP_7) and (not(OP_0 xor OP_1))) and not(SKIP);
-		SKP_PASS <= SKIP;
-		LOD <= (OP_6 or OP_7);
+    signal EXEWBOP:      std_logic_vector(7 downto 0);
+    signal EXEWBSK:      std_logic;
+
+    signal notclk:       std_logic;
+    
+    signal imp:           std_logic_vector(8 downto 0);
+    signal inter1:        std_logic_vector(8 downto 0);
+    signal inter2:        std_logic_vector(8 downto 0);
+    begin	
+        notclk  <= clk;
+        imp <=OP_7&OP_6&OP_5&OP_4&OP_3&OP_2&OP_1&OP_0&SKIP;
+        IDEXEOP<=inter1(8 downto 1);
+        IDEXESK<=inter1(0);
+        EXEWBOP<=inter2(8 downto 1);
+        EXEWBSK<=inter2(0);
+        istageIDEXE:    reg     generic map(width => 9)
+                                port map(imp,inter1,notclk);
+        istageEXEWB:    reg     generic map(width => 9)
+                                port map(inter1,inter2,notclk);
+
+		WRITE_EN <= (not EXEWBSK) and (not(EXEWBOP(6) and EXEWBOP(7)));
+		TWO_EN <= not(IDEXEOP(7) and (not(IDEXEOP(6)))) and (not ((IDEXEOP(6) and IDEXEOP(7)) and (IDEXEOP(0) xor IDEXEOP(1))));
+		IMM_EN <= ((IDEXEOP(6) or IDEXEOP(7)));
+		CMP_EN <= not ((IDEXEOP(6) and IDEXEOP(7)) and (IDEXEOP(0) xor IDEXEOP(1)));
+		--DISP_EN <= ((OP_6 and OP_7) and (not(OP_0 xor OP_1))) and not(SKIP);
+		SKP_PASS <= EXEWBSK;
+		LOD <= (IDEXEOP(6) or IDEXEOP(7));
+        INP_1 <= (EXEWBOP(5) xnor IDEXEOP(3)) and (EXEWBOP(4) xnor IDEXEOP(2)); 
+        INP_2 <= (EXEWBOP(5) xnor IDEXEOP(1)) and (EXEWBOP(4) xnor IDEXEOP(0));
 
 end behavioral;
