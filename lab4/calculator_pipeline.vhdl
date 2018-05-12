@@ -8,6 +8,7 @@ port(
     OpCode:     in      std_logic_vector(7 downto 0);
     DataOut:    out     std_logic_vector(7 downto 0);
     DispEn:     out     std_logic;
+    NOP:        out     std_logic;
     clk:        in      std_logic);
 end calculator;
 
@@ -195,7 +196,7 @@ signal imm:             std_logic_vector(3 downto 0) := OpCode(3 downto 0);
 
 --output signals
 signal dOutSig:         std_logic_vector(7 downto 0);
-
+signal nop:             std_logic :='0';
 
 begin
 
@@ -250,5 +251,5 @@ signExt:        sign_extend     port map(imm,signExtendSig);
 DispEn <= cdispen;
 clkSig <= clk;
 DataOut <= dOutSig;
-
+NOP <= nop;
 end beh;
