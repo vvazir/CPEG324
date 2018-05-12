@@ -206,6 +206,7 @@ signal  signExtendSig:      std_logic_vector(7 downto 0);
 signal  ISRegIDEXESigDOut:   std_logic_vector(7 downto 0);
 signal  ISRegIDEXESigOne:    std_logic_vector(7 downto 0);
 signal  ISRegIDEXESigTwo:    std_logic_vector(7 downto 0);
+signal  ISRegIDEXESigImm:    std_logic_vector(3 downto 0);
 
 --exeWb
 signal  ISRegEXEWBSigALU:     std_logic_vector(7 downto 0);
@@ -282,14 +283,13 @@ zeroCheck0:     zeroCheck       port map(aluSig,zeroSig);
 
 sreg0:          shift_reg       port map(op1,skipMuxSig,clkSig,skipShiftToControlSig);
 
-signExt:        sign_extend     port map(imm,signExtendSig);
+signExt:        sign_extend     port map(ISRegIDEXESigImm,signExtendSig);
 
-istageIDEXE:    reg             generic map(width => 24)
-                                port map(regDataSigOne&regDataSigTwo&dOutSig,ISRegIDEXESigOne&ISRegIDEXESigTwo&ISRegIDEXESigDOut,notclk);
+istageIDEXE:    reg             generic map(width => 28)
+                                port map(regDataSigOne&regDataSigTwo&dOutSig&imm,ISRegIDEXESigOne&ISRegIDEXESigTwo&ISRegIDEXESigDOut&ISRegIDEXESigImm,notclk);
 istageEXEWB:    reg             generic map(width => 9)
                                 port map(aluSig&zeroSig,ISRegEXEWBSigALU&ISRegIDEXESigDZero,notclk);
-
-
+                                
 
 DispEn <= cdispen;
 clkSig <= clk;
