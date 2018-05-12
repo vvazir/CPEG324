@@ -201,12 +201,19 @@ signal  zeroSig:            std_logic_vector(0 downto 0);
 signal  signExtendSig:      std_logic_vector(7 downto 0);
 --signext,immmux
 
+--interstage register ins
+signal ISRegIDEXEin:    std_logic_vector(27 downto 0) := regDataSigOne&regDataSigTwo&dOutSig&imm;
+signal ISRegEXEWBin:    std_logic_vector(8 downto 0) := aluSig&zeroSig
+
 --interstage register outs
 --idexe
 signal  ISRegIDEXESigDOut:   std_logic_vector(7 downto 0);
 signal  ISRegIDEXESigOne:    std_logic_vector(7 downto 0);
 signal  ISRegIDEXESigTwo:    std_logic_vector(7 downto 0);
 signal  ISRegIDEXESigImm:    std_logic_vector(3 downto 0);
+
+signal  ISRegIDEXESigOut:    std_logic_vector(27 downto 0) := ISRegIDEXESigOne&ISRegIDEXESigTwo&ISRegIDEXESigDOut&ISRegIDEXESigImm;
+signal  ISRegEXEWBSigOut:    std_logic_vector(8 downto 0) := ISRegEXEWBSigALU&ISRegIDEXESigDZero;
 
 --exeWb
 signal  ISRegEXEWBSigALU:     std_logic_vector(7 downto 0);
@@ -290,6 +297,7 @@ signExt:        sign_extend     port map(ISRegIDEXESigImm,signExtendSig);
 
 istageIDEXE:    reg             generic map(width => 28)
                                 port map(regDataSigOne&regDataSigTwo&dOutSig&imm,ISRegIDEXESigOne&ISRegIDEXESigTwo&ISRegIDEXESigDOut&ISRegIDEXESigImm,notclk);
+                                
 istageEXEWB:    reg             generic map(width => 9)
                                 port map(aluSig&zeroSig,ISRegEXEWBSigALU&ISRegIDEXESigDZero,notclk);
                                 
