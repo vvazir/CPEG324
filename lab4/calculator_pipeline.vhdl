@@ -259,8 +259,11 @@ end process;
 --5 controller, skipMux
 --6 controller, lodmux
 -- 0/1
-controlMain:    control         port map(op0,op1,skipShiftToControlSig,op6,op7,
+
+controlMain:    control         port map(op0,op1,op2,op3,op4,op5,op6,op7,skipShiftToControlSig,
 cregmem,ctwosum,cimmmux,ccompmux,cdispen,cskipmux,clodmux);
+
+
 regSelMux:      mux             generic map(width => 8)
                                 port map(ISRegIDEXESigDOut,ISRegIDEXESigTwo,regSelMuxSig,ccompmux);
 skipMux:        mux             generic map(width => 1)
