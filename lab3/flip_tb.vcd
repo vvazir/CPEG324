@@ -1,0 +1,37 @@
+$date
+  Wed Apr 25 20:15:08 2018
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$var reg 8 ! i1[7:0] $end
+$var reg 8 " o[7:0] $end
+$scope module f1 $end
+$var reg 8 # in1[7:0] $end
+$var reg 8 $ out1[7:0] $end
+$upscope $end
+$enddefinitions $end
+#0
+b10010010 !
+b01101101 "
+b10010010 #
+b01101101 $
+#1000000
+b01101101 !
+b10010010 "
+b01101101 #
+b10010010 $
+#2000000
+b10101010 !
+b01010101 "
+b10101010 #
+b01010101 $
+#3000000
+b01010101 !
+b10101010 "
+b01010101 #
+b10101010 $
+#4000000
