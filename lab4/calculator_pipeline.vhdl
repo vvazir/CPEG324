@@ -9,6 +9,8 @@ port(
     DataOut:    out     std_logic_vector(7 downto 0);
     -- Only display when its not a nop signal
     DispEn:     out     std_logic;
+    -- On a compare, display how much to skip by
+    BREN:       out     std_logic;
     -- How many cycles are skipped, 0 for 1 cycle and 1 for 2 cycles
     Bre:        out     std_logic;
     NOP:        out     std_logic;
@@ -32,16 +34,21 @@ component control is
         OP_7:       in  std_logic:='1';
         SKIP:       in  std_logic;
         clk:        in  std_logic;
-        
+        -- Data forwarding
         INP_1:      out std_logic;
         INP_2:      out std_logic;
-		
+        DSP_F:      out std_logic;
+        -- Branch control for display output
         BRE:      out std_logic;
+        BREAMT:   out std_logic;
+        -- NOP INS
         NOP:      out std_logic;
+        -- Control signals
         WRITE_EN:   out std_logic;
         TWO_EN:     out std_logic;
         IMM_EN:     out std_logic;
-        CMP_EN:     out std_logic;
+        CMPB_EN:    out std_logic;
+        CMPA_EN:    out std_logic;
         DISP_EN:    out std_logic;
         SKP_PASS:   out std_logic;
         LOD:        out std_logic;
@@ -209,29 +216,29 @@ signal  zeroSig:            std_logic_vector(0 downto 0);
 
 --signExtend
 
-signal  signExtendSig:      std_logic_vector(7 downto 0);
+signal  signExtendSig:      std_logic_vector(7 downto 0):= (others =>'0');
 --signext,immmux
 
 --interstage register ins
 signal ISRegIDEXEin:    std_logic_vector(27 downto 0):= (others =>'0');
 signal ISRegEXEWBin:    std_logic_vector(16 downto 0):= (others =>'0');
 
-signal  ISRegIDEXESigOut:    std_logic_vector(27 downto 0);
-signal  ISRegEXEWBSigOut:    std_logic_vector(16 downto 0);
+signal  ISRegIDEXESigOut:    std_logic_vector(27 downto 0):= (others =>'0');
+signal  ISRegEXEWBSigOut:    std_logic_vector(16 downto 0):= (others =>'0');
 
 --interstage register outs
 --idexe
-signal  ISRegIDEXESigDOut:   std_logic_vector(7 downto 0);
-signal  ISRegIDEXESigOne:    std_logic_vector(7 downto 0);
-signal  ISRegIDEXESigTwo:    std_logic_vector(7 downto 0);
-signal  ISRegIDEXESigImm:    std_logic_vector(3 downto 0);
+signal  ISRegIDEXESigDOut:   std_logic_vector(7 downto 0):= (others =>'0');
+signal  ISRegIDEXESigOne:    std_logic_vector(7 downto 0):= (others =>'0');
+signal  ISRegIDEXESigTwo:    std_logic_vector(7 downto 0):= (others =>'0');
+signal  ISRegIDEXESigImm:    std_logic_vector(3 downto 0):= (others =>'0');
 
 
 
 --exeWb
-signal  ISRegEXEWBSigALU:     std_logic_vector(7 downto 0);
-signal  ISRegEXEWBSigDOut:    std_logic_vector(7 downto 0);
-signal  ISRegEXEWBSigDZero:   std_logic_vector(0 downto 0);
+signal  ISRegEXEWBSigALU:     std_logic_vector(7 downto 0):= (others =>'0');
+signal  ISRegEXEWBSigDOut:    std_logic_vector(7 downto 0):= (others =>'0');
+signal  ISRegEXEWBSigDZero:   std_logic_vector(0 downto 0):= (others =>'0');
 
 --not clk
 signal  notclk:         std_logic:='0';
@@ -252,7 +259,7 @@ signal  rd:             std_logic_vector(1 downto 0) := OpCode(5 downto 4);
 signal imm:             std_logic_vector(3 downto 0) := OpCode(3 downto 0);
 
 --output signals
-signal dOutSig:         std_logic_vector(7 downto 0);
+signal dOutSig:         std_logic_vector(7 downto 0):= (others =>'0');
 
 --alu select signalas
 signal aluSelAsig:      std_logic :='0';
@@ -264,8 +271,14 @@ signal breControl:                    std_logic;
 signal a:                             std_logic_vector(7 downto 0):= (others =>'0');
 signal b:                             std_logic_vector(7 downto 0):= (others =>'0');
 
-signal RDEXEWB:                       std_logic_vector(1 downto 0);
+signal RDEXEWB:                       std_logic_vector(1 downto 0):= (others =>'0');
 signal nopEn:                         std_logic;
+signal dsp:                           std_logic_vector(7 downto 0):= (others =>'0');
+signal EXEWBRD:                       std_logic_vector(7 downto 0):= (others =>'0');
+signal branchEN:                      std_logic;
+signal dsp_for:                       std_logic;
+signal cA:                            std_logic;
+signal bamt:                          std_logic;
 begin
 
 process(clk)
@@ -301,7 +314,7 @@ end process;
 -- 0/1
 
 controlMain:    control         port map(op0,op1,op2,op3,op4,op5,op6,op7,skipShiftToControlSig,clksig,aluSelAsig,
-aluSelBsig,breControl,nopEn,cregmem,ctwosum,cimmmux,ccompmux,cdispen,cskipmux,clodmux,RDEXEWB);
+aluSelBsig,dsp_for,breControl,bamt,nopEn,cregmem,ctwosum,cimmmux,ccompmux,cA,cdispen,cskipmux,clodmux,RDEXEWB);
 
 ALU_selMuxA:   mux              generic map(width => 8)
                                 port map(lodMuxSig,ISRegEXEWBSigALU,a,aluSelAsig);
@@ -314,13 +327,18 @@ regSelMux:      mux             generic map(width => 8)
 skipMux:        mux             generic map(width => 1)
                                 port map(compMuxSig,"0",skipMuxSig,cskipmux);
 compMux:        mux             generic map(width => 1)
-                                port map(ISRegEXEWBSigDZero,"0",compMuxSig,ccompmux);
+                                port map(ISRegEXEWBSigDZero,"0",compMuxSig,cA);
 immMux:         mux             generic map(width => 8)
                                 port map(signExtendSig,twosMuxSig,immMuxSig,cimmmux);
 lodMux:         mux             generic map(width => 8)
                                 port map("00000000",ISRegIDEXESigOne,lodMuxSig,clodmux);
 twosMux:        mux             generic map(width => 8)
                                 port map(twosCompSig,ISRegIDEXESigTwo,twosMuxSig,ctwosum);
+dispMux:        mux             generic map(width => 8)
+                                port map(ISRegEXEWBSigALU,ISRegEXEWBSigDOut,dsp,cdispen);
+dispForwardMux: mux             generic map(width => 8)
+                                port map(ISRegIDEXESigDOut,ISRegEXEWBSigALU,EXEWBRD,dsp_for);
+
 twosComp:       compliment      port map(regSelMuxSig,twosCompSig);
 
 regMem0:        regMem          port map(r1,r2,rd,RDEXEWB,cregmem,ISRegEXEWBSigALU,clkSig,regDataSigOne,regDataSigTwo,dOutSig);
@@ -341,7 +359,7 @@ istageEXEWB:    reg             generic map(width => 17)
                                 
 
 ISRegIDEXEin <= regDataSigOne&regDataSigTwo&dOutSig&imm;
-ISRegEXEWBin <= aluSig&zeroSig&ISRegIDEXESigDOut;
+ISRegEXEWBin <= aluSig&zeroSig&EXEWBRD;
 
 ISRegIDEXESigOne <= ISRegIDEXESigOut(27 downto 20); 
 ISRegIDEXESigTwo <= ISRegIDEXESigOut(19 downto 12);
@@ -355,7 +373,8 @@ ISRegEXEWBSigDOut <=ISRegEXEWBSigOut(7 downto 0);
 notclk <= not (clk);
 DispEn <= cdispen;
 clkSig <= clk;
-DataOut <= ISRegEXEWBSigALU;
-bre <= breControl;
+DataOut <= dsp;
+bre <= bamt;
 NOP <= nopEn;
+BREN <= breControl;
 end beh;

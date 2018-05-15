@@ -13,6 +13,7 @@ component calculator
 port (	OpCode:     in      std_logic_vector(7 downto 0);
 		DataOut:    out     std_logic_vector(7 downto 0);
 		DispEn:     out     std_logic;
+		BREN:		out		std_logic;
 		BRE:		out		std_logic;
 		NOP:		out		std_logic;
 		clk:		in		std_logic
@@ -26,11 +27,12 @@ signal en:	std_logic :='0';
 signal clock:	std_logic;
 signal bre:	std_logic:='0';
 signal nop:	std_logic;
+signal bren: std_logic;
 begin
 --  Component instantiation.
 C1 : calculator
 	port map(
-		op,data,en,bre,nop,clock
+		op,data,en,bren,bre,nop,clock
 	);
 --  This process does the real job.
 process
@@ -437,13 +439,25 @@ process
 			if clock='1' then
 				if (en = '0') then
 					if ((to_integer(signed(data)))<0) then
+						report "ALU Output -" & integer'image(((-1*to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((-1*to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((-1*to_integer(signed(data))) mod 100)/10)&"" & integer'image((-1*to_integer(signed(data))) mod 10) severity note;
+					else
+						report "ALU Output " & integer'image(((to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((to_integer(signed(data))) mod 100)/10)&"" & integer'image((to_integer(signed(data))) mod 10)severity note;
+					end if;
+				else
+					if ((to_integer(signed(data)))<0) then
 						report "-" & integer'image(((-1*to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((-1*to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((-1*to_integer(signed(data))) mod 100)/10)&"" & integer'image((-1*to_integer(signed(data))) mod 10) severity note;
 					else
 						report "" & integer'image(((to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((to_integer(signed(data))) mod 100)/10)&"" & integer'image((to_integer(signed(data))) mod 10)severity note;
 					end if;
 				end if;
 				if (nop = '0') then 
-					assert ((en /= '1')) report "Skipping by " & std_logic'image(bre) & " instruction" severity note;
+					if ((bren = '1')) then 
+						if (bre='0') then 
+							report "Skipping by 1 instruction" severity note;
+						else
+							report "Skipping by 2 instruction" severity note;
+						end if;
+					end if;
 				else
 					report "NOP INS" severity note;	
 				end if;

@@ -1,5 +1,16 @@
 lod r0 0111
-lod r2 0101
-lod r1 0011
-lod r3 0110
-lod r0 0000
+lod r1 0111
+lod r2 0001
+lod r3 0011
+cmp r0 r1 2
+lod r2 1111
+lod r3 1110
+dsp r2
+dsp r3
+cmp r0 r1 1
+lod r2 1111
+dsp r2
+lod r3 1110
+cmp r0 r2 1
+lod r3 0011
+dsp r3
