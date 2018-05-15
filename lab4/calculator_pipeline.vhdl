@@ -212,6 +212,9 @@ signal  signExtendSig:      std_logic_vector(7 downto 0);
 signal ISRegIDEXEin:    std_logic_vector(27 downto 0);
 signal ISRegEXEWBin:    std_logic_vector(8 downto 0);
 
+signal  ISRegIDEXESigOut:    std_logic_vector(27 downto 0);
+signal  ISRegEXEWBSigOut:    std_logic_vector(8 downto 0);
+
 --interstage register outs
 --idexe
 signal  ISRegIDEXESigDOut:   std_logic_vector(7 downto 0);
@@ -219,8 +222,7 @@ signal  ISRegIDEXESigOne:    std_logic_vector(7 downto 0);
 signal  ISRegIDEXESigTwo:    std_logic_vector(7 downto 0);
 signal  ISRegIDEXESigImm:    std_logic_vector(3 downto 0);
 
-signal  ISRegIDEXESigOut:    std_logic_vector(27 downto 0);
-signal  ISRegEXEWBSigOut:    std_logic_vector(8 downto 0);
+
 
 --exeWb
 signal  ISRegEXEWBSigALU:     std_logic_vector(7 downto 0);
@@ -316,11 +318,19 @@ sreg0:          shift_reg       port map(op1,skipMuxSig,clkSig,skipShiftToContro
 signExt:        sign_extend     port map(ISRegIDEXESigImm,signExtendSig);
 
 istageIDEXE:    reg             generic map(width => 28)
-                                port map(regDataSigOne&regDataSigTwo&dOutSig&imm,ISRegIDEXESigOne&ISRegIDEXESigTwo&ISRegIDEXESigDOut&ISRegIDEXESigImm,notclk);
+                                port map(ISRegIDEXEin,ISRegIDEXESigOut,notclk);
                                 
 istageEXEWB:    reg             generic map(width => 9)
-                                port map(aluSig&zeroSig,ISRegEXEWBSigALU&ISRegIDEXESigDZero,notclk);
+                                port map(ISRegEXEWBin,,notclk);
                                 
+
+ISRegIDEXEin <= regDataSigOne&regDataSigTwo&dOutSig&imm;
+ISRegEXEWBin <= aluSig&zeroSig;
+
+ISRegIDEXESigOut <= ISRegIDEXESigOne&ISRegIDEXESigTwo&ISRegIDEXESigDOut&ISRegIDEXESigImm;
+ISRegEXEWBSigOut <= ISRegEXEWBSigALU&ISRegIDEXESigDZero;
+
+
 
 DispEn <= cdispen;
 clkSig <= clk;
