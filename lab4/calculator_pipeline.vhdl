@@ -270,6 +270,14 @@ end process;
 controlMain:    control         port map(op0,op1,op2,op3,op4,op5,op6,op7,skipShiftToControlSig,
 cregmem,ctwosum,cimmmux,ccompmux,cdispen,cskipmux,clodmux);
 
+ALU_selMuxA:   mux              generic map(width => 8)
+                                port map(lodMuxSig,ISRegEXEWBSigALU,);
+                                
+ALU_selMuxB:   mux              generic map(width => 8)
+                                port map();
+
+
+
 
 regSelMux:      mux             generic map(width => 8)
                                 port map(ISRegIDEXESigDOut,ISRegIDEXESigTwo,regSelMuxSig,ccompmux);
