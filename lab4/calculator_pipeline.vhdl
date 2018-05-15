@@ -274,7 +274,7 @@ ALU_selMuxA:   mux              generic map(width => 8)
                                 port map(lodMuxSig,ISRegEXEWBSigALU,);
                                 
 ALU_selMuxB:   mux              generic map(width => 8)
-                                port map();
+                                port map(immMuxSig,ISRegEXEWBSigALU,);
 
 
 
