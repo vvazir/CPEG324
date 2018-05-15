@@ -3,10 +3,10 @@ use ieee.std_logic_1164.all;
 use IEEE.NUMERIC_STD.ALL;
 
 --  A testbench has no ports.
-entity calculator_$testName$_tb is
-end calculator_$testName$_tb;
+entity calculator_dsp_tb is
+end calculator_dsp_tb;
 
-architecture behav of calculator_$testName$_tb is
+architecture behav of calculator_dsp_tb is
 --  Declaration of the component that will be instantiated.
 component calculator
 
@@ -42,7 +42,22 @@ process
 	type pattern_array is array (natural range <>) of pattern_type;
 	constant patterns : pattern_array :=
 		(
-			$patterns$
+("00000111", '0'),
+("00000111", '1'),-- At 0 ns
+("00100101", '0'),
+("00100101", '1'),-- At 2 ns
+("00010011", '0'),
+("00010011", '1'),-- At 4 ns
+("00110110", '0'),
+("00110110", '1'),-- At 6 ns
+("00000000", '0'),
+("00000000", '1'),
+-- At 8 ns
+-- Add NOP instructions to clear the pipeline
+("11000011", '0'),
+("11000011", '1'),
+("11000011", '0'),
+("11000011", '1')
 		);
 	begin
 		--  Check each pattern.

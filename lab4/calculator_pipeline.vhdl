@@ -7,8 +7,11 @@ entity calculator is
 port(
     OpCode:     in      std_logic_vector(7 downto 0);
     DataOut:    out     std_logic_vector(7 downto 0);
+    -- Only display when its not a nop signal
     DispEn:     out     std_logic;
+    -- How many cycles are skipped, 0 for 1 cycle and 1 for 2 cycles
     Bre:        out     std_logic;
+    NOP:        out     std_logic;
     clk:        in      std_logic);
 end calculator;
 
@@ -19,14 +22,14 @@ architecture beh of calculator is
 --control
 component control is
  port(
-        OP_0:       in  std_logic;
-        OP_1:       in  std_logic;
+        OP_0:       in  std_logic:='1';
+        OP_1:       in  std_logic:='1';
         OP_2:       in  std_logic;
         OP_3:       in  std_logic;
         OP_4:       in  std_logic;
         OP_5:       in  std_logic;
-        OP_6:       in  std_logic;
-        OP_7:       in  std_logic;
+        OP_6:       in  std_logic:='1';
+        OP_7:       in  std_logic:='1';
         SKIP:       in  std_logic;
         clk:        in  std_logic;
         
@@ -34,14 +37,15 @@ component control is
         INP_2:      out std_logic;
 		
         BRE:      out std_logic;
-        
+        NOP:      out std_logic;
         WRITE_EN:   out std_logic;
         TWO_EN:     out std_logic;
         IMM_EN:     out std_logic;
         CMP_EN:     out std_logic;
         DISP_EN:    out std_logic;
         SKP_PASS:   out std_logic;
-        LOD:        out std_logic);
+        LOD:        out std_logic;
+        RD:         out std_logic_vector(1 downto 0));
 
 end component;
 
@@ -51,7 +55,7 @@ port(
 		reg1: 		in std_logic_vector(1 downto 0);
 		reg2:       in std_logic_vector(1 downto 0);
 		dstReg:		in std_logic_vector(1 downto 0);
-		
+        writeBack:	in std_logic_vector(1 downto 0);
 		writeEn:	in std_logic;
 		writeData:	in std_logic_vector(7 downto 0);
 		clock:		in std_logic;
@@ -209,11 +213,11 @@ signal  signExtendSig:      std_logic_vector(7 downto 0);
 --signext,immmux
 
 --interstage register ins
-signal ISRegIDEXEin:    std_logic_vector(27 downto 0);
-signal ISRegEXEWBin:    std_logic_vector(8 downto 0);
+signal ISRegIDEXEin:    std_logic_vector(27 downto 0):= (others =>'0');
+signal ISRegEXEWBin:    std_logic_vector(16 downto 0):= (others =>'0');
 
 signal  ISRegIDEXESigOut:    std_logic_vector(27 downto 0);
-signal  ISRegEXEWBSigOut:    std_logic_vector(8 downto 0);
+signal  ISRegEXEWBSigOut:    std_logic_vector(16 downto 0);
 
 --interstage register outs
 --idexe
@@ -226,15 +230,20 @@ signal  ISRegIDEXESigImm:    std_logic_vector(3 downto 0);
 
 --exeWb
 signal  ISRegEXEWBSigALU:     std_logic_vector(7 downto 0);
-signal  ISRegIDEXESigDZero:   std_logic_vector(0 downto 0);
+signal  ISRegEXEWBSigDOut:    std_logic_vector(7 downto 0);
+signal  ISRegEXEWBSigDZero:   std_logic_vector(0 downto 0);
 
 --not clk
-signal  notclk:         std_logic;
+signal  notclk:         std_logic:='0';
 
 
 --parsing input
 signal  op0:            std_logic := OpCode(0);
 signal  op1:            std_logic := OpCode(1);
+signal  op2:            std_logic := OpCode(2);
+signal  op3:            std_logic := OpCode(3);
+signal  op4:            std_logic := OpCode(4);
+signal  op5:            std_logic := OpCode(5);
 signal  op6:            std_logic := OpCode(6);
 signal  op7:            std_logic := OpCode(7);
 signal  r1:             std_logic_vector(1 downto 0) := OpCode(1 downto 0);
@@ -246,14 +255,17 @@ signal imm:             std_logic_vector(3 downto 0) := OpCode(3 downto 0);
 signal dOutSig:         std_logic_vector(7 downto 0);
 
 --alu select signalas
-signal aluSelAsig:      std_logic;
-signal aluSelBsig:      std_logic;
+signal aluSelAsig:      std_logic :='0';
+signal aluSelBsig:      std_logic :='0';
 
 --
-signal bre:                    std_logic;
+signal breControl:                    std_logic;
 
+signal a:                             std_logic_vector(7 downto 0):= (others =>'0');
+signal b:                             std_logic_vector(7 downto 0):= (others =>'0');
 
-
+signal RDEXEWB:                       std_logic_vector(1 downto 0);
+signal nopEn:                         std_logic;
 begin
 
 process(clk)
@@ -262,6 +274,10 @@ process(clk)
 
         op0 <= OpCode(0);
         op1 <= OpCode(1);
+        op2 <= OpCode(2);
+        op3 <= OpCode(3);
+        op4 <= OpCode(4);
+        op5 <= OpCode(5);
         op6 <= OpCode(6);
         op7 <= OpCode(7);
         r2 	<= OpCode(1 downto 0);
@@ -285,20 +301,20 @@ end process;
 -- 0/1
 
 controlMain:    control         port map(op0,op1,op2,op3,op4,op5,op6,op7,skipShiftToControlSig,clksig,aluSelAsig,
-aluSelBsig,bre,cregmem,ctwosum,cimmmux,ccompmux,cdispen,cskipmux,clodmux);
+aluSelBsig,breControl,nopEn,cregmem,ctwosum,cimmmux,ccompmux,cdispen,cskipmux,clodmux,RDEXEWB);
 
 ALU_selMuxA:   mux              generic map(width => 8)
-                                port map(lodMuxSig,ISRegEXEWBSigALU,aluSelAsig);
+                                port map(lodMuxSig,ISRegEXEWBSigALU,a,aluSelAsig);
                                 
 ALU_selMuxB:   mux              generic map(width => 8)
-                                port map(immMuxSig,ISRegEXEWBSigALU,aluSelBsig);
+                                port map(immMuxSig,ISRegEXEWBSigALU,b,aluSelBsig);
 
 regSelMux:      mux             generic map(width => 8)
                                 port map(ISRegIDEXESigDOut,ISRegIDEXESigTwo,regSelMuxSig,ccompmux);
 skipMux:        mux             generic map(width => 1)
                                 port map(compMuxSig,"0",skipMuxSig,cskipmux);
 compMux:        mux             generic map(width => 1)
-                                port map(zeroSig,"0",compMuxSig,ccompmux);
+                                port map(ISRegEXEWBSigDZero,"0",compMuxSig,ccompmux);
 immMux:         mux             generic map(width => 8)
                                 port map(signExtendSig,twosMuxSig,immMuxSig,cimmmux);
 lodMux:         mux             generic map(width => 8)
@@ -307,9 +323,9 @@ twosMux:        mux             generic map(width => 8)
                                 port map(twosCompSig,ISRegIDEXESigTwo,twosMuxSig,ctwosum);
 twosComp:       compliment      port map(regSelMuxSig,twosCompSig);
 
-regMem0:        regMem          port map(r1,r2,rd,cregmem,ISRegEXEWBSigALU,clkSig,regDataSigOne,regDataSigTwo,dOutSig);
+regMem0:        regMem          port map(r1,r2,rd,RDEXEWB,cregmem,ISRegEXEWBSigALU,clkSig,regDataSigOne,regDataSigTwo,dOutSig);
 
-ALU:            eightbitadder   port map(lodMuxSig,immMuxSig,'0',aluSig);
+ALU:            eightbitadder   port map(a,b,'0',aluSig);
 
 zeroCheck0:     zeroCheck       port map(aluSig,zeroSig);
 
@@ -318,23 +334,28 @@ sreg0:          shift_reg       port map(op1,skipMuxSig,clkSig,skipShiftToContro
 signExt:        sign_extend     port map(ISRegIDEXESigImm,signExtendSig);
 
 istageIDEXE:    reg             generic map(width => 28)
-                                port map(ISRegIDEXEin,ISRegIDEXESigOut,notclk);
+                                port map(ISRegIDEXEin,ISRegIDEXESigOut,clk);
                                 
-istageEXEWB:    reg             generic map(width => 9)
-                                port map(ISRegEXEWBin,,notclk);
+istageEXEWB:    reg             generic map(width => 17)
+                                port map(ISRegEXEWBin,ISRegEXEWBSigOut,notclk);
                                 
 
 ISRegIDEXEin <= regDataSigOne&regDataSigTwo&dOutSig&imm;
-ISRegEXEWBin <= aluSig&zeroSig;
+ISRegEXEWBin <= aluSig&zeroSig&ISRegIDEXESigDOut;
 
-ISRegIDEXESigOut <= ISRegIDEXESigOne&ISRegIDEXESigTwo&ISRegIDEXESigDOut&ISRegIDEXESigImm;
-ISRegEXEWBSigOut <= ISRegEXEWBSigALU&ISRegIDEXESigDZero;
+ISRegIDEXESigOne <= ISRegIDEXESigOut(27 downto 20); 
+ISRegIDEXESigTwo <= ISRegIDEXESigOut(19 downto 12);
+ISRegIDEXESigDOut<= ISRegIDEXESigOut(11 downto 4);
+ISRegIDEXESigImm <= ISRegIDEXESigOut(3 downto 0);
 
+ISRegEXEWBSigALU <= ISRegEXEWBSigOut(16 downto 9);
+ISRegEXEWBSigDZero <=ISRegEXEWBSigOut(8 downto 8);
+ISRegEXEWBSigDOut <=ISRegEXEWBSigOut(7 downto 0);
 
-
+notclk <= not (clk);
 DispEn <= cdispen;
 clkSig <= clk;
 DataOut <= ISRegEXEWBSigALU;
-bre <= bre;
-
+bre <= breControl;
+NOP <= nopEn;
 end beh;

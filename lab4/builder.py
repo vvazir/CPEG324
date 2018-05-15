@@ -19,6 +19,7 @@ components=[
 	"eightBitAdder",
 	"flip",
 	"mux",
+	"reg",
 	"regMem",
 	"shift_reg",
 	"sign_extend",

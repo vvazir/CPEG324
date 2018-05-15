@@ -12,13 +12,14 @@ port(
 	clock : in std_logic
 );
 end reg;
-
 architecture behavioral of reg is
+	
 	begin
 		process(clock)
 		begin
 			if (rising_edge(clock)) then
 				dout<=din;
 			end if;
+			
 		end process;
 end behavioral;

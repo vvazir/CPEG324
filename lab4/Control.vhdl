@@ -3,15 +3,15 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity control is 
     port(
-        OP_0:       in  std_logic;
-        OP_1:       in  std_logic;
-        OP_2:       in  std_logic;
-        OP_3:       in  std_logic;
-        OP_4:       in  std_logic;
-        OP_5:       in  std_logic;
-        OP_6:       in  std_logic;
-        OP_7:       in  std_logic;
-        SKIP:       in  std_logic;
+        OP_0:       in  std_logic:='1';
+        OP_1:       in  std_logic:='1';
+        OP_2:       in  std_logic:='0';
+        OP_3:       in  std_logic:='0';
+        OP_4:       in  std_logic:='0';
+        OP_5:       in  std_logic:='0';
+        OP_6:       in  std_logic:='1';
+        OP_7:       in  std_logic:='1';
+        SKIP:       in  std_logic:='0';
         
         clk:        in  std_logic;
 
@@ -20,6 +20,7 @@ entity control is
         INP_2:      out std_logic;        
 
         BRE:        out std_logic;
+        NOP:        out std_logic;
         --ControlOut  out std_logic_vector(26 downto 0)
         WRITE_EN:   out std_logic;
         TWO_EN:     out std_logic;
@@ -27,7 +28,8 @@ entity control is
         CMP_EN:     out std_logic;
         DISP_EN:    out std_logic;
         SKP_PASS:   out std_logic;
-        LOD:        out std_logic);
+        LOD:        out std_logic;
+        RD:         out std_logic_vector(1 downto 0));
 end control;
 
 architecture behavioral of CONTROL is
@@ -43,19 +45,19 @@ architecture behavioral of CONTROL is
     );
     end component;
     
-    signal IDEXEOP:      std_logic_vector(7 downto 0);
+    signal IDEXEOP:      std_logic_vector(7 downto 0):="11000011";
     signal IDEXESK:      std_logic;
 
-    signal EXEWBOP:      std_logic_vector(7 downto 0);
+    signal EXEWBOP:      std_logic_vector(7 downto 0):="11000011";
     signal EXEWBSK:      std_logic;
 
     signal notclk:       std_logic;
     
-    signal imp:           std_logic_vector(8 downto 0);
-    signal inter1:        std_logic_vector(8 downto 0);
-    signal inter2:        std_logic_vector(8 downto 0);
+    signal imp:           std_logic_vector(8 downto 0):="110000110";
+    signal inter1:        std_logic_vector(8 downto 0):="110000110";
+    signal inter2:        std_logic_vector(8 downto 0):="110000110";
     begin	
-        notclk  <= clk;
+        notclk  <= not clk;
         imp <=OP_7&OP_6&OP_5&OP_4&OP_3&OP_2&OP_1&OP_0&SKIP;
         IDEXEOP<=inter1(8 downto 1);
         IDEXESK<=inter1(0);
@@ -75,5 +77,7 @@ architecture behavioral of CONTROL is
 		LOD <= (IDEXEOP(6) or IDEXEOP(7));
         INP_1 <= (EXEWBOP(5) xnor IDEXEOP(3)) and (EXEWBOP(4) xnor IDEXEOP(2)); 
         INP_2 <= (EXEWBOP(5) xnor IDEXEOP(1)) and (EXEWBOP(4) xnor IDEXEOP(0));
-        BRE <= EXEWBOP(0); 
+        BRE <= EXEWBOP(0);
+        RD <=  EXEWBOP(5 downto 4);
+        NOP <= (IDEXEOP(7) and IDEXEOP(6)) and (IDEXEOP(1) and IDEXEOP(0));
 end behavioral;

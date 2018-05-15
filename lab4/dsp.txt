@@ -1,0 +1,5 @@
+lod r0 0111
+lod r2 0101
+lod r1 0011
+lod r3 0110
+lod r0 0000
