@@ -26,7 +26,11 @@ component control is
         OP_5:       in  std_logic;
         OP_6:       in  std_logic;
         OP_7:       in  std_logic;
-        SKIP:       in  std_logic;      
+        SKIP:       in  std_logic;
+        clk:        in  std_logic;
+        
+        INP_1:      out std_logic;
+        INP_2:      out std_logic;
 		
         WRITE_EN:   out std_logic;
         TWO_EN:     out std_logic;
@@ -236,6 +240,11 @@ signal imm:             std_logic_vector(3 downto 0) := OpCode(3 downto 0);
 --output signals
 signal dOutSig:         std_logic_vector(7 downto 0);
 
+--alu select signalas
+signal aluSelAsig:      std_logic;
+signal aluSelBsig:      std_logic;
+
+
 
 begin
 
@@ -267,17 +276,14 @@ end process;
 --6 controller, lodmux
 -- 0/1
 
-controlMain:    control         port map(op0,op1,op2,op3,op4,op5,op6,op7,skipShiftToControlSig,
-cregmem,ctwosum,cimmmux,ccompmux,cdispen,cskipmux,clodmux);
+controlMain:    control         port map(op0,op1,op2,op3,op4,op5,op6,op7,skipShiftToControlSig,clksig,aluSelAsig,
+aluSelBsig,cregmem,ctwosum,cimmmux,ccompmux,cdispen,cskipmux,clodmux);
 
 ALU_selMuxA:   mux              generic map(width => 8)
                                 port map(lodMuxSig,ISRegEXEWBSigALU,);
                                 
 ALU_selMuxB:   mux              generic map(width => 8)
                                 port map(immMuxSig,ISRegEXEWBSigALU,);
-
-
-
 
 regSelMux:      mux             generic map(width => 8)
                                 port map(ISRegIDEXESigDOut,ISRegIDEXESigTwo,regSelMuxSig,ccompmux);
