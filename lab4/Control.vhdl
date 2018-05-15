@@ -19,6 +19,7 @@ entity control is
         INP_1:      out std_logic;
         INP_2:      out std_logic;        
 
+        BRE:        out std_logic;
         --ControlOut  out std_logic_vector(26 downto 0)
         WRITE_EN:   out std_logic;
         TWO_EN:     out std_logic;
@@ -69,10 +70,10 @@ architecture behavioral of CONTROL is
 		TWO_EN <= not(IDEXEOP(7) and (not(IDEXEOP(6)))) and (not ((IDEXEOP(6) and IDEXEOP(7)) and (IDEXEOP(0) xor IDEXEOP(1))));
 		IMM_EN <= ((IDEXEOP(6) or IDEXEOP(7)));
 		CMP_EN <= not ((IDEXEOP(6) and IDEXEOP(7)) and (IDEXEOP(0) xor IDEXEOP(1)));
-		DISP_EN <= ((EXEWBOP(6) and EXEWBOP(7)) and (not(EXEWBOP(0) xor EXEWBOP(1)))) and not(EXEWBSK);
-		SKP_PASS <= EXEWBSK;
+		DISP_EN <= ((EXEWBOP(6) and EXEWBOP(7)) and (not(EXEWBOP(0) xor EXEWBOP(1)))) and not(EXEWBSK) and (not(EXEWBOP(0) and EXEWBOP(1)));
+		SKP_PASS <= SKIP;
 		LOD <= (IDEXEOP(6) or IDEXEOP(7));
         INP_1 <= (EXEWBOP(5) xnor IDEXEOP(3)) and (EXEWBOP(4) xnor IDEXEOP(2)); 
         INP_2 <= (EXEWBOP(5) xnor IDEXEOP(1)) and (EXEWBOP(4) xnor IDEXEOP(0));
-
+        BRE <= EXEWBOP(0); 
 end behavioral;
