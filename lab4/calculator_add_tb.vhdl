@@ -13,6 +13,7 @@ component calculator
 port (	OpCode:     in      std_logic_vector(7 downto 0);
 		DataOut:    out     std_logic_vector(7 downto 0);
 		DispEn:     out     std_logic;
+		BRE:		out		std_logic;
 		clk:		in		std_logic
 );
 end component;
@@ -22,12 +23,12 @@ end component;
 signal op, data : std_logic_vector(7 downto 0);
 signal en:	std_logic :='0';
 signal clock:	std_logic;
-
+signal bre:	std_logic:='0';
 begin
 --  Component instantiation.
 C1 : calculator
 	port map(
-		op,data,en,clock
+		op,data,en,bre,clock
 	);
 --  This process does the real job.
 process
@@ -103,10 +104,11 @@ process
 			--  If disp_en = '1', print out the data in a formated manner.
 			if clock='1' then
 				if ((to_integer(signed(data)))<0) then
-					assert ((en /= '1')) report "-" & integer'image(((-1*to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((-1*to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((-1*to_integer(signed(data))) mod 100)/10)&"" & integer'image((-1*to_integer(signed(data))) mod 10) severity note;
+					report "-" & integer'image(((-1*to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((-1*to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((-1*to_integer(signed(data))) mod 100)/10)&"" & integer'image((-1*to_integer(signed(data))) mod 10) severity note;
 				else
-					assert ((en /= '1')) report "" & integer'image(((to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((to_integer(signed(data))) mod 100)/10)&"" & integer'image((to_integer(signed(data))) mod 10)severity note;
+					report "" & integer'image(((to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((to_integer(signed(data))) mod 100)/10)&"" & integer'image((to_integer(signed(data))) mod 10)severity note;
 				end if;
+				assert ((en /= '1')) report "Skipping by " & std_logic'image(bre) & " instruction" severity note;
 			end if;
 		end loop;
 		

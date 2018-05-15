@@ -210,7 +210,7 @@ signal  signExtendSig:      std_logic_vector(7 downto 0);
 
 --interstage register ins
 signal ISRegIDEXEin:    std_logic_vector(27 downto 0) := regDataSigOne&regDataSigTwo&dOutSig&imm;
-signal ISRegEXEWBin:    std_logic_vector(8 downto 0) := aluSig&zeroSig
+signal ISRegEXEWBin:    std_logic_vector(8 downto 0) := aluSig&zeroSig;
 
 --interstage register outs
 --idexe
@@ -248,7 +248,7 @@ signal aluSelAsig:      std_logic;
 signal aluSelBsig:      std_logic;
 
 --
-bre:                    std_logic;
+signal bre:                    std_logic;
 
 
 
