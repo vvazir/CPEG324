@@ -8,6 +8,7 @@ port(
     OpCode:     in      std_logic_vector(7 downto 0);
     DataOut:    out     std_logic_vector(7 downto 0);
     DispEn:     out     std_logic;
+    Bre:        out     std_logic;
     clk:        in      std_logic);
 end calculator;
 
@@ -32,6 +33,8 @@ component control is
         INP_1:      out std_logic;
         INP_2:      out std_logic;
 		
+        BRE:      out std_logic;
+        
         WRITE_EN:   out std_logic;
         TWO_EN:     out std_logic;
         IMM_EN:     out std_logic;
@@ -244,6 +247,9 @@ signal dOutSig:         std_logic_vector(7 downto 0);
 signal aluSelAsig:      std_logic;
 signal aluSelBsig:      std_logic;
 
+--
+bre:                    std_logic;
+
 
 
 begin
@@ -277,13 +283,13 @@ end process;
 -- 0/1
 
 controlMain:    control         port map(op0,op1,op2,op3,op4,op5,op6,op7,skipShiftToControlSig,clksig,aluSelAsig,
-aluSelBsig,cregmem,ctwosum,cimmmux,ccompmux,cdispen,cskipmux,clodmux);
+aluSelBsig,bre,cregmem,ctwosum,cimmmux,ccompmux,cdispen,cskipmux,clodmux);
 
 ALU_selMuxA:   mux              generic map(width => 8)
-                                port map(lodMuxSig,ISRegEXEWBSigALU,);
+                                port map(lodMuxSig,ISRegEXEWBSigALU,aluSelAsig);
                                 
 ALU_selMuxB:   mux              generic map(width => 8)
-                                port map(immMuxSig,ISRegEXEWBSigALU,);
+                                port map(immMuxSig,ISRegEXEWBSigALU,aluSelBsig);
 
 regSelMux:      mux             generic map(width => 8)
                                 port map(ISRegIDEXESigDOut,ISRegIDEXESigTwo,regSelMuxSig,ccompmux);
@@ -319,5 +325,6 @@ istageEXEWB:    reg             generic map(width => 9)
 DispEn <= cdispen;
 clkSig <= clk;
 DataOut <= ISRegEXEWBSigALU;
+bre <= bre;
 
 end beh;
