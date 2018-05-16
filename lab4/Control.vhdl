@@ -75,7 +75,7 @@ architecture behavioral of CONTROL is
 		IMM_EN <= ((IDEXEOP(6) or IDEXEOP(7)));
         CMPB_EN <= not ((IDEXEOP(6) and IDEXEOP(7)) and (IDEXEOP(0) xor IDEXEOP(1)));
 		CMPA_EN <= not ((EXEWBOP(6) and EXEWBOP(7)) and (EXEWBOP(0) xor EXEWBOP(1)));
-		DISP_EN <= ((EXEWBOP(6) and EXEWBOP(7)) and (not(EXEWBOP(0) xor EXEWBOP(1)))) and not(EXEWBSK) and (not(EXEWBOP(0) and EXEWBOP(1)));
+		DISP_EN <= ((EXEWBOP(6) and EXEWBOP(7)) and (not(EXEWBOP(0) xor EXEWBOP(1)))) and not(SKIP) and (not(EXEWBOP(0) and EXEWBOP(1)));
 		SKP_PASS <= SKIP;
 		LOD <= (IDEXEOP(6) or IDEXEOP(7));
         INP_1 <= ((EXEWBOP(5) xnor IDEXEOP(3)) and (EXEWBOP(4) xnor IDEXEOP(2))) and (IDEXEOP(7) xor IDEXEOP(6)); 
