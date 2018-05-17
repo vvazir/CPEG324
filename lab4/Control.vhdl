@@ -79,8 +79,8 @@ architecture behavioral of CONTROL is
 		DISP_EN <= ((EXEWBOP(6) and EXEWBOP(7)) and (not(EXEWBOP(0) xor EXEWBOP(1)))) and not(SKIP) and (not(EXEWBOP(0) and EXEWBOP(1)));
 		SKP_PASS <= SKIP;
 		LOD <= (IDEXEOP(6) or IDEXEOP(7));
-        INP_1 <= ((EXEWBOP(5) xnor IDEXEOP(3)) and (EXEWBOP(4) xnor IDEXEOP(2))) and (IDEXEOP(7) xor IDEXEOP(6)); 
-        INP_2 <= ((EXEWBOP(5) xnor IDEXEOP(1)) and (EXEWBOP(4) xnor IDEXEOP(0))) and (IDEXEOP(7) xor IDEXEOP(6));
+        INP_1 <= ((EXEWBOP(5) xnor IDEXEOP(3)) and (EXEWBOP(4) xnor IDEXEOP(2))) and not((EXEWBOP(7) and EXEWBOP(6))) and ((IDEXEOP(7) xor IDEXEOP(6))); 
+        INP_2 <= ((EXEWBOP(5) xnor IDEXEOP(1)) and (EXEWBOP(4) xnor IDEXEOP(0))) and not((EXEWBOP(7) and EXEWBOP(6))) and ((IDEXEOP(7) xor IDEXEOP(6)));
         BRE <= ((EXEWBOP(0) xor EXEWBOP(1)) and (EXEWBOP(6) and EXEWBOP(7)));
         RD <=  EXEWBOP(5 downto 4);
         NOP <= (IDEXEOP(7) and IDEXEOP(6)) and (IDEXEOP(1) and IDEXEOP(0));
