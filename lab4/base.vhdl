@@ -55,7 +55,7 @@ process
 			--  Wait for the results.
 			wait for 1 ns;
 			--  If disp_en = '1', print out the data in a formated manner.
-			if clock='1' then
+			if (clock = '1') then
 				if (en = '0') then
 					if ((to_integer(signed(data)))<0) then
 						report "ALU Output -" & integer'image(((-1*to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((-1*to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((-1*to_integer(signed(data))) mod 100)/10)&"" & integer'image((-1*to_integer(signed(data))) mod 10) severity note;
@@ -81,6 +81,7 @@ process
 					report "NOP INS" severity note;	
 				end if;
 			end if;
+			
 		end loop;
 		
 		assert false report "end of test" severity note;

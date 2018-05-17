@@ -51,6 +51,7 @@ component control is
         CMPA_EN:    out std_logic;
         DISP_EN:    out std_logic;
         SKP_PASS:   out std_logic;
+        SKP_EN:     out std_logic;
         LOD:        out std_logic;
         RD:         out std_logic_vector(1 downto 0));
 
@@ -265,6 +266,7 @@ signal dOutSig:         std_logic_vector(7 downto 0):= (others =>'0');
 signal cAluSelAsig:      std_logic :='0';
 signal cAluSelBsig:      std_logic :='0';
 
+signal skp_sel:          std_logic :='0';
 --
 signal cBranchDisp:                    std_logic;
 
@@ -313,8 +315,13 @@ end process;
 --6 controller, lodmux
 -- 0/1
 
+<<<<<<< HEAD
 controlMain:    control         port map(op0,op1,op2,op3,op4,op5,op6,op7,skipShiftToControlSig,clksig,cAluSelAsig,
 cAluSelBsig,dsp_for,cBranchDisp,cBranchAmt,cNopEn,cregmem,ctwosum,cimmmux,ccompmux,cA,cdispen,cskipmux,clodmux,RDEXEWB);
+=======
+controlMain:    control         port map(op0,op1,op2,op3,op4,op5,op6,op7,skipShiftToControlSig,clksig,aluSelAsig,
+aluSelBsig,dsp_for,breControl,bamt,nopEn,cregmem,ctwosum,cimmmux,ccompmux,cA,cdispen,cskipmux,skp_sel,clodmux,RDEXEWB);
+>>>>>>> 9c980eca763c3e95917f3afbbee03029133056fe
 
 ALU_selMuxA:   mux              generic map(width => 8)
                                 port map(lodMuxSig,ISRegEXEWBSigALU,a,cAluSelAsig);
@@ -347,7 +354,7 @@ ALU:            eightbitadder   port map(a,b,'0',aluSig);
 
 zeroCheck0:     zeroCheck       port map(aluSig,zeroSig);
 
-sreg0:          shift_reg       port map(op1,skipMuxSig,clkSig,skipShiftToControlSig);
+sreg0:          shift_reg       port map(skp_sel,skipMuxSig,clkSig,skipShiftToControlSig);
 
 signExt:        sign_extend     port map(ISRegIDEXESigImm,signExtendSig);
 
@@ -374,7 +381,13 @@ notclk <= not (clk);
 DispEn <= cdispen;
 clkSig <= clk;
 DataOut <= dsp;
+<<<<<<< HEAD
 bre <= cBranchAmt;
 NOP <= cNopEn;
 BREN <= cBranchDisp;
+=======
+bre <= bamt;
+NOP <= nopEn;
+BREN <= breControl and ISRegEXEWBSigDZero(0);
+>>>>>>> 9c980eca763c3e95917f3afbbee03029133056fe
 end beh;
