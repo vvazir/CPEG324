@@ -1,9 +1,5 @@
 $date
-<<<<<<< HEAD
-  Tue May 15 15:34:39 2018
-=======
-  Thu May 17 15:22:15 2018
->>>>>>> 9c980eca763c3e95917f3afbbee03029133056fe
+  Thu May 17 15:50:32 2018
 $end
 $version
   GHDL v0
@@ -73,20 +69,20 @@ $var reg 2 Z r2[1:0] $end
 $var reg 2 [ rd[1:0] $end
 $var reg 4 \ imm[3:0] $end
 $var reg 8 ] doutsig[7:0] $end
-$var reg 1 ^ aluselasig $end
-$var reg 1 _ aluselbsig $end
+$var reg 1 ^ caluselasig $end
+$var reg 1 _ caluselbsig $end
 $var reg 1 ` skp_sel $end
-$var reg 1 a brecontrol $end
+$var reg 1 a cbranchdisp $end
 $var reg 8 b a[7:0] $end
 $var reg 8 c b[7:0] $end
 $var reg 2 d rdexewb[1:0] $end
-$var reg 1 e nopen $end
+$var reg 1 e cnopen $end
 $var reg 8 f dsp[7:0] $end
 $var reg 8 g exewbrd[7:0] $end
 $var reg 1 h branchen $end
 $var reg 1 i dsp_for $end
 $var reg 1 j ca $end
-$var reg 1 k bamt $end
+$var reg 1 k cbranchamt $end
 $scope module controlmain $end
 $var reg 1 l op_0 $end
 $var reg 1 m op_1 $end

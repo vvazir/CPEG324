@@ -317,7 +317,7 @@ end process;
 
 
 controlMain:    control         port map(op0,op1,op2,op3,op4,op5,op6,op7,skipShiftToControlSig,clksig,cAluSelAsig,
-cAluSelBsig,dsp_for,cBranchDisp,cBranchAmt,cNopEn,cregmem,ctwosum,cimmmux,ccompmux,cA,cdispen,cskipmux,clodmux,RDEXEWB);
+cAluSelBsig,dsp_for,cBranchDisp,cBranchAmt,cNopEn,cregmem,ctwosum,cimmmux,ccompmux,cA,cdispen,cskipmux,skp_sel,clodmux,RDEXEWB);
 
 ALU_selMuxA:   mux              generic map(width => 8)
                                 port map(lodMuxSig,ISRegEXEWBSigALU,a,cAluSelAsig);
@@ -380,6 +380,6 @@ DataOut <= dsp;
 
 bre <= cBranchAmt;
 NOP <= cNopEn;
-BREN <= cBranchDisp and ISRegEXEWBSigDZero(0);;
+BREN <= cBranchDisp and ISRegEXEWBSigDZero(0);
 
 end beh;
