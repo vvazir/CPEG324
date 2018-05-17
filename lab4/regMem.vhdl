@@ -6,7 +6,7 @@ port(
 		reg1: 		in std_logic_vector(1 downto 0);
 		reg2:       in std_logic_vector(1 downto 0);
 		dstReg:		in std_logic_vector(1 downto 0);
-		
+		writeBack:	in std_logic_vector(1 downto 0);
 		writeEn:	in std_logic;
 		writeData:	in std_logic_vector(7 downto 0);
 		clock:		in std_logic;
@@ -26,7 +26,7 @@ architecture behav of regMem is
 	begin
 	process(clock)
 	begin
-		if (rising_edge(clock)) then
+		if (falling_edge(clock)) then
 			case reg1 is
 				when "00" => 
 					reg1Data <= r0;
@@ -53,11 +53,11 @@ architecture behav of regMem is
 			end case;
             
 		end if;
-		if (falling_edge(clock)) then
+		if (rising_edge(clock)) then
 			
             
             if writeEn = '1' then
-				case dstReg is
+				case writeBack is
 					when "00" => 
 						r0 <= writeData;
 					when "01" =>

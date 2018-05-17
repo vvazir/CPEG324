@@ -1,0 +1,244 @@
+$date
+  Mon May 14 20:50:35 2018
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$var reg 8 ! op[7:0] $end
+$var reg 1 " skipsigi $end
+$var reg 1 # clk $end
+$var reg 1 $ inp1 $end
+$var reg 1 % inp2 $end
+$var reg 1 & wsig $end
+$var reg 1 ' twosig $end
+$var reg 1 ( immsig $end
+$var reg 1 ) cmpsig $end
+$var reg 1 * dispsig $end
+$var reg 1 + skipsigo $end
+$var reg 1 , lodsig $end
+$scope module uut $end
+$var reg 1 - op_0 $end
+$var reg 1 . op_1 $end
+$var reg 1 / op_2 $end
+$var reg 1 0 op_3 $end
+$var reg 1 1 op_4 $end
+$var reg 1 2 op_5 $end
+$var reg 1 3 op_6 $end
+$var reg 1 4 op_7 $end
+$var reg 1 5 skip $end
+$var reg 1 6 clk $end
+$var reg 1 7 inp_1 $end
+$var reg 1 8 inp_2 $end
+$var reg 1 9 write_en $end
+$var reg 1 : two_en $end
+$var reg 1 ; imm_en $end
+$var reg 1 < cmp_en $end
+$var reg 1 = disp_en $end
+$var reg 1 > skp_pass $end
+$var reg 1 ? lod $end
+$var reg 8 @ idexeop[7:0] $end
+$var reg 1 A idexesk $end
+$var reg 8 B exewbop[7:0] $end
+$var reg 1 C exewbsk $end
+$var reg 1 D notclk $end
+$var reg 9 E imp[8:0] $end
+$var reg 9 F inter1[8:0] $end
+$var reg 9 G inter2[8:0] $end
+$scope module istageidexe $end
+$var reg 9 H din[8:0] $end
+$var reg 9 I dout[8:0] $end
+$var reg 1 J clock $end
+$upscope $end
+$scope module istageexewb $end
+$var reg 9 K din[8:0] $end
+$var reg 9 L dout[8:0] $end
+$var reg 1 M clock $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+b01000101 !
+0"
+0#
+1$
+1%
+1&
+1'
+0(
+1)
+0*
+0+
+0,
+1-
+0.
+1/
+00
+01
+02
+13
+04
+05
+06
+17
+18
+19
+1:
+0;
+1<
+0=
+0>
+0?
+b00000000 @
+0A
+b00000000 B
+0C
+0D
+b010001010 E
+b000000000 F
+b000000000 G
+b010001010 H
+b000000000 I
+0J
+b000000000 K
+b000000000 L
+0M
+#1000000
+1#
+0$
+0%
+1(
+1,
+16
+07
+08
+1;
+1?
+b01000101 @
+1D
+b010001010 F
+b010001010 I
+1J
+b010001010 K
+1M
+#2000000
+b01000000 !
+0#
+0-
+0/
+06
+0D
+b010000000 E
+b010000000 H
+0J
+0M
+#3000000
+1#
+1$
+1%
+16
+17
+18
+b01000000 @
+b01000101 B
+1D
+b010000000 F
+b010001010 G
+b010000000 I
+1J
+b010000000 K
+b010001010 L
+1M
+#4000000
+b01010101 !
+0#
+1-
+1/
+11
+06
+0D
+b010101010 E
+b010101010 H
+0J
+0M
+#5000000
+1#
+0$
+0%
+16
+07
+08
+b01010101 @
+b01000000 B
+1D
+b010101010 F
+b010000000 G
+b010101010 I
+1J
+b010101010 K
+b010000000 L
+1M
+#6000000
+b01011111 !
+0#
+1.
+10
+06
+0D
+b010111110 E
+b010111110 H
+0J
+0M
+#7000000
+b11011100 !
+1#
+0-
+0.
+14
+16
+b11011100 @
+b01010101 B
+1D
+b110111000 E
+b110111000 F
+b010101010 G
+b110111000 H
+b110111000 I
+1J
+b110111000 K
+b010101010 L
+1M
+#8000000
+0#
+06
+0D
+0J
+0M
+#9000000
+1#
+0&
+1*
+16
+09
+1=
+b11011100 B
+1D
+b110111000 G
+1J
+b110111000 L
+1M
+#10000000
+0#
+06
+0D
+0J
+0M
+#11000000
+1#
+16
+1D
+1J
+1M
+#12000000

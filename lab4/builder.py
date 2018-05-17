@@ -13,12 +13,13 @@ vcd = tb+".vcd"
 vhdlTB = "calculator_{}_tb".format(tb)
 # vhdl file names
 components=[
-	"calculator",
+	"calculator_pipeline",
 	"compliment",
 	"control",
 	"eightBitAdder",
 	"flip",
 	"mux",
+	"reg",
 	"regMem",
 	"shift_reg",
 	"sign_extend",

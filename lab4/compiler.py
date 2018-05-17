@@ -49,9 +49,15 @@ for i,line in enumerate(binCode):
         binCode[i]= binCode[i] + ","
     else:
         binCode[i] = zeroLine + ", '0'),\n"
-        binCode[i] += zeroLine + ", '1')\n"
+        binCode[i] += zeroLine + ", '1'),\n"
 		
     binCode[i] += "-- At {} ns\n".format(i*2)
+# Add two nop instructions to clear buffer
+binCode.append('-- Add NOP instructions to clear the pipeline\n')
+binCode.append('(\"11000011\", \'0\'),\n')
+binCode.append('(\"11000011\", \'1\'),\n')
+binCode.append('(\"11000011\", \'0\'),\n')
+binCode.append('(\"11000011\", \'1\')\n')
 file = open(fileName,"w")
 for line in newFile[:patternStart]+binCode+newFile[patternStart+1:]:
     file.write(line)

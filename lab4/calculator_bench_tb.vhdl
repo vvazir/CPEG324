@@ -13,6 +13,9 @@ component calculator
 port (	OpCode:     in      std_logic_vector(7 downto 0);
 		DataOut:    out     std_logic_vector(7 downto 0);
 		DispEn:     out     std_logic;
+		BREN:		out		std_logic;
+		BRE:		out		std_logic;
+		NOP:		out		std_logic;
 		clk:		in		std_logic
 );
 end component;
@@ -22,12 +25,14 @@ end component;
 signal op, data : std_logic_vector(7 downto 0);
 signal en:	std_logic :='0';
 signal clock:	std_logic;
-
+signal bre:	std_logic:='0';
+signal nop:	std_logic;
+signal bren: std_logic;
 begin
 --  Component instantiation.
 C1 : calculator
 	port map(
-		op,data,en,clock
+		op,data,en,bren,bre,nop,clock
 	);
 --  This process does the real job.
 process
@@ -414,8 +419,13 @@ process
 ("01000100", '0'),
 ("01000100", '1'),-- At 372 ns
 ("11000000", '0'),
-("11000000", '1')
+("11000000", '1'),
 -- At 374 ns
+-- Add NOP instructions to clear the pipeline
+("11000011", '0'),
+("11000011", '1'),
+("11000011", '0'),
+("11000011", '1')
 		);
 	begin
 		--  Check each pattern.
@@ -426,13 +436,33 @@ process
 			--  Wait for the results.
 			wait for 1 ns;
 			--  If disp_en = '1', print out the data in a formated manner.
-			if clock='1' then
-				if ((to_integer(signed(data)))<0) then
-					assert ((en /= '1')) report "-" & integer'image(((-1*to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((-1*to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((-1*to_integer(signed(data))) mod 100)/10)&"" & integer'image((-1*to_integer(signed(data))) mod 10) severity note;
+			if (clock = '1') then
+				if (en = '0') then
+					if ((to_integer(signed(data)))<0) then
+						report "ALU Output -" & integer'image(((-1*to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((-1*to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((-1*to_integer(signed(data))) mod 100)/10)&"" & integer'image((-1*to_integer(signed(data))) mod 10) severity note;
+					else
+						report "ALU Output " & integer'image(((to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((to_integer(signed(data))) mod 100)/10)&"" & integer'image((to_integer(signed(data))) mod 10)severity note;
+					end if;
 				else
-					assert ((en /= '1')) report "" & integer'image(((to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((to_integer(signed(data))) mod 100)/10)&"" & integer'image((to_integer(signed(data))) mod 10)severity note;
+					if ((to_integer(signed(data)))<0) then
+						report "-" & integer'image(((-1*to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((-1*to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((-1*to_integer(signed(data))) mod 100)/10)&"" & integer'image((-1*to_integer(signed(data))) mod 10) severity note;
+					else
+						report "" & integer'image(((to_integer(signed(data))) mod 10000)/1000)&"" & integer'image(((to_integer(signed(data))) mod 1000)/100)&"" & integer'image(((to_integer(signed(data))) mod 100)/10)&"" & integer'image((to_integer(signed(data))) mod 10)severity note;
+					end if;
+				end if;
+				if (nop = '0') then 
+					if ((bren = '1')) then 
+						if (bre='0') then 
+							report "Skipping by 1 instruction" severity note;
+						else
+							report "Skipping by 2 instruction" severity note;
+						end if;
+					end if;
+				else
+					report "NOP INS" severity note;	
 				end if;
 			end if;
+			
 		end loop;
 		
 		assert false report "end of test" severity note;
