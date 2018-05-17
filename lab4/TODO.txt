@@ -8,24 +8,11 @@ cmp 11xxxx10
 nop 11xxxx11
 
 TODO:
-- add mux (display select) -> (3 muxes, [alu and norm],[cmp and nop], these two into a third.)
-    - inputs:
-        - ALU out
-        - normal disp out
-        - cmp out
-        - nop out
-            - will need to update the disp component so it outputs a flag indicating a nop
-                - is this necessary if we do data forwarding? it seems like nops are used for bubble insertions
-- 3 muxes
-    - rg1out || aluout
-    - rg2out || aluout
-    - rDout || aluout
-- update control box
 
-- Do we need interstage for skipReg????
-    - How will we handle it
-    - Just increase size of shift register, not much logic change
+- CPEG324
+    DONE!!!!!!
 
-
-
-idexe: doutsig.,regdatsigone,regdatsig 2
+- CISC 361
+    Everything
+- RIPPLE
+    Report
