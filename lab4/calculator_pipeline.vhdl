@@ -262,23 +262,23 @@ signal imm:             std_logic_vector(3 downto 0) := OpCode(3 downto 0);
 signal dOutSig:         std_logic_vector(7 downto 0):= (others =>'0');
 
 --alu select signalas
-signal aluSelAsig:      std_logic :='0';
-signal aluSelBsig:      std_logic :='0';
+signal cAluSelAsig:      std_logic :='0';
+signal cAluSelBsig:      std_logic :='0';
 
 --
-signal breControl:                    std_logic;
+signal cBranchDisp:                    std_logic;
 
 signal a:                             std_logic_vector(7 downto 0):= (others =>'0');
 signal b:                             std_logic_vector(7 downto 0):= (others =>'0');
 
 signal RDEXEWB:                       std_logic_vector(1 downto 0):= (others =>'0');
-signal nopEn:                         std_logic;
+signal cNopEn:                         std_logic;
 signal dsp:                           std_logic_vector(7 downto 0):= (others =>'0');
 signal EXEWBRD:                       std_logic_vector(7 downto 0):= (others =>'0');
 signal branchEN:                      std_logic;
 signal dsp_for:                       std_logic;
 signal cA:                            std_logic;
-signal bamt:                          std_logic;
+signal cBranchAmt:                          std_logic;
 begin
 
 process(clk)
@@ -313,14 +313,14 @@ end process;
 --6 controller, lodmux
 -- 0/1
 
-controlMain:    control         port map(op0,op1,op2,op3,op4,op5,op6,op7,skipShiftToControlSig,clksig,aluSelAsig,
-aluSelBsig,dsp_for,breControl,bamt,nopEn,cregmem,ctwosum,cimmmux,ccompmux,cA,cdispen,cskipmux,clodmux,RDEXEWB);
+controlMain:    control         port map(op0,op1,op2,op3,op4,op5,op6,op7,skipShiftToControlSig,clksig,cAluSelAsig,
+cAluSelBsig,dsp_for,cBranchDisp,cBranchAmt,cNopEn,cregmem,ctwosum,cimmmux,ccompmux,cA,cdispen,cskipmux,clodmux,RDEXEWB);
 
 ALU_selMuxA:   mux              generic map(width => 8)
-                                port map(lodMuxSig,ISRegEXEWBSigALU,a,aluSelAsig);
+                                port map(lodMuxSig,ISRegEXEWBSigALU,a,cAluSelAsig);
                                 
 ALU_selMuxB:   mux              generic map(width => 8)
-                                port map(immMuxSig,ISRegEXEWBSigALU,b,aluSelBsig);
+                                port map(immMuxSig,ISRegEXEWBSigALU,b,cAluSelBsig);
 
 regSelMux:      mux             generic map(width => 8)
                                 port map(ISRegIDEXESigDOut,ISRegIDEXESigTwo,regSelMuxSig,ccompmux);
@@ -374,7 +374,7 @@ notclk <= not (clk);
 DispEn <= cdispen;
 clkSig <= clk;
 DataOut <= dsp;
-bre <= bamt;
-NOP <= nopEn;
-BREN <= breControl;
+bre <= cBranchAmt;
+NOP <= cNopEn;
+BREN <= cBranchDisp;
 end beh;
