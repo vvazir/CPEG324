@@ -51,6 +51,7 @@ component control is
         CMPA_EN:    out std_logic;
         DISP_EN:    out std_logic;
         SKP_PASS:   out std_logic;
+        SKP_EN:     out std_logic;
         LOD:        out std_logic;
         RD:         out std_logic_vector(1 downto 0));
 
@@ -265,6 +266,7 @@ signal dOutSig:         std_logic_vector(7 downto 0):= (others =>'0');
 signal aluSelAsig:      std_logic :='0';
 signal aluSelBsig:      std_logic :='0';
 
+signal skp_sel:          std_logic :='0';
 --
 signal breControl:                    std_logic;
 
@@ -314,7 +316,7 @@ end process;
 -- 0/1
 
 controlMain:    control         port map(op0,op1,op2,op3,op4,op5,op6,op7,skipShiftToControlSig,clksig,aluSelAsig,
-aluSelBsig,dsp_for,breControl,bamt,nopEn,cregmem,ctwosum,cimmmux,ccompmux,cA,cdispen,cskipmux,clodmux,RDEXEWB);
+aluSelBsig,dsp_for,breControl,bamt,nopEn,cregmem,ctwosum,cimmmux,ccompmux,cA,cdispen,cskipmux,skp_sel,clodmux,RDEXEWB);
 
 ALU_selMuxA:   mux              generic map(width => 8)
                                 port map(lodMuxSig,ISRegEXEWBSigALU,a,aluSelAsig);
@@ -347,7 +349,7 @@ ALU:            eightbitadder   port map(a,b,'0',aluSig);
 
 zeroCheck0:     zeroCheck       port map(aluSig,zeroSig);
 
-sreg0:          shift_reg       port map(op1,skipMuxSig,clkSig,skipShiftToControlSig);
+sreg0:          shift_reg       port map(skp_sel,skipMuxSig,clkSig,skipShiftToControlSig);
 
 signExt:        sign_extend     port map(ISRegIDEXESigImm,signExtendSig);
 
@@ -376,5 +378,5 @@ clkSig <= clk;
 DataOut <= dsp;
 bre <= bamt;
 NOP <= nopEn;
-BREN <= breControl;
+BREN <= breControl and ISRegEXEWBSigDZero(0);
 end beh;

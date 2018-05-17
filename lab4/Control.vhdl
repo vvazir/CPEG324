@@ -30,6 +30,7 @@ entity control is
         CMPA_EN:     out std_logic;
         DISP_EN:    out std_logic;
         SKP_PASS:   out std_logic;
+        SKP_EN:     out std_logic;
         LOD:        out std_logic;
         RD:         out std_logic_vector(1 downto 0));
 end control;
@@ -80,9 +81,10 @@ architecture behavioral of CONTROL is
 		LOD <= (IDEXEOP(6) or IDEXEOP(7));
         INP_1 <= ((EXEWBOP(5) xnor IDEXEOP(3)) and (EXEWBOP(4) xnor IDEXEOP(2))) and (IDEXEOP(7) xor IDEXEOP(6)); 
         INP_2 <= ((EXEWBOP(5) xnor IDEXEOP(1)) and (EXEWBOP(4) xnor IDEXEOP(0))) and (IDEXEOP(7) xor IDEXEOP(6));
-        BRE <= (EXEWBOP(0) xor EXEWBOP(1)) and (EXEWBOP(6) and EXEWBOP(7));
+        BRE <= ((EXEWBOP(0) xor EXEWBOP(1)) and (EXEWBOP(6) and EXEWBOP(7)));
         RD <=  EXEWBOP(5 downto 4);
         NOP <= (IDEXEOP(7) and IDEXEOP(6)) and (IDEXEOP(1) and IDEXEOP(0));
         DSP_F <= ((EXEWBOP(5) xnor IDEXEOP(5)) and (EXEWBOP(4) xnor IDEXEOP(4))) and (IDEXEOP(7) and IDEXEOP(6));
         BREAMT<=  (EXEWBOP(1)) and (EXEWBOP(6) and EXEWBOP(7));
+        SKP_EN<= EXEWBOP(1);
 end behavioral;
